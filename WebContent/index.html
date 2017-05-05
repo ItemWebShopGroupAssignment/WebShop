@@ -8,10 +8,17 @@
 		<meta name="author" content="Samuel Häggström">
 		<meta name="author" content="Gustaf Peter Hultgren">
 		<link rel="icon" href="media/icon.png">
-		<link rel="stylesheet" href="src/style.css">
+		<link rel="stylesheet" href="css/style.css">
 		<title>Game Web Shop</title>
 	</head>
-<body>
-
+<body data-ng-app="application">
+	<div id="main_container">
+		<ng-view>
+			<!-- Templates will be shown here! -->
+		</ng-view>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+	<script src="script/routing.js"></script>
 </body>
 </html>
