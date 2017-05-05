@@ -9,7 +9,7 @@ import java.util.List;
 public class Store {
 	private List<Item> showInventory;
 	private String getItem;
-	private ArrayList Cart;
+	private ArrayList<Item> Cart;
 	private Boolean addToCart;
 	private Boolean addToInventory;
 	private String returnFromCart;
@@ -21,7 +21,6 @@ public class Store {
 	private Boolean dumpCart;
 
 	public List<Item> showInventory() {
-
 		return showInventory;
 
 	}
@@ -31,43 +30,42 @@ public class Store {
 	}
 
 	public Boolean addToCart(String artNr, ArrayList<Item> Cart) {
-		return addToCart(artNr, Cart);
+		return addToCart;
 	}
 
 	public Boolean addToInventory(String artNr, ArrayList<Item> Cart) {
-		return addToInventory(artNr, Cart);
+		return addToInventory;
 	}
 
 	public Boolean insertToInventory(Item item) {
-		return insertToInventory(item);
+		return insertToInventory;
 	}
 
 	public List<Category> showCategories() {
-		return showCategories();
+		return showCategories;
 	}
 
 	public String returnFromCart(String artNr, ArrayList<Item> Cart) {
-		return returnFromCart(artNr, Cart);
+		return returnFromCart;
 	}
 
-	public String checoutCart() {
-		return checoutCart();
+	public String checkoutCart() {
+		return checkoutCart;
 	}
 
 	public Boolean deleteFromInventory(String artNr, ArrayList<Item> Cart) {
-		return deleteFromInventory(artNr, Cart);
+		return deleteFromInventory;
 	}
 
 	public Boolean dumpCart() {
-		//if (dumpCart == true)
-			return dumpCart();
-		// else
-		// return dumpCart();
+	
+		return dumpCart;
+	
 
 	}
 
 	public String subtractFromInventory(String artNr, ArrayList<Item> Cart) {
-		return subtractFromInventory(artNr, Cart);
+		return subtractFromInventory;
 
 	}
 
