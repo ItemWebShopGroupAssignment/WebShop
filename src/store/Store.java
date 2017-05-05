@@ -1,71 +1,66 @@
 package store;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
+import database.MySqlHandler;
 
 /**
  * @author Robert Fängström
  **/
 public class Store {
-	private List<Item> showInventory;
-	private String getItem;
-	private ArrayList<Item> Cart;
-	private Boolean addToCart;
-	private Boolean addToInventory;
-	private String returnFromCart;
-	private String subtractFromInventory;
-	private Boolean deleteFromInventory;
-	private Boolean insertToInventory;
-	private List<Category> showCategories;
-	private String checkoutCart;
-	private Boolean dumpCart;
 
-	public List<Item> showInventory() {
-		return showInventory;
+	private MySqlHandler storeHandler;
+
+	public List<Item> showInventory() throws SQLException {
+		return storeHandler.getItems();
 
 	}
 
-	public String getItem(String artNr) {
-		return getItem;
+	public Item getItem(String artNr) throws SQLException {
+		return storeHandler.getItem(artNr);
 	}
 
-	public Boolean addToCart(String artNr, ArrayList<Item> Cart) {
-		return addToCart;
+	public boolean addToCart(String artNr, int cartId, int count) throws SQLException {
+		return storeHandler.addToCart(cartId, artNr, count);
 	}
 
-	public Boolean addToInventory(String artNr, ArrayList<Item> Cart) {
-		return addToInventory;
+	public boolean addToInventory(String artNr, int count) throws SQLException {
+		return storeHandler.addToInventory(artNr, count);
 	}
 
-	public Boolean insertToInventory(Item item) {
-		return insertToInventory;
+	public boolean insertToInventory(Item item) throws SQLException {
+		return storeHandler.insertItemToInventory(item);
 	}
 
-	public List<Category> showCategories() {
-		return showCategories;
+	public List<String> showCategories() throws SQLException {
+		return storeHandler.showCategories();
 	}
 
-	public String returnFromCart(String artNr, ArrayList<Item> Cart) {
-		return returnFromCart;
+	public boolean returnFromCart(String artNr, int cartId, int count) throws SQLException {
+		return storeHandler.returnFromCart(cartId, artNr, count);
 	}
 
-	public String checkoutCart() {
-		return checkoutCart;
+	public List<String> checkOutCart(int cartId) throws SQLException {
+		return storeHandler.checkOutCart(cartId);
 	}
 
-	public Boolean deleteFromInventory(String artNr, ArrayList<Item> Cart) {
-		return deleteFromInventory;
+	public boolean deleteFromInventory(String artNr, int cartId) throws SQLException {
+		return storeHandler.deleteFromInventory(artNr);
 	}
 
-	public Boolean dumpCart() {
-	
-		return dumpCart;
-	
+	public boolean dumpCart(int cartId) throws SQLException {
+
+		return storeHandler.dumpCart(cartId);
 
 	}
 
-	public String subtractFromInventory(String artNr, ArrayList<Item> Cart) {
-		return subtractFromInventory;
+	public boolean subtractFromInventory(String artNr, int count) throws SQLException {
+		return storeHandler.subtractFromInventory(artNr, count);
+
+	}
+
+	public Store() {
+		storeHandler = new MySqlHandler();
 
 	}
 
