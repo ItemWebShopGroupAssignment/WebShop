@@ -289,7 +289,7 @@ public class MySqlHandler {
                 orderedItem += "Article number: " + rs.getString("art_number") + "\n";
                 orderedItem += "Name: " + rs.getString("item_name") + "\n";
                 orderedItem += "Price: " + rs.getFloat("price") + "\n";
-                orderedItem += "Format: " + rs.getString("storage_formats") + "\n";
+                orderedItem += "Format: " + rs.getString("storage_format") + "\n";
                 orderedItem += "------------- \n";
                 order.add(orderedItem);
             }
@@ -332,6 +332,48 @@ public class MySqlHandler {
         int result = deleteCartStmt.executeUpdate();
         
         return result >= 1;
+    }
+    
+    public boolean addToCategory(String categoryName, String content) throws SQLException {
+        String sql = "CALL 'create_category'(?, ?)";
+        
+        PreparedStatement stmt = cn.prepareStatement(sql);
+        stmt.closeOnCompletion();
+        
+        stmt.setString(1, categoryName);
+        stmt.setString(2, content);
+        
+        int result = stmt.executeUpdate();
+        
+        return result >= 1;
+    }
+    
+    public List<Item> getCartItems(int cartId) throws SQLException {
+        List<Item> cartItems = new ArrayList<>();
+        
+        String sql = "CALL get_cart_items(?)";
+        
+        PreparedStatement stmt = cn.prepareStatement(sql);
+        stmt.closeOnCompletion();
+        
+        stmt.setInt(1, cartId);
+        
+        ResultSet rs = stmt.executeQuery();
+        
+        while (rs.next()) {
+            Item item = new Item(
+                    rs.getString("category"),
+                    rs.getString("item_name"),
+                    rs.getString("art_number"),
+                    rs.getFloat("price"),
+                    rs.getString("description"),
+                    rs.getBlob("image"),
+                    rs.getInt("stock_balance"),
+                    rs.getString("storage_format"));
+            
+            cartItems.add(item);
+        }
+        return cartItems;
     }
     
 }
