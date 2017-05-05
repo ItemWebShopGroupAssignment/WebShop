@@ -1,5 +1,6 @@
 package database;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,14 +23,17 @@ public class MySqlHandler {
     private static final String DB_USERNAME = "root";
 
     private static final String DB_PASSWORD = "root";
-
+    
+    //Database connection
     private static Connection cn;
-
+    
+    //Attempts to connect to the database
     public static final void connect() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
         cn = DriverManager.getConnection(DB_URL + "/" + DB_DATABASE, DB_USERNAME, DB_PASSWORD);
     }
-
+    
+    //Gets the connection interface associated with the database
     public static final Connection getConnection() throws SQLException, ClassNotFoundException {
         if (cn == null) {
             connect();
@@ -37,7 +41,8 @@ public class MySqlHandler {
 
         return cn;
     }
-
+    
+    //Closes the connection to the database
     public static final boolean close() throws SQLException {
         if (cn != null) {
             cn.close();
@@ -47,6 +52,7 @@ public class MySqlHandler {
         }
     }
     
+    //Returns a list of items from the items table
     public List<Item> getItems() throws SQLException {
         List<Item> itemList = new ArrayList<>();
         
@@ -74,12 +80,13 @@ public class MySqlHandler {
         return itemList;
     }
     
+    //Returns a Item object
     public Item getItem(String artNr) throws SQLException {
         Item item = null;
         
-        String sql = "SELECT * FROM items WHERE art_number = ?";
+        String sql = "CALL 'get_inventory_item'(?)";
         
-        PreparedStatement stmt = cn.prepareStatement(sql);
+        CallableStatement stmt = cn.prepareCall(sql);
         stmt.closeOnCompletion();
         
         stmt.setString(1, artNr);
@@ -101,6 +108,7 @@ public class MySqlHandler {
         return item;
     }
     
+    //Adds a item to the shopping cart and returns true if it was added successfully
     public boolean addToCart(int cartId, String artNr, int count) throws SQLException {
         String getItemSql = "CALL 'get_cart_item' (?,?)";
         String subtractSql = "UPDATE items SET stock_balance = (stock_balance - ?) WHERE art_number = ?";
@@ -108,9 +116,9 @@ public class MySqlHandler {
         boolean result = false;
         Item item = getItem(artNr);
         
-        PreparedStatement getItemStmt = cn.prepareStatement(getItemSql);
+        CallableStatement getItemStmt = cn.prepareCall(getItemSql);
         PreparedStatement subtractStmt = cn.prepareStatement(subtractSql);
-        PreparedStatement addStmt = cn.prepareStatement(addSql);
+        CallableStatement addStmt = cn.prepareCall(addSql);
         getItemStmt.closeOnCompletion();
         subtractStmt.closeOnCompletion();
         addStmt.closeOnCompletion();
@@ -143,6 +151,7 @@ public class MySqlHandler {
         return result;
     }
     
+    //Increase the stock_balance value for one Item and returns true if it was added successfully
     public boolean addToInventory(String artNr, int count) throws SQLException {
         String sql = "UPDATE items SET stock_balance = (stock_balance + ?) WHERE art_number = ?";
         
@@ -157,13 +166,15 @@ public class MySqlHandler {
         return result >= 1;
     }
     
+    //Returns one item from the cart_items table and returns it to the items table. 
+    //Returns true if it was returned successfully
     public boolean returnFromCart(int cartId, String artNr, int count) throws SQLException {
         String getItemSql = "CALL 'get_cart_item' (?,?)";
         String subtractSql = "UPDATE cart_items SET stock_balance = (stock_balance - ?) WHERE art_number = ?";
         String addSql = "UPDATE items SET stock_balance = (stock_balance + ?) WHERE art_number = ?";
         boolean result = false;
         
-        PreparedStatement getItemStmt = cn.prepareStatement(getItemSql);
+        CallableStatement getItemStmt = cn.prepareCall(getItemSql);
         PreparedStatement subtractStmt = cn.prepareStatement(subtractSql);
         PreparedStatement addStmt = cn.prepareStatement(addSql);
         getItemStmt.closeOnCompletion();
@@ -190,6 +201,7 @@ public class MySqlHandler {
         return result;
     }
     
+    //Decrease the stock_balance value of one item and returns if it was decreased successfully
     public boolean subtractFromInventory(String artNr, int count) throws SQLException {
         String sql = "UPDATE items SET stock_balance = (stock_balance - ?) WHERE art_number = ?";
         
@@ -204,10 +216,11 @@ public class MySqlHandler {
         return result >= 1;
     }
     
+    //Deletes one item from the items table and returns true if it was deleted successfully
     public boolean deleteFromInventory(String artNr) throws SQLException {
-        String sql = "DELETE FROM items WHERE art_number = ?";
+        String sql = "CALL 'remove_from_inventory'(?)";
         
-        PreparedStatement stmt = cn.prepareStatement(sql);
+        CallableStatement stmt = cn.prepareCall(sql);
         stmt.closeOnCompletion();
         
         stmt.setString(1, artNr);
@@ -217,6 +230,7 @@ public class MySqlHandler {
         return result >= 1;
     }
     
+    //Adds one item to the items table and returns true if it was added successfully
     public boolean insertItemToInventory(Item item) throws SQLException {
         String sql = "INSERT INTO items ("
                 + "art_number,"
@@ -246,6 +260,7 @@ public class MySqlHandler {
         return result >= 1;
     }
     
+    //Returns a list of categories from the database
     public List<String> showCategories() throws SQLException {
         List<String> result = new ArrayList<>();
         
@@ -265,13 +280,14 @@ public class MySqlHandler {
         return result;
     }
     
+    //Deletes the cart and returns a list of the orders made
     public List<String> checkOutCart(int cartId) throws SQLException {
         List<String> order = new ArrayList<>();
         
-        String sql = "DELETE FROM cart_items WHERE cart_id = ?";
+        String sql = "CALL 'remove_shopping_cart'";
         String infoSql = "SELECT * FROM cart_items WHERE cart_id = ?";
         
-        PreparedStatement stmt = cn.prepareStatement(sql);
+        CallableStatement stmt = cn.prepareCall(sql);
         PreparedStatement infoStmt = cn.prepareStatement(infoSql);
         stmt.closeOnCompletion();
         infoStmt.closeOnCompletion();
@@ -298,14 +314,15 @@ public class MySqlHandler {
         return order;
     }
     
+    //Returns all items from the cart to the items table
     public boolean dumpCart(int cartId) throws SQLException {
         String fromCartSql = "SELECT * FROM cart_items WHERE cart_id = ?";
         String toItemsSql = "UPDATE items SET stock_balance = (stock_balance + ?) WHERE art_number = ?";
-        String deleteCartSql = "DELETE FROM cart_items WHERE cart_id = ?";
+        String deleteCartSql = "CALL 'remove_shopping_cart'(?)";
         
         PreparedStatement fromCartStmt = cn.prepareStatement(fromCartSql);
         PreparedStatement toItemsStmt = cn.prepareStatement(toItemsSql);
-        PreparedStatement deleteCartStmt = cn.prepareStatement(deleteCartSql);
+        CallableStatement deleteCartStmt = cn.prepareCall(deleteCartSql);
         fromCartStmt.closeOnCompletion();
         toItemsStmt.closeOnCompletion();
         deleteCartStmt.closeOnCompletion();
@@ -334,10 +351,11 @@ public class MySqlHandler {
         return result >= 1;
     }
     
+    //Add a new category to the categories table
     public boolean addToCategory(String categoryName, String content) throws SQLException {
         String sql = "CALL 'create_category'(?, ?)";
         
-        PreparedStatement stmt = cn.prepareStatement(sql);
+        CallableStatement stmt = cn.prepareCall(sql);
         stmt.closeOnCompletion();
         
         stmt.setString(1, categoryName);
@@ -348,12 +366,13 @@ public class MySqlHandler {
         return result >= 1;
     }
     
+    //Returns a list of items from the cart_items table
     public List<Item> getCartItems(int cartId) throws SQLException {
         List<Item> cartItems = new ArrayList<>();
         
         String sql = "CALL get_cart_items(?)";
         
-        PreparedStatement stmt = cn.prepareStatement(sql);
+        CallableStatement stmt = cn.prepareCall(sql);
         stmt.closeOnCompletion();
         
         stmt.setInt(1, cartId);
@@ -374,6 +393,20 @@ public class MySqlHandler {
             cartItems.add(item);
         }
         return cartItems;
+    }
+    
+    //Removes a category from the categories table
+    public boolean removeCategory(String category) throws SQLException {
+        String sql = "CALL 'remove_category'(?)";
+        
+        CallableStatement stmt = cn.prepareCall(sql);
+        stmt.closeOnCompletion();
+        
+        stmt.setString(1, category);
+        
+        int result = stmt.executeUpdate();
+        
+        return result >= 1;
     }
     
 }
