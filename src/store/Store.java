@@ -20,6 +20,11 @@ public class Store {
 	private String checkoutCart;
 	private Boolean dumpCart;
 	
+	
+	
+	
+	
+	
 	 /*
 	  returnFromCart(artNr, Cart);
 	  subtractFromCart(artNr, Cart);
@@ -29,6 +34,7 @@ public class Store {
 	  dumpCart(); */
 
 	public List<Item> showInventory() {
+		
 		return showInventory;
 
 	}
@@ -59,8 +65,8 @@ public class Store {
 		return checoutCart();
 	}
 	
-	public Boolean deleteFromInventory(){
-		return deleteFromInventory();
+	public Boolean deleteFromInventory(String artNr, ArrayList Cart){
+		return deleteFromInventory(artNr, Cart);
 	}
 	
 	public Boolean dumpCart(){
