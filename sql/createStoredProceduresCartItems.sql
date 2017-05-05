@@ -55,4 +55,16 @@ BEGIN
     WHERE cart_items.cart_id = cart_id;
 END $$
 
+/* Get the selected item from the cart. */
+CREATE PROCEDURE `get_cart_item` (
+	IN cart_id INT(5) UNSIGNED,
+    IN art_number VARCHAR(50)
+)
+BEGIN
+	SELECT art_number, item_name, price, description, image, stock_balance, storage_format, category FROM cart_items
+    WHERE cart_items.cart_id = cart_id
+		AND cart_items.art_number LIKE art_number
+        COLLATE utf8_swedish_ci;
+END $$
+
 DELIMITER ;
