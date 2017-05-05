@@ -9,32 +9,18 @@ import java.util.List;
 public class Store {
 	private List<Item> showInventory;
 	private String getItem;
-	private ArrayList Cart;
+	private ArrayList<Item> Cart;
 	private Boolean addToCart;
 	private Boolean addToInventory;
 	private String returnFromCart;
 	private String subtractFromInventory;
 	private Boolean deleteFromInventory;
 	private Boolean insertToInventory;
-	private List <Category> showCategories;
+	private List<Category> showCategories;
 	private String checkoutCart;
 	private Boolean dumpCart;
-	
-	
-	
-	
-	
-	
-	 /*
-	  returnFromCart(artNr, Cart);
-	  subtractFromCart(artNr, Cart);
-	  deleteFromInventory(artNr, Cart);
-	  showCategories();
-	  checkoutCart();
-	  dumpCart(); */
 
 	public List<Item> showInventory() {
-		
 		return showInventory;
 
 	}
@@ -43,39 +29,44 @@ public class Store {
 		return getItem;
 	}
 
-	public Boolean addToCart(String artNr, ArrayList Cart) {
-		return addToCart(artNr, Cart);
+	public Boolean addToCart(String artNr, ArrayList<Item> Cart) {
+		return addToCart;
 	}
 
-	public Boolean addToInventory(String artNr, ArrayList Cart) {
-		return addToInventory(artNr, Cart);
+	public Boolean addToInventory(String artNr, ArrayList<Item> Cart) {
+		return addToInventory;
 	}
 
 	public Boolean insertToInventory(Item item) {
-		return insertToInventory(item);
+		return insertToInventory;
 	}
-	public List <Category> showCategories(){
-		return showCategories();
+
+	public List<Category> showCategories() {
+		return showCategories;
 	}
-	public String returnFromCart(String artNr, ArrayList Cart){
-			return returnFromCart(artNr, Cart);
+
+	public String returnFromCart(String artNr, ArrayList<Item> Cart) {
+		return returnFromCart;
 	}
+
+	public String checkoutCart() {
+		return checkoutCart;
+	}
+
+	public Boolean deleteFromInventory(String artNr, ArrayList<Item> Cart) {
+		return deleteFromInventory;
+	}
+
+	public Boolean dumpCart() {
 	
-	public String checoutCart(){
-		return checoutCart();
-	}
+		return dumpCart;
 	
-	public Boolean deleteFromInventory(String artNr, ArrayList Cart){
-		return deleteFromInventory(artNr, Cart);
+
 	}
-	
-	public Boolean dumpCart(){
-		return dumpCart();
-	}
-	
-	public String subtractFromInventory(String artNr, ArrayList Cart){
-		return subtractFromInventory(artNr, Cart);
-		
+
+	public String subtractFromInventory(String artNr, ArrayList<Item> Cart) {
+		return subtractFromInventory;
+
 	}
 
 }
