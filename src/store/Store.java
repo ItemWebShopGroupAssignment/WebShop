@@ -10,15 +10,15 @@ public class Store {
 	private List<Item> showInventory;
 	private String getItem;
 	private ArrayList Cart;
-	private String addToCart;
-	private String addToInventory;
+	private Boolean addToCart;
+	private Boolean addToInventory;
 	private String returnFromCart;
 	private String subtractFromInventory;
-	private String deleteFromInventory;
-	private String insertToInventory;
-	private String showCategories;
+	private Boolean deleteFromInventory;
+	private Boolean insertToInventory;
+	private List <Category> showCategories;
 	private String checkoutCart;
-	private String dumpCart;
+	private Boolean dumpCart;
 	
 	 /*
 	  returnFromCart(artNr, Cart);
@@ -37,16 +37,39 @@ public class Store {
 		return getItem;
 	}
 
-	public String addToCart(String artNr, ArrayList Cart) {
+	public Boolean addToCart(String artNr, ArrayList Cart) {
 		return addToCart(artNr, Cart);
 	}
 
-	public String addToInventory(String artNr, ArrayList Cart) {
+	public Boolean addToInventory(String artNr, ArrayList Cart) {
 		return addToInventory(artNr, Cart);
 	}
 
-	public String insertToInventory(Item item) {
+	public Boolean insertToInventory(Item item) {
 		return insertToInventory(item);
+	}
+	public List <Category> showCategories(){
+		return showCategories();
+	}
+	public String returnFromCart(String artNr, ArrayList Cart){
+			return returnFromCart(artNr, Cart);
+	}
+	
+	public String checoutCart(){
+		return checoutCart();
+	}
+	
+	public Boolean deleteFromInventory(){
+		return deleteFromInventory();
+	}
+	
+	public Boolean dumpCart(){
+		return dumpCart();
+	}
+	
+	public String subtractFromInventory(String artNr, ArrayList Cart){
+		return subtractFromInventory(artNr, Cart);
+		
 	}
 
 }
