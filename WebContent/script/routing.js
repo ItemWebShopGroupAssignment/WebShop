@@ -11,6 +11,14 @@
 			templateUrl : "home.html",
 			controller : "homeController"
 		})
+		.when("/cart", {
+			templateUrl : "cart.html",
+			controller : "cartController"
+		})
+		.when("/browse", {
+			templateUrl : "browse.html",
+			controller : "browseController"
+		})
 		.otherwise({ redirectTo : "/" });
 	}
 	

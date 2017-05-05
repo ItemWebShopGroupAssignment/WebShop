@@ -12,22 +12,28 @@
 		<title>Game Web Shop</title>
 	</head>
 <body data-ng-app="application">
-	<header>
-		<h1>Header goes here!</h1>
-	</header>
-	<nav>
-		<ul id="link_list">
-			<li><a href="#!/">Home</a></li>
-		</ul>
-	</nav>
-	<div id="main_container">
-		<ng-view>
-			<!-- Templates will be shown here! -->
-		</ng-view>
+
+	<div id="main_container" class="flex_column">
+		<header>
+		<h1>Game Web Shop</h1>
+		</header>
+		<nav>
+			<ul id="link_list" class="flex_row">
+				<li><a href="#!/">Home</a></li>
+				<li><a href="#!/browse">Browse the Shop</a></li>
+				<li><a href="#!/cart">Shopping Cart</a></li>
+			</ul>
+		</nav>
+		<article class="flex_flow">
+			<ng-view>
+				<!-- Templates will be shown here! -->
+			</ng-view>
+		</article>
+		<footer>
+			<p>&copy; 2017, Gustaf Peter Hultgren, Samuel Häggström, Kurt Laestander, Robert Fängström, All Rights Reserved.</p>
+		</footer>
 	</div>
-	<footer>
-		<p>&copy; 2017, Gustaf Peter Hultgren, Samuel Häggström, Kurt Laestander, Robert Fängström, All Rights Reserved.</p>
-	</footer>
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
 	<script src="script/routing.js"></script>

@@ -1,1 +1,73 @@
 @CHARSET "UTF-8";
+
+* {
+	margin : 0px;
+	padding : 0px;
+}
+
+header, footer, nav, article {
+	text-align : center;
+	flex : 1;
+	padding-top : 10px;
+	padding-bottom : 10px;
+	padding-left : 20px;
+	padding-right : 20px;
+}
+
+header {
+	background : hsl(196, 100%, 20%);
+	color : white;
+	height: 45px;
+  	line-height: 45px;
+}
+
+nav, footer {
+	background : hsl(196, 40%, 60%);
+	color : white;
+	height: 35px;
+  	line-height: 35px;
+}
+
+article {
+	background : hsl(196, 100%, 94%);
+	color : black;
+	
+	margin : 0px;
+	padding : 20px;
+	
+	height: 400px;
+}
+
+#main_container {
+	margin-left : 2%;
+	margin-right : 2%;
+	width : 96%;
+}
+
+#link_list {
+	list-style : none;
+}
+
+.flex_row {
+	display : flex;
+	flex-flow : row wrap;
+	justify-content : center;
+}
+
+.flex_column {
+	display : flex;
+	flex-flow : column wrap;
+	justify-content : center;
+}
+
+div {
+	flex : 2;
+}
+
+ng-view {
+	flex : 1;
+}
+
+li {
+	flex : 1;
+}
