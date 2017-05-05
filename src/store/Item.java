@@ -16,9 +16,10 @@ public class Item {
     private String description;
     private Blob image;
     private int stockBalance;
-    
+    private String storageFormat;
+
     public Item(String category, String itemName, String artNr, float price,
-            String description, Blob image, int stockBalance) {
+            String description, Blob image, int stockBalance, String storageFormat) {
         this.category = category;
         this.itemName = itemName;
         this.artNr = artNr;
@@ -26,6 +27,7 @@ public class Item {
         this.description = description;
         this.image = image;
         this.stockBalance = stockBalance;
+        this.storageFormat = storageFormat;
     }
     
     public String getCategory() {
@@ -82,6 +84,14 @@ public class Item {
     
     public void setStockBalance(int stockBalance) {
         this.stockBalance = stockBalance;
+    }
+    
+    public String getStorageFormat() {
+        return storageFormat;
+    }
+
+    public void setStorageFormat(String storageFormat) {
+        this.storageFormat = storageFormat;
     }
 
 }
