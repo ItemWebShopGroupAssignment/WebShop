@@ -230,6 +230,7 @@ public class MySqlHandler {
                 + "VALUES (?,?,?,?,?,?,?,?)";
         
         PreparedStatement stmt = cn.prepareStatement(sql);
+        stmt.closeOnCompletion();
         
         stmt.setString(1, item.getArtNr());
         stmt.setString(2, item.getItemName());
@@ -264,14 +265,73 @@ public class MySqlHandler {
         return result;
     }
     
-    public boolean checkOutCart() {
-        boolean result = false;
+    public List<String> checkOutCart(int cartId) throws SQLException {
+        List<String> order = new ArrayList<>();
         
-        return result;
+        String sql = "DELETE FROM cart_items WHERE cart_id = ?";
+        String infoSql = "SELECT * FROM cart_items WHERE cart_id = ?";
+        
+        PreparedStatement stmt = cn.prepareStatement(sql);
+        PreparedStatement infoStmt = cn.prepareStatement(infoSql);
+        stmt.closeOnCompletion();
+        infoStmt.closeOnCompletion();
+        
+        stmt.setInt(1, cartId);
+        infoStmt.setInt(1, cartId);
+        
+        ResultSet rs = infoStmt.executeQuery();
+        
+        int result = stmt.executeUpdate();
+        
+        if (result >= 1) {
+            while (rs.next()) {
+                String orderedItem = "";
+                orderedItem += "Article number: " + rs.getString("art_number") + "\n";
+                orderedItem += "Name: " + rs.getString("item_name") + "\n";
+                orderedItem += "Price: " + rs.getFloat("price") + "\n";
+                orderedItem += "Format: " + rs.getString("storage_formats") + "\n";
+                orderedItem += "------------- \n";
+                order.add(orderedItem);
+            }
+        }
+        
+        return order;
     }
     
-    public boolean dumpCart() {
-        return true;
+    public boolean dumpCart(int cartId) throws SQLException {
+        String fromCartSql = "SELECT * FROM cart_items WHERE cart_id = ?";
+        String toItemsSql = "UPDATE items SET stock_balance = (stock_balance + ?) WHERE art_number = ?";
+        String deleteCartSql = "DELETE FROM cart_items WHERE cart_id = ?";
+        
+        PreparedStatement fromCartStmt = cn.prepareStatement(fromCartSql);
+        PreparedStatement toItemsStmt = cn.prepareStatement(toItemsSql);
+        PreparedStatement deleteCartStmt = cn.prepareStatement(deleteCartSql);
+        fromCartStmt.closeOnCompletion();
+        toItemsStmt.closeOnCompletion();
+        deleteCartStmt.closeOnCompletion();
+        
+        fromCartStmt.setInt(1, cartId);
+        deleteCartStmt.setInt(1, cartId);
+        
+        ResultSet rs = fromCartStmt.executeQuery();
+        
+        while(rs.next()) {
+            String artNr = rs.getString("art_number");
+            int stockBalance = rs.getInt("stock_balance");
+            
+            toItemsStmt.setInt(1, stockBalance);
+            toItemsStmt.setString(2, artNr);
+            
+            int insertResult = toItemsStmt.executeUpdate();
+            
+            if (insertResult == 0) {
+                return false;
+            }
+        }
+        
+        int result = deleteCartStmt.executeUpdate();
+        
+        return result >= 1;
     }
     
 }
