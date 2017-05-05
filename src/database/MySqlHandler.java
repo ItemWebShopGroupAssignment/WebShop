@@ -101,8 +101,46 @@ public class MySqlHandler {
         return item;
     }
     
-    public boolean addToCart(String artNr, int count) {
-        return true;
+    public boolean addToCart(int cartId, String artNr, int count) throws SQLException {
+        String getItemSql = "CALL 'get_cart_item' (?,?)";
+        String subtractSql = "UPDATE items SET stock_balance = (stock_balance - ?) WHERE art_number = ?";
+        String addSql = "CALL 'insert_into_cart' (?,?,?,?,?,?,?,?,?)";
+        boolean result = false;
+        Item item = getItem(artNr);
+        
+        PreparedStatement getItemStmt = cn.prepareStatement(getItemSql);
+        PreparedStatement subtractStmt = cn.prepareStatement(subtractSql);
+        PreparedStatement addStmt = cn.prepareStatement(addSql);
+        getItemStmt.closeOnCompletion();
+        subtractStmt.closeOnCompletion();
+        addStmt.closeOnCompletion();
+        
+        getItemStmt.setInt(1, cartId);
+        getItemStmt.setString(2, artNr);
+        
+        subtractStmt.setInt(1, count);
+        subtractStmt.setString(2, artNr);
+        
+        addStmt.setString(1, artNr);
+        addStmt.setString(2, item.getItemName());
+        addStmt.setFloat(3, item.getPrice());
+        addStmt.setString(4, item.getDescription());
+        addStmt.setBlob(5, item.getImage());
+        addStmt.setInt(6, item.getStockBalance());
+        addStmt.setString(7, item.getStorageFormat());
+        addStmt.setString(8, item.getCategory());
+        addStmt.setInt(9, cartId);
+        
+        ResultSet rs = getItemStmt.executeQuery();
+        
+        if (rs.next()) {
+            int subtractResult = subtractStmt.executeUpdate();
+            int addResult = addStmt.executeUpdate();
+        
+            result = (subtractResult >= 1 && addResult >= 1);
+        }
+        
+        return result;
     }
     
     public boolean addToInventory(String artNr, int count) throws SQLException {
@@ -119,8 +157,37 @@ public class MySqlHandler {
         return result >= 1;
     }
     
-    public boolean returnFromCart(String artNr, int count) {
-        return true;
+    public boolean returnFromCart(int cartId, String artNr, int count) throws SQLException {
+        String getItemSql = "CALL 'get_cart_item' (?,?)";
+        String subtractSql = "UPDATE cart_items SET stock_balance = (stock_balance - ?) WHERE art_number = ?";
+        String addSql = "UPDATE items SET stock_balance = (stock_balance + ?) WHERE art_number = ?";
+        boolean result = false;
+        
+        PreparedStatement getItemStmt = cn.prepareStatement(getItemSql);
+        PreparedStatement subtractStmt = cn.prepareStatement(subtractSql);
+        PreparedStatement addStmt = cn.prepareStatement(addSql);
+        getItemStmt.closeOnCompletion();
+        subtractStmt.closeOnCompletion();
+        addStmt.closeOnCompletion();
+        
+        getItemStmt.setInt(1, cartId);
+        getItemStmt.setString(2, artNr);
+        
+        subtractStmt.setInt(1, count);
+        subtractStmt.setString(2, artNr);
+        
+        addStmt.setInt(1, count);
+        addStmt.setString(2, artNr);
+        
+        ResultSet rs = getItemStmt.executeQuery();
+        
+        if (rs.next()) {
+            int subtractResult = subtractStmt.executeUpdate();
+            int addResult = addStmt.executeUpdate();
+        
+            result = (subtractResult >= 1 && addResult >= 1);
+        }
+        return result;
     }
     
     public boolean subtractFromInventory(String artNr, int count) throws SQLException {
@@ -198,7 +265,9 @@ public class MySqlHandler {
     }
     
     public boolean checkOutCart() {
-        return true;
+        boolean result = false;
+        
+        return result;
     }
     
     public boolean dumpCart() {
