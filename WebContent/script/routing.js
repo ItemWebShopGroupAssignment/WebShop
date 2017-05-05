@@ -20,14 +20,24 @@
 			controller : "browseController"
 		})
 		.otherwise({ redirectTo : "/" });
-	}
+	};
 	
 	var homeController = function($scope) {
-		$scope.title = "Hello World!";
+		
+	};
+	
+	var cartController = function($scope) {
+		
+	};
+	
+	var browseController = function($scope) {
+		
 	};
 	
 	// Bind the config and controllers to the aplication.
 	app.config(["$routeProvider", config]);
 	app.controller("homeController", ["$scope", homeController]);
+	app.controller("cartController", ["$scope", cartController]);
+	app.controller("browseController", ["$scope", browseController]);
 	
 }())
