@@ -1,10 +1,10 @@
 USE `item_web_shop`;
 
 /* Add some categories. */
-CALL `create_category` ('Action', 'Intense Games.');
+/*CALL `create_category` ('Action', 'Intense Games.');
 CALL `create_category` ('Adventure', 'Games about exploration and adventure.');
 CALL `create_category` ('RTS', 'Real-time strategy games.');
-CALL `create_category` ('MMORPG', 'Massive-Multiplayer Online Role Playing Games.');
+CALL `create_category` ('MMORPG', 'Massive-Multiplayer Online Role Playing Games.');*/
 CALL `create_category` ('TB', 'Turn Based Games.');
 CALL `create_category` ('CG', 'Children Games.');
 CALL `create_category` ('Sim', 'Simulation Games.');
