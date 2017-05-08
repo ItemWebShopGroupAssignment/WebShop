@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Browse</title>
+</head>
+<body>
+
+<h1>{{title}}</h1>
+<h3>These are all our games</h3>
+<!--
+<form>
+<input type="text" ng-model="item.title" placeholder="title" /><br>
+<input type="text" ng-model="item.author" placeholder="author" /><br>
+<input type="button" ng-click="insertToInventory()" value="add game" />
+</form>
+<hr>
+
+<p>{{description}}</p>
+-->
+<h3>Games</h3>
+
+<input type="search" placeholder="search items" ng-model="search" />
+
+<table>
+	<tr>
+		<td>Title</td>
+		<td>Author</td>
+		<td></td>
+	</tr>
+	<tr ng-repeat="g in items" class="table_row">
+		<td>
+		<a ng-href="#!/item/{{g.artNr}}"> {{g.artNr}}</a>
+		</td>
+<!-- <td>{{g.author}}</td> -->		
+		<td>
+		<input type="button" ng-click="removeFromInventory($index)" value="remove"/>
+		</td>
+	</tr>
+</table>
+
+</body>
+</html>
