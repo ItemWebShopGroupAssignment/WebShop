@@ -48,6 +48,9 @@ public class GetItemsServlet extends HttpServlet {
 			
 		} catch (SQLException e) {
 			response.getWriter().append("Error: " + e.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
