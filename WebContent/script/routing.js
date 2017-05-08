@@ -80,7 +80,8 @@
 	// Bind the config and controllers to the aplication.
 	app.config(["$routeProvider", config]);
 	app.controller("homeController", ["$scope", homeController]);
-	app.controller("cartController", ["$scope", cartController]);
+	app.controller("cartController", ["$scope", "$http", cartController]);
 	app.controller("browseController", ["$scope", "$http", browseController]);
+	
 	
 }())
