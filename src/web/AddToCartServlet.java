@@ -57,8 +57,7 @@ public class AddToCartServlet extends HttpServlet {
 		} catch (SQLException e) {
 			response.getWriter().append("Error: " + e.getMessage());
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			response.getWriter().append("Error: " + e.getMessage());
 		}
 	}
 

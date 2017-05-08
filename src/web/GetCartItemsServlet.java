@@ -49,8 +49,7 @@ public class GetCartItemsServlet extends HttpServlet {
 		} catch (SQLException | NumberFormatException e) {
 			response.getWriter().append("Error: " + e.getMessage());
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			response.getWriter().append("Error: " + e.getMessage());
 		}
 	
 	}
