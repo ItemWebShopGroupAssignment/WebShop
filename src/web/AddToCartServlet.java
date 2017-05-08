@@ -43,7 +43,7 @@ public class AddToCartServlet extends HttpServlet {
 			String data = request.getReader().lines().collect(Collectors.joining());
 			Item item = new Gson().fromJson(data, Item.class); // Retrieve the item from the data.
 			
-			if(item != null) {
+			if(item != null && item.getCartId() >= 0) {
 				boolean result = store.addToCart(item.getArtNr(), item.getCartId(), item.getStockBalance());
 				
 				response.setContentType("application/json;characterset=UTF-8");
