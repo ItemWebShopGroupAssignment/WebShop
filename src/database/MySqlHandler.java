@@ -1,5 +1,6 @@
 package database;
 
+import java.io.InputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -216,7 +217,9 @@ public class MySqlHandler {
     }
     
     //Adds one item to the items table and returns true if it was added successfully
-    public boolean insertItemToInventory(Item item) throws SQLException, ClassNotFoundException {
+    public boolean insertItemToInventory(String category, String itemName, String artNr, float price,
+            String description, InputStream image, int stockBalance, String storageFormat
+            ) throws SQLException, ClassNotFoundException {
         String sql = "INSERT INTO items ("
                 + "art_number,"
                 + " item_name,"
@@ -234,14 +237,14 @@ public class MySqlHandler {
                 PreparedStatement stmt = cn.prepareStatement(sql);
                 ) {
         
-            stmt.setString(1, item.getArtNr());
-            stmt.setString(2, item.getItemName());
-            stmt.setFloat(3, item.getPrice());
-            stmt.setString(4, item.getDescription());
-            stmt.setBlob(5, item.getImage());
-            stmt.setInt(6, item.getStockBalance());
-            stmt.setString(7, item.getStorageFormat());
-            stmt.setString(8, item.getCategory());
+            stmt.setString(1, artNr);
+            stmt.setString(2, itemName);
+            stmt.setFloat(3, price);
+            stmt.setString(4, description);
+            stmt.setBlob(5, image);
+            stmt.setInt(6, stockBalance);
+            stmt.setString(7, storageFormat);
+            stmt.setString(8, category);
         
             result = stmt.executeUpdate();
         }
