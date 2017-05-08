@@ -17,8 +17,8 @@
 				<a"#!/item/{{game.itemName}}"> {{game.itemName}}</a></td>
 				<td ng-click="viewDescription($index)">
 				<a"#!/item/{{game.price}}"> {{game.price}}</a></td>
-				<td><input type="button" ng-click="removeFromInventory($index)"
-					value="remove" /></td>
+				<td><input type="button" ng-click="AddToCart($index)"
+					value="addCart" /></td>
 			</tr>
 		</table>
 	</div>
@@ -32,8 +32,12 @@
 	</h1>
 	<br>
 	{{selectedItem.description}}
+	<br>
+	<br>
+	<h1>
+	{{selectedItem.price + " SEK"}}
+	</h1>
 	</p>
-	
 	</div>
 </div>
 
