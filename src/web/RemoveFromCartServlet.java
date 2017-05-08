@@ -19,14 +19,14 @@ import store.Store;
 /**
  * @author Gustaf Peter Hultgren
  */
-@WebServlet(name = "AddToCart", urlPatterns = { "/AddToCart" })
-public class AddToCartServlet extends HttpServlet {
+@WebServlet(name = "RemoveFromCart", urlPatterns = { "/RemoveFromCart" })
+public class RemoveFromCartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddToCartServlet() {
+    public RemoveFromCartServlet() {
         super();
     }
 
@@ -43,7 +43,7 @@ public class AddToCartServlet extends HttpServlet {
 			Item item = new Gson().fromJson(data, Item.class); // Retrieve the item from the data.
 			
 			if(item != null && item.getCartId() >= 0) {
-				boolean result = store.addToCart(item.getArtNr(), item.getCartId(), item.getStockBalance());
+				boolean result = store.returnFromCart(item.getArtNr(), item.getCartId(), item.getStockBalance());
 				
 				response.setContentType("application/json;characterset=UTF-8");
 				PrintWriter out = response.getWriter();
