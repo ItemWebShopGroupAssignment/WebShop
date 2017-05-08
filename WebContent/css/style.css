@@ -75,3 +75,7 @@ td {
 li {
 	flex : 1;
 }
+
+.price {
+	color : red;
+}
