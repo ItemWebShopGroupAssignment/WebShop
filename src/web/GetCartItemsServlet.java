@@ -19,16 +19,15 @@ import store.Store;
 /**
  * @author Gustaf Peter Hultgren
  */
-@WebServlet("/GetItems")
-public class GetItemsServlet extends HttpServlet {
+@WebServlet(name = "GetCartItems", urlPatterns = { "/GetCartItems" })
+public class GetCartItemsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetItemsServlet() {
+    public GetCartItemsServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -38,8 +37,10 @@ public class GetItemsServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		Store store = new Store();
 		
-		try {
-			List<Item> inventory = store.showInventory();
+		// TODO Need a getCartElements call to the database!
+		
+		/*try {
+			List<Item> inventory = store.getCartItems();
 			
 			response.setContentType("application/json;characterset=UTF-8");
 			PrintWriter out = response.getWriter();
@@ -48,14 +49,9 @@ public class GetItemsServlet extends HttpServlet {
 			
 		} catch (SQLException e) {
 			response.getWriter().append("Error: " + e.getMessage());
-		}
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		}*/
+		
+		response.getWriter().append("Temporary response!");
 	}
 
 }
