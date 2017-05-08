@@ -17,6 +17,7 @@ public class Item {
     private Blob image;
     private int stockBalance;
     private String storageFormat;
+    private int cartId;
 
     public Item(String category, String itemName, String artNr, float price,
             String description, Blob image, int stockBalance, String storageFormat) {
@@ -28,6 +29,7 @@ public class Item {
         this.image = image;
         this.stockBalance = stockBalance;
         this.storageFormat = storageFormat;
+        this.cartId = -1;
     }
     
     public String getCategory() {
@@ -93,5 +95,13 @@ public class Item {
     public void setStorageFormat(String storageFormat) {
         this.storageFormat = storageFormat;
     }
+
+	public int getCartId() {
+		return cartId;
+	}
+
+	public void setCartId(int cartId) {
+		this.cartId = cartId;
+	}
 
 }
