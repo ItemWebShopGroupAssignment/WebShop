@@ -40,7 +40,10 @@ public class GetCartItemsServlet extends HttpServlet {
 		try {
 			int cartId = Integer.parseInt(request.getParameter("cartId"));
 			List<Item> inventory = store.getCartItems(cartId);
-			inventory.add(new Item("Garbage", "Bad Item", "000-000AB", -1.0f, "A useless bugtesting item.", null, cartId, "Garbage Container"));
+			
+			// Add debug item to empty lists.
+			if(inventory.size() < 1)
+				inventory.add(new Item("Garbage", "Bad Item", "000-000AB", -1.0f, "A useless bugtesting item.", null, cartId, "Garbage Container"));
 			
 			response.setContentType("application/json;characterset=UTF-8");
 			PrintWriter out = response.getWriter();
