@@ -37,21 +37,19 @@ public class GetCartItemsServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		Store store = new Store();
 		
-		// TODO Need a getCartElements call to the database!
-		
-		/*try {
-			List<Item> inventory = store.getCartItems();
+		try {
+			int cartId = Integer.parseInt(request.getParameter("cartId"));
+			List<Item> inventory = store.getCartItems(cartId);
 			
 			response.setContentType("application/json;characterset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.print(new Gson().toJson(inventory));
 			out.flush();
 			
-		} catch (SQLException e) {
+		} catch (SQLException | NumberFormatException e) {
 			response.getWriter().append("Error: " + e.getMessage());
-		}*/
-		
-		response.getWriter().append("Temporary response!");
+		}
+	
 	}
 
 }

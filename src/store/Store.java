@@ -5,7 +5,7 @@ import java.util.List;
 import database.MySqlHandler;
 
 /**
- * @author Robert Fängström
+ * @author Robert Fï¿½ngstrï¿½m
  **/
 public class Store {
 
@@ -57,6 +57,10 @@ public class Store {
 	public boolean subtractFromInventory(String artNr, int count) throws SQLException {
 		return storeHandler.subtractFromInventory(artNr, count);
 
+	}
+	
+	public List<Item> getCartItems(int cartId) throws SQLException {
+		return storeHandler.getCartItems(cartId);
 	}
 
 	public Store() {
