@@ -26,8 +26,15 @@
 		
 	};
 	
-	var cartController = function($scope) {
+	var cartController = function($scope, $http) {
+		$http.get("GetCartItems?cartId=1").then(onGetCartComplete, onCartError);
+		var onGetCartComplete = function(response){ 
+			$scope.items = response.data;
 		
+		}
+		var onCartError = function(reason){
+			$scope.error = reason.status;
+		}
 	};
 	
 	var browseController = function($scope, $http) {
