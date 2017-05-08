@@ -68,6 +68,10 @@ ng-view {
 	flex : 1;
 }
 
+td {
+	text-align: left;
+}
+
 li {
 	flex : 1;
 }
