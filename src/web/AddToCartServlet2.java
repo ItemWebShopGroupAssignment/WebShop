@@ -37,8 +37,7 @@ public class AddToCartServlet2 extends HttpServlet {
 	    MySqlHandler db = new MySqlHandler();
 	    
 	    try {
-            boolean result = db.addToCart(cartId, artNr, count);
-            System.out.println(result);
+            db.addToCart(cartId, artNr, count);
         } catch (ClassNotFoundException e) {
             response.getWriter().append("Error: " + e.getMessage());
         } catch (SQLException e) {
