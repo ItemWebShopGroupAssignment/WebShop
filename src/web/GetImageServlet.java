@@ -37,7 +37,9 @@ public class GetImageServlet extends HttpServlet {
         MySqlHandler db = new MySqlHandler();
         Item item;
         try {
+            System.out.println(artNr);
             item = db.getItem(artNr);
+            System.out.println(item.getArtNr());
             Blob blob = item.getImage();
             byte[] image = blob.getBytes(1, (int) blob.length());
             OutputStream output = response.getOutputStream();
