@@ -1,19 +1,34 @@
-
-<!-- ng-repeat ng.click -->
-
-
-
-
-{{Test}}
+ {{Test}}
 <h2>Shopping Cart</h2>
+<h2> {{error}}</h2>
 <table>
 	<tr data-ng-repeat="item in items">
 		<td>{{item.artNr}}</td>
-		
+		<td>{{item.itemName}}</td>
+		<td>{{item.cartId}}</td>
+
+
 	</tr>
 
 
 </table>
-
-<!-- $http.getshoppingcart -->
+<!--
+<table>
+	<tr>
+		<td>Art Number</td>
+		<td>Name</td>
+		<td>Price</td>
+	</tr>
+	<tr ng-repeat="game in items | filter:search" class="table_row">
+		<td ng-click="viewDescription($index)"><a"#!/item/{{game.artNr}}">
+				{{game.artNr}}</a></td>
+		<td ng-click="viewDescription($index)"><a"#!/item/{{game.itemName}}">
+				{{game.itemName}}</a></td>
+		<td ng-click="viewDescription($index)"><a"#!/item/{{game.price}}">
+				{{game.price}}</a></td>
+		<td><input type="button" ng-click="AddToCart($index)"
+			value="addCart" /></td>
+	</tr>
+</table>
+  -->
 
