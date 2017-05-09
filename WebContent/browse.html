@@ -10,14 +10,15 @@
 				<td>Name</td>
 				<td>Price</td>
 			</tr>
-			<tr ng-repeat="game in items" class="table_row">
+			<tr ng-repeat="game in items | filter:search" class="table_row">
 				<td ng-click="viewDescription($index)">
-				<a"#!/item/{{game.artNr}}">	{{game.artNr}}</a></td>
+				<a "#!/item/{{game.artNr}}"> {{game.artNr}}</a>
+				</td>
 				<td ng-click="viewDescription($index)">
 				<a"#!/item/{{game.itemName}}"> {{game.itemName}}</a></td>
 				<td ng-click="viewDescription($index)">
 				<a"#!/item/{{game.price}}"> {{game.price}}</a></td>
-				<td><input type="button" ng-click="AddToCart($index)"
+  				<td><input type="button" ng-click="AddToCart($index)"
 					value="addCart" /></td>
 			</tr>
 		</table>
