@@ -1,15 +1,39 @@
 <h2>Shopping Cart</h2>
-<h2> {{error}}</h2>
+<p>These are your current items in the shopping cart.</p>
+
+
 <table>
+
 	<tr data-ng-repeat="item in items">
+
+		<th>Artikelnummer</th>
 		<td>{{item.artNr}}</td>
+		<th>Titel</th>
 		<td>{{item.itemName}}</td>
-		<td>{{item.cartId}}</td>
+		<th>Pris</th>
+		<td>{{item.price}} SEK</td>
+
+
+
+		<td><input type="button" ng-click="RemoveFromCart($index)"
+			value="Remove from Cart" /></td>
+
+
+
 
 
 	</tr>
 
 
+</table>
+<br>
+<br>
+
+<table>
+	<tr>
+		<td><input type="button" ng-click="DumpCart($index)"
+			value="Dump Cart" /></td>
+	</tr>
 </table>
 <!--
 <table>
@@ -30,4 +54,3 @@
 	</tr>
 </table>
   -->
-
