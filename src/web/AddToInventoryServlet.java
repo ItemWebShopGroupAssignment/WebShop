@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import database.MySqlHandler;
-import store.Item;
 
 /**
  * Servlet implementation class AddToInventoryServlet
@@ -48,17 +47,25 @@ public class AddToInventoryServlet extends HttpServlet {
 	    String artNr = request.getParameter("artNr");
 	    float price = Float.parseFloat(request.getParameter("price"));
 	    String description = request.getParameter("description");
-	    InputStream image = request.getPart("image").getInputStream();
+	    Part imagePart = request.getPart("image");
+	    InputStream image = imagePart.getInputStream();
 	    int stockBalance = Integer.parseInt(request.getParameter("stockBalance"));
 	    String storageFormat = request.getParameter("storageFormat");
 	    MySqlHandler db = new MySqlHandler();
 	    
 	    try {
-            db.insertItemToInventory(category, itemName, artNr, price, description, image, stockBalance, storageFormat);
+            db.insertItemToInventory(category,
+                    itemName,
+                    artNr,
+                    price,
+                    description,
+                    image,
+                    stockBalance,
+                    storageFormat);
         } catch (ClassNotFoundException e) {
-            response.getWriter().append("Error: " + e.getMessage());
+            
         } catch (SQLException e) {
-            response.getWriter().append("Error: " + e.getMessage());
+            
         }
 	    
 	}

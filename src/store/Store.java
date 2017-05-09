@@ -1,5 +1,6 @@
 package store;
 
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 import database.MySqlHandler;
@@ -28,8 +29,17 @@ public class Store {
 		return storeHandler.addToInventory(artNr, count);
 	}
 
-	public boolean insertToInventory(Item item) throws SQLException, ClassNotFoundException {
-		return storeHandler.insertItemToInventory(item);
+	public boolean insertToInventory(String category, String itemName, String artNr, float price,
+            String description, InputStream image, int stockBalance, String storageFormat
+            ) throws SQLException, ClassNotFoundException {
+		return storeHandler.insertItemToInventory(category,
+                itemName,
+                artNr,
+                price,
+                description,
+                image,
+                stockBalance,
+                storageFormat);
 	}
 
 	public List<String> showCategories() throws SQLException, ClassNotFoundException {
