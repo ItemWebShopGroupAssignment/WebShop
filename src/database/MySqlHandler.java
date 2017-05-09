@@ -88,10 +88,11 @@ public class MySqlHandler {
     
     //Adds a item to the shopping cart and returns true if it was added successfully
     public boolean addToCart(int cartId, String artNr, int count) throws SQLException, ClassNotFoundException {
-        String getItemSql = "CALL 'get_cart_item' ("+cartId+","+artNr+")";
-        String subtractSql = "UPDATE items SET stock_balance = (stock_balance - ?) WHERE art_number = ?";
-        String addSql = "CALL 'insert_into_cart' (?,?,?,?,?,?,?,?,?)";
+        String getItemSql = "CALL get_cart_item ("+cartId+","+artNr+")";
+        String subtractSql = "UPDATE items SET stock_balance = (stock_balance - ?) WHERE art_number = '?'";
+        String addSql = "CALL insert_into_cart ('?','?',?,'?',"+null+",?,'?','?',?)";
         boolean result = false;
+        System.out.println(getItemSql);
         Item item = getItem(artNr);
         
         try (
@@ -109,13 +110,13 @@ public class MySqlHandler {
             addStmt.setString(2, item.getItemName());
             addStmt.setFloat(3, item.getPrice());
             addStmt.setString(4, item.getDescription());
-            addStmt.setBlob(5, item.getImage());
-            addStmt.setInt(6, item.getStockBalance());
-            addStmt.setString(7, item.getStorageFormat());
-            addStmt.setString(8, item.getCategory());
-            addStmt.setInt(9, cartId);
-        
-            if (rs.next()) {
+//            addStmt.setBlob(5, item.getImage());
+            addStmt.setInt(5, count);
+            addStmt.setString(6, item.getStorageFormat());
+            addStmt.setString(7, item.getCategory());
+            addStmt.setInt(8, cartId);
+            
+            while (rs.next()) {
                 int subtractResult = subtractStmt.executeUpdate();
                 int addResult = addStmt.executeUpdate();
         

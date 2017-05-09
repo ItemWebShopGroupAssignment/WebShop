@@ -32,12 +32,13 @@ public class AddToCartServlet2 extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    int cartId = Integer.parseInt(request.getParameter("cartId"));
 	    String artNr = request.getParameter("artNr");
-	    int count = Integer.parseInt("count");
+	    int count = Integer.parseInt(request.getParameter("count"));
 	    
 	    MySqlHandler db = new MySqlHandler();
 	    
 	    try {
-            db.addToCart(cartId, artNr, count);
+            boolean result = db.addToCart(cartId, artNr, count);
+            System.out.println(result);
         } catch (ClassNotFoundException e) {
             response.getWriter().append("Error: " + e.getMessage());
         } catch (SQLException e) {

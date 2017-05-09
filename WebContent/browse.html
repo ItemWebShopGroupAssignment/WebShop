@@ -17,9 +17,13 @@
 				<td ng-click="viewDescription($index)">
 				<a"#!/item/{{game.itemName}}"> {{game.itemName}}</a></td>
 				<td ng-click="viewDescription($index)">
-				<a"#!/item/{{game.price}}"> {{game.price}}</a></td>
-  				<td><input type="button" ng-click="AddToCart($index)"
-					value="addCart" /></td>
+				<a"#!/item/{{game.price}}"> {{game.price}}</a>
+				</td>
+				<td>
+				<input type="number" data-ng-model="count" />
+				</td>
+  				<td><input type="button" ng-click="addToCart(game.artNr, count)"
+					value="AddToCart" /></td>
 			</tr>
 		</table>
 	</div>

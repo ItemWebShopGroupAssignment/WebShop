@@ -41,7 +41,7 @@ public class AddToCartServlet extends HttpServlet {
 			// Get the added data.
 			String data = request.getReader().lines().collect(Collectors.joining());
 			Item item = new Gson().fromJson(data, Item.class); // Retrieve the item from the data.
-			
+			System.out.println(data);
 			if(item != null && item.getCartId() >= 0) {
 				boolean result = store.addToCart(item.getArtNr(), item.getCartId(), item.getStockBalance());
 				

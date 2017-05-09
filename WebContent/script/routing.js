@@ -60,16 +60,17 @@
 			$scope.items = response.data;
 		}
 
-		// var onAddItemComplete = function(response) {
-		// $scope.description = "Added new game to list " + response.data;
-		//				
-		// //här lägger vi till spelet i listan:
-		// var tmp = angular.copy(item);
-		// $scope.items.push(tmp);
-		// $scope.item.title = "";
-		// $scope.item.author = "";
-		//
-		// }
+		 var onAddToCartComplete = function(response) {
+		 $scope.description = "Added new game to cart " + response.data;
+						
+		 //här lägger vi till spelet i shopping carten:
+		 var tmp = angular.copy(item);
+		 $scope.items.push(tmp);
+		 $scope.item.artNr = "";
+		 $scope.item.cartId = "1";
+		 $scope.item.stockBalance = "";
+		
+		 }
 
 		var onError = function(reason) {
 			$scope.error = "Could not fetch data " + reason.status;
@@ -79,6 +80,13 @@
 
 		$scope.viewDescription = function(index) {
 			$scope.selectedItem = $scope.items[index];
+
+		}
+		
+		$scope.addToCart = function(artNr, count) {
+			var uri = "AddToCart2?artNr=" + artNr + "&count=" + count + "&cartId=" + 1;
+			alert(uri);
+			$http.get(uri).then(onAddToCartComplete, onError);
 
 		}
 
