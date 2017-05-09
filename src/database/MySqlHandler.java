@@ -366,15 +366,13 @@ public class MySqlHandler {
     public List<Item> getCartItems(int cartId) throws SQLException, ClassNotFoundException {
         List<Item> cartItems = new ArrayList<>();
         
-        String sql = "CALL get_cart_items(?)";
+        String sql = "CALL get_cart_items("+ cartId + ")";
         
         try (
                 Connection cn = getConnection();
                 CallableStatement stmt = cn.prepareCall(sql);
                 ResultSet rs = stmt.executeQuery();
                 ) {
-        
-            stmt.setInt(1, cartId);
         
             while (rs.next()) {
                 Item item = new Item(
