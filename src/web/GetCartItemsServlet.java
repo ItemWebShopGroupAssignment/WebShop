@@ -39,6 +39,7 @@ public class GetCartItemsServlet extends HttpServlet {
 		
 		try {
 			int cartId = Integer.parseInt(request.getParameter("cartId"));
+			
 			List<Item> inventory = store.getCartItems(cartId);
 			
 			// Add debug item to empty lists.
