@@ -88,7 +88,7 @@ public class MySqlHandler {
     
     //Adds a item to the shopping cart and returns true if it was added successfully
     public boolean addToCart(int cartId, String artNr, int count) throws SQLException, ClassNotFoundException {
-        String getItemSql = "CALL 'get_cart_item' (?,?)";
+        String getItemSql = "CALL 'get_cart_item' ("+cartId+","+artNr+")";
         String subtractSql = "UPDATE items SET stock_balance = (stock_balance - ?) WHERE art_number = ?";
         String addSql = "CALL 'insert_into_cart' (?,?,?,?,?,?,?,?,?)";
         boolean result = false;
@@ -101,10 +101,7 @@ public class MySqlHandler {
                 CallableStatement addStmt = cn.prepareCall(addSql);
                 ResultSet rs = getItemStmt.executeQuery();
                 ) {
-        
-            getItemStmt.setInt(1, cartId);
-            getItemStmt.setString(2, artNr);
-        
+            
             subtractStmt.setInt(1, count);
             subtractStmt.setString(2, artNr);
         
@@ -149,7 +146,7 @@ public class MySqlHandler {
     //Returns one item from the cart_items table and returns it to the items table. 
     //Returns true if it was returned successfully
     public boolean returnFromCart(int cartId, String artNr, int count) throws SQLException, ClassNotFoundException {
-        String getItemSql = "CALL 'get_cart_item' (?,?)";
+        String getItemSql = "CALL 'get_cart_item' ("+cartId+","+artNr+")";
         String subtractSql = "UPDATE cart_items SET stock_balance = (stock_balance - ?) WHERE art_number = ?";
         String addSql = "UPDATE items SET stock_balance = (stock_balance + ?) WHERE art_number = ?";
         boolean result = false;
@@ -162,9 +159,6 @@ public class MySqlHandler {
                 ResultSet rs = getItemStmt.executeQuery();
                 ) {
             
-            getItemStmt.setInt(1, cartId);
-            getItemStmt.setString(2, artNr);
-        
             subtractStmt.setInt(1, count);
             subtractStmt.setString(2, artNr);
         
@@ -254,7 +248,7 @@ public class MySqlHandler {
     public List<String> showCategories() throws SQLException, ClassNotFoundException {
         List<String> result = new ArrayList<>();
         
-        String sql = "SELECT category_name FROM categories";
+        String sql = "SELECT * FROM categories";
         
         try (
                 Connection cn = getConnection();
@@ -264,7 +258,8 @@ public class MySqlHandler {
             
             while (rs.next()) {
                 String category = rs.getString("category_name");
-            
+                category += " | "+rs.getString("contents");
+                
                 result.add(category);
             }
         }
@@ -276,7 +271,7 @@ public class MySqlHandler {
         List<String> order = new ArrayList<>();
         
         String sql = "CALL 'remove_shopping_cart'";
-        String infoSql = "SELECT * FROM cart_items WHERE cart_id = ?";
+        String infoSql = "SELECT * FROM cart_items WHERE cart_id = " + cartId;
         
         try (
                 Connection cn = getConnection();
@@ -286,8 +281,7 @@ public class MySqlHandler {
                 ) {
         
             stmt.setInt(1, cartId);
-            infoStmt.setInt(1, cartId);
-        
+            
             int result = stmt.executeUpdate();
         
             if (result >= 1) {
@@ -307,7 +301,7 @@ public class MySqlHandler {
     
     //Returns all items from the cart to the items table
     public boolean dumpCart(int cartId) throws SQLException, ClassNotFoundException {
-        String fromCartSql = "SELECT * FROM cart_items WHERE cart_id = ?";
+        String fromCartSql = "SELECT * FROM cart_items WHERE cart_id = " + cartId;
         String toItemsSql = "UPDATE items SET stock_balance = (stock_balance + ?) WHERE art_number = ?";
         String deleteCartSql = "CALL 'remove_shopping_cart'(?)";
         int result;
@@ -320,7 +314,6 @@ public class MySqlHandler {
                 ResultSet rs = fromCartStmt.executeQuery();
                 ) {
             
-            fromCartStmt.setInt(1, cartId);
             deleteCartStmt.setInt(1, cartId);
         
             while(rs.next()) {
