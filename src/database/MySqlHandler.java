@@ -63,15 +63,13 @@ public class MySqlHandler {
     public Item getItem(String artNr) throws SQLException, ClassNotFoundException {
         Item item = null;
         
-        String sql = "CALL 'get_inventory_item'(?)";
-        
+        String sql = "CALL get_inventory_item('" + artNr + "')";
+        System.out.println(sql);
         try (
                 Connection cn = getConnection();
                 CallableStatement stmt = cn.prepareCall(sql);
                 ResultSet rs = stmt.executeQuery();
                 ) {
-        
-            stmt.setString(1, artNr);
         
             if (rs.next()) {
                 item = new Item(
