@@ -9,21 +9,27 @@
 				<td>Art Number</td>
 				<td>Name</td>
 				<td>Price</td>
+				<td>In Stock</td>
 			</tr>
 			<tr ng-repeat="game in items | filter:search" class="table_row">
+				<td ng-click="viewDescription($index)"><a"#!/item/{{game.artNr}}">
+						{{game.artNr}}</a></td>
+				<td ng-click="viewDescription($index)"><a"#!/item/{{game.itemName}}">
+						{{game.itemName}}</a></td>
+				<td ng-click="viewDescription($index)"><a"#!/item/{{game.price}}">
+						{{game.price}}</a></td>
 				<td ng-click="viewDescription($index)">
-				<a "#!/item/{{game.artNr}}"> {{game.artNr}}</a>
+				<div ng-switch="game.stockBalance">
+				<div ng-switch-when="0">No</div>
+				<div ng-switch-default>Yes</div>
+				</div>
 				</td>
-				<td ng-click="viewDescription($index)">
-				<a"#!/item/{{game.itemName}}"> {{game.itemName}}</a></td>
-				<td ng-click="viewDescription($index)">
-				<a"#!/item/{{game.price}}"> {{game.price}}</a>
 				</td>
 				<td>
 				<input type="number" data-ng-model="count" />
 				</td>
-  				<td><input type="button" ng-click="addToCart(game.artNr, count)"
-					value="AddToCart" /></td>
+  				<td><input type="button"
+					ng-click="addToCart(game.artNr, count)" value="AddToCart" /></td>
 			</tr>
 		</table>
 	</div>
@@ -32,11 +38,13 @@
 	
 	{{selectedItem.artNr}}
 
-	<h1>
+	
+		<h1>
 	{{selectedItem.itemName}}
 	</h1>
 	<br>
-	<img src="GetImage?artNr={{selectedItem.artNr}}" height=200px width=160px/>
+	<img src="GetImage?artNr={{selectedItem.artNr}}" height=200px
+			width=160px />
 	<br>
 	{{selectedItem.description}}
 	<br>

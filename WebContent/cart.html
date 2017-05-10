@@ -1,40 +1,53 @@
 <h2>Shopping Cart</h2>
 <p>These are your current items in the shopping cart.</p>
-
-
-<table>
-
-	<tr data-ng-repeat="item in items">
-
-		<th>Artikelnummer</th>
-		<td>{{item.artNr}}</td>
-		<th>Titel</th>
-		<td>{{item.itemName}}</td>
-		<th>Pris</th>
-		<td>{{item.price}} SEK</td>
-
-
-
-		<td><input type="button" ng-click="RemoveFromCart($index)"
-			value="Remove from Cart" /></td>
-
-
-
-
-
-	</tr>
-
-
-</table>
 <br>
 <br>
+
 
 <table>
 	<tr>
-		<td><input type="button" ng-click="DumpCart($index)"
+		<td><b>Article number</b></td>
+		<td><b>Title</b></td>
+		<td><b>Description</b></td>
+		<td><b>Price</b></td>
+	</tr>
+	<tr data-ng-repeat="item in items| filter:search" class="table_row">
+
+
+		<!-- <td data-ng-click="viewDescription($browse)"><a"#!/cart/{{game.artNr}}">{{item.artNr}}
+		</a></td>  -->
+		<td>{{item.artNr}}</td>
+
+		<td>{{item.itemName}}</td>
+		<td>{{item.description}}</td>
+		<td>{{item.price}} SEK</td>
+
+		<td><input type="button" data-ng-click="RemoveFromCart($index)"
+			value="Remove from Cart" /></td>
+	</tr>
+
+
+</table>
+<br>
+<br>
+<table>
+	<tr>
+		<td><input type="button" data-ng-click="DumpCart($index)"
 			value="Dump Cart" /></td>
 	</tr>
 </table>
+
+<!-- <div>
+	<p>{{selectedItem.artNr}}
+	<h1>{{selectedItem.itemName}}</h1>
+	<br> <img src="GetImage?artNr={{selectedItem.artNr}}" height=200px
+		width=160px /> <br> {{selectedItem.description}} <br> <br>
+	<h1>{{selectedItem.price + " SEK"}}</h1>
+	</p>
+	
+</div>-->
+
+
 <!--
 <table>
 	<tr>

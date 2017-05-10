@@ -46,6 +46,8 @@
 
 		var items = [];
 		$scope.items = items;
+		
+		$scope.inStock = "Hm";
 
 		$scope.removeFromInventory = function(index) {
 
