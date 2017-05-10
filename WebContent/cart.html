@@ -17,10 +17,10 @@
 		<!-- <td data-ng-click="viewDescription($browse)"><a"#!/cart/{{game.artNr}}">{{item.artNr}}
 		</a></td>  -->
 		<td>{{item.artNr}}</td>
-
 		<td>{{item.itemName}}</td>
 		<td>{{item.description}}</td>
 		<td>{{item.price}} SEK</td>
+
 
 		<td><input type="button" data-ng-click="RemoveFromCart($index)"
 			value="Remove from Cart" /></td>
@@ -28,7 +28,28 @@
 
 
 </table>
+
 <br>
+<br>
+<h3>Total cost:</h3>
+<br>
+<table>
+
+<tr>
+<td>
+
+{{item.price}}</td></tr>
+
+</table>
+
+<table>
+	<tr>
+		<td><input type="button" data-ng-click="checkOutCart($index)"
+			value="Checkout" /></td>
+	</tr>
+</table>
+<br>
+<hr>
 <br>
 <table>
 	<tr>
