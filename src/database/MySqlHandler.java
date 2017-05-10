@@ -64,7 +64,6 @@ public class MySqlHandler {
         Item item = null;
 
         String sql = "CALL get_inventory_item('" + artNr + "')";
-        System.out.println(sql);
         try (
                 Connection cn = getConnection();
                 CallableStatement stmt = cn.prepareCall(sql);
@@ -87,38 +86,67 @@ public class MySqlHandler {
 
     //Adds a item to the shopping cart and returns true if it was added successfully
     public boolean addToCart(int cartId, String artNr, int count) throws SQLException, ClassNotFoundException {
-        String addSql = "CALL insert_into_cart ('?','?',?,\"?\"," + null + ",?,'?','?',?)";
+        
         boolean result = false;
-        System.out.println(addSql);
-        Item item = getItem(artNr);
+        boolean addResult = false;
+        boolean subtractResult = false;
+        
+        Connection cn = null;
+        
 
         System.out.println("Im here");
 
-        try (
-                Connection cn = getConnection();
-                PreparedStatement addStmt = cn.prepareStatement(addSql);) {
-
+        try {
+            System.out.println("Im here1b");
+            cn = getConnection();
             System.out.println("Im here2");
-            addStmt.setString(1, artNr);
-            addStmt.setString(2, item.getItemName());
-            addStmt.setFloat(3, item.getPrice());
-            System.out.println("Im here 2a");
-            addStmt.setString(4, item.getDescription());
-            //            addStmt.setBlob(5, item.getImage());
-            System.out.println("Im here 2b");
-            addStmt.setInt(5, count);
-            addStmt.setString(6, item.getStorageFormat());
-            addStmt.setString(7, item.getCategory());
-            addStmt.setInt(8, cartId);
-            System.out.println("Im here3");
-
-            boolean subtractResult = subtractFromInventory(artNr, count);
-            int addResult = addStmt.executeUpdate();
+            addResult = insertIntoCart(cartId, artNr, count);
+            subtractResult = subtractFromInventory(artNr, count);
             System.out.println("Im here4");
-            result = (subtractResult == true && addResult >= 1);
+            result = (subtractResult == true && addResult == true);
 
+        } finally {
+            if (cn!=null)
+                cn.close();
+            
         }
         System.out.println("Im here5");
+        return result;
+    }
+    
+    
+    public boolean insertIntoCart(int cartId, String artNr, int count) throws ClassNotFoundException, SQLException {
+        boolean result = false;
+        Item item = getItem(artNr);
+        String addSql = "CALL insert_into_cart ('"+artNr+"','"+item.getItemName()+"',"+item.getPrice()
+        + ",'"+item.getDescription()+"'," + null + ","+count+",'"+item.getStorageFormat()
+        + "','"+item.getCategory()+"',"+cartId+")";
+        
+        try (
+                Connection cn = getConnection();
+                PreparedStatement stmt = cn.prepareStatement(addSql);
+                ) {
+            int addResult = stmt.executeUpdate();
+            result = (addResult >= 1);
+        }
+        
+        return result;
+    }
+    
+    
+    public boolean updateCartItem(int cartId, String artNr, int count) throws ClassNotFoundException, SQLException {
+        boolean result = false;
+        String updateSql = "UPDATE cart_items SET stock_balance = (stock_balace + "+count+")"
+                + " WHERE art_number = "+artNr+" AND cart_id = " + cartId;
+        
+        try (   
+                Connection cn = getConnection();
+                PreparedStatement stmt = cn.prepareStatement(updateSql);
+                ) {
+            int updateResult = stmt.executeUpdate();
+            result = (updateResult >= 1);
+        }
+        
         return result;
     }
 
@@ -172,14 +200,15 @@ public class MySqlHandler {
 
     //Decrease the stock_balance value of one item and returns if it was decreased successfully
     public boolean subtractFromInventory(String artNr, int count) throws SQLException, ClassNotFoundException {
-        String sql = "UPDATE items SET stock_balance = (stock_balance - ?) WHERE art_number = '?'";
+        String sql = "UPDATE items SET stock_balance = (stock_balance - "+count+") WHERE art_number = '"+artNr+"'";
         int result;
+        System.out.println(sql+":"+artNr+":"+count);
         try (
                 Connection cn = getConnection();
                 PreparedStatement stmt = cn.prepareStatement(sql);) {
 
-            stmt.setInt(1, count);
-            stmt.setString(2, artNr);
+//            stmt.setInt(1, count);
+//            stmt.setString(2, artNr);
 
             result = stmt.executeUpdate();
         }
