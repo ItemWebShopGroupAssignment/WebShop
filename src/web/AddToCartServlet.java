@@ -47,7 +47,12 @@ public class AddToCartServlet extends HttpServlet {
 				
 				response.setContentType("application/json;characterset=UTF-8");
 				PrintWriter out = response.getWriter();
-				out.print(result);
+				
+				if(result)
+					out.print("Successfully added a new product.");
+				else
+					out.print("Failed to add a new product.");
+				
 				out.flush();
 			}
 			else {

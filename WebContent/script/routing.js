@@ -63,14 +63,7 @@
 		}
 
 		 var onAddToCartComplete = function(response) {
-		 $scope.description = "Added new game to cart " + response.data;
-						
-		 //här lägger vi till spelet i shopping carten:
-		 var tmp = angular.copy(item);
-		 $scope.items.push(tmp);
-		 $scope.item.artNr = "";
-		 $scope.item.cartId = "1";
-		 $scope.item.stockBalance = "";
+			 alert(response.data);
 		
 		 }
 
@@ -90,9 +83,15 @@
 				alert("Not in stock!");
 			}
 			else {
-				var uri = "AddToCart2?artNr=" + artNr + "&count=" + count + "&cartId=" + 1;
-				alert(uri);
-				$http.get(uri).then(onAddToCartComplete, onError);
+				var parameters = {
+						'artNr' : artNr,
+						'stockBalance' : count,
+						'cartId' : 1
+				};
+				
+				var jsonPackage = JSON.stringify(parameters);
+				
+				$http.post("AddToCart", jsonPackage).then(onAddToCartComplete, onError);
 			}
 		}
 
