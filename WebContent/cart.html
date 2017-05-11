@@ -9,6 +9,7 @@
 		<td><b>Article number</b></td>
 		<td><b>Title</b></td>
 		<td><b>Description</b></td>
+		<td><b>Amount</b></td>
 		<td><b>Price</b></td>
 	</tr>
 	<tr data-ng-repeat="item in items| filter:search" class="table_row">
@@ -19,6 +20,7 @@
 		<td>{{item.artNr}}</td>
 		<td>{{item.itemName}}</td>
 		<td>{{item.description}}</td>
+		<td>1</td>
 		<td>{{item.price}} SEK</td>
 
 
