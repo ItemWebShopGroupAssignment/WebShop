@@ -19,6 +19,9 @@
 		}).when("/admin", {
 			templateUrl : "admin.html",
 			controller : "adminController"
+		}).when ("/cartiteminfo", {
+			templateUrl : "cartiteminfo.html",
+			controller : "cartiteminfoController"
 		}).otherwise({
 			redirectTo : "/"
 		});
@@ -173,6 +176,10 @@
 		}
 
 	};
+	
+	var cartiteminfoController = function($scope, $http){
+		$scope.title = "CartItemInfo";
+	};
 
 	// Bind the config and controllers to the application.
 	app.config([ "$routeProvider", config ]);
@@ -180,5 +187,6 @@
 	app.controller("cartController", [ "$scope", "$http", cartController ]);
 	app.controller("browseController", [ "$scope", "$http", browseController ]);
 	app.controller("adminController", [ "$scope", "$http", adminController ]);
+	app.controller("cartiteminfoController", ["$scope", cartiteminfoController]);
 
 }())
