@@ -21,7 +21,7 @@
 			<button data-ng-click="removeFromCart(item.artNr)">Remove from Cart</button>
 		</td>
 		<td>
-			<input type="number" name="amount" data-ng-model="amount" value="1"/>
+			<input type="number" name="amount" data-ng-model="amount" value="1" min="0" max="{{item.stockBalance}}"/>
 		</td>
 	</tr>
 </table>
