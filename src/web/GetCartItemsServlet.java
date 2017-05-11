@@ -42,10 +42,6 @@ public class GetCartItemsServlet extends HttpServlet {
 			
 			List<Item> inventory = store.getCartItems(cartId);
 			
-			// Add debug item to empty lists.
-			if(inventory.size() < 1)
-				inventory.add(new Item("Garbage", "Bad Item", "000-000AB", -1.0f, "A useless bugtesting item.", null, cartId, "Garbage Container"));
-			
 			response.setContentType("application/json;characterset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.print(new Gson().toJson(inventory));

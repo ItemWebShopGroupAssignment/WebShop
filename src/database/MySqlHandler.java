@@ -124,17 +124,17 @@ public class MySqlHandler {
             // Get item from inventory.
             Item item = getItem(artNr, con);
             
-            if(item == null || item.getStockBalance() < count)
+            if (item == null || item.getStockBalance() < count)
             	return false;
             
             // Update the inventory item.
             result = subtractFromInventory(artNr, count, con);
             
-            if(!result)
+            if (!result)
             	return false;
             	
             result = updateCartItem(cartId, artNr, count, con);
-            if(!result) {
+            if (!result) {
             	result = insertIntoCart(cartId, artNr, count, con);
             	if(!result)
             		return false;
@@ -207,6 +207,7 @@ public class MySqlHandler {
         String getItemSql = "CALL get_cart_item (" + cartId + ",'" + artNr + "')";
         String subtractSql = "UPDATE cart_items SET stock_balance = (stock_balance - ?) WHERE art_number = ?";
         String addSql = "UPDATE items SET stock_balance = (stock_balance + ?) WHERE art_number = ?";
+        String deleteSql = "DELETE FROM cart_items WHERE art_number LIKE ? AND cart_id LIKE ?";
         boolean result = false;
 
         try (
@@ -214,6 +215,7 @@ public class MySqlHandler {
                 CallableStatement getItemStmt = cn.prepareCall(getItemSql);
                 PreparedStatement subtractStmt = cn.prepareStatement(subtractSql);
                 PreparedStatement addStmt = cn.prepareStatement(addSql);
+                PreparedStatement deleteStmt = cn.prepareStatement(deleteSql);
                 ResultSet rs = getItemStmt.executeQuery();) {
 
             subtractStmt.setInt(1, count);
@@ -221,13 +223,23 @@ public class MySqlHandler {
 
             addStmt.setInt(1, count);
             addStmt.setString(2, artNr);
+            
+            deleteStmt.setString(1, artNr);
+            deleteStmt.setInt(2, cartId);
 
             if (rs.next()) {
                 int subtractResult = subtractStmt.executeUpdate();
                 int addResult = addStmt.executeUpdate();
-
+                
+                if (rs.getInt("stock_balance") == 0 || rs.getInt("stock_balance") <= count) {
+                    int deleteResult = deleteStmt.executeUpdate();
+                    
+                    return result = (deleteResult >= 1);
+                }
+                
                 result = (subtractResult >= 1 && addResult >= 1);
             }
+            
         }
         return result;
     }
