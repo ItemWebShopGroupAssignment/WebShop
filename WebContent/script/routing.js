@@ -86,9 +86,13 @@
 		}
 		
 		$scope.addToCart = function(artNr, count) {
-			var uri = "AddToCart2?artNr=" + artNr + "&count=" + count + "&cartId=" + 1;
-			alert(uri);
-			$http.get(uri).then(onAddToCartComplete, onError);
+			var parameters = { 'artNr' : artNr,
+							'stockBalance' : count,
+							'cartId' : cartId };
+		
+			var jsonParameters = JSON.stringify(parameters);
+			
+			$http.post("AddToCart", jsonParameters).then(onAddToCartComplete, onError);
 
 		}
 
