@@ -1,1 +1,47 @@
 <h1>This is an admin page. Customers please return to the store!</h1>
+<div class="flex_row">
+	<div>
+		<h3>Our games</h3>
+
+		<input type="search" placeholder="search items" ng-model="search" />
+
+		<table>
+			<tr>
+				<td>Art Number</td>
+				<td>Name</td>
+				<td>Price</td>
+				<td>Balance</td>
+			</tr>
+			<tr ng-repeat="game in items | filter:search" class="table_row">
+				<td ng-click="viewDescription($index)"><a"#!/item/{{game.artNr}}">
+						{{game.artNr}}</a></td>
+				<td ng-click="viewDescription($index)"><a"#!/item/{{game.itemName}}">
+						{{game.itemName}}</a></td>
+				<td ng-click="viewDescription($index)"><a"#!/item/{{game.price}}">
+						{{game.price}}</a></td>
+				<td ng-click="viewDescription($index)"><a"#!/item/{{game.stockBalance}}">
+						{{game.stockBalance}}</a></td>
+				</td>
+				<td>
+				<input type="number" data-ng-model="count" />
+				</td>
+  				<td><input type="button"
+					ng-click="addToInventory(game.artNr, count)" value="AddToInventory" /></td>
+				<td><input type="button"
+					ng-click="deleteFromInventory(game.artNr, count)" value="Delete" /></td>
+			</tr>
+		</table>
+	</div>
+	<div>
+		<input type="button" ng-click="editInventory(game.artNr, count)" value="Edit" />
+		<p>{{selectedItem.artNr}}
+		<h1 type="text">{{selectedItem.itemName}}</h1>
+		<br> <img src="GetImage?artNr={{selectedItem.artNr}}"
+			height=200px width=160px /> <br> {{selectedItem.description}} <br>
+		<br>
+		<h1>{{selectedItem.price + " SEK"}}</h1>
+		<br>
+		<br>
+		</p>
+	</div>
+</div>
