@@ -43,7 +43,7 @@ public class CheckoutCartServlet extends HttpServlet {
             // Get the added data.
             String data = request.getReader().lines().collect(Collectors.joining());
             Item item = new Gson().fromJson(data, Item.class); // Retrieve the item from the data.
-            System.out.println(data);
+            
             if(item != null && item.getCartId() >= 0) {
                 List<String> result = store.checkOutCart(item.getCartId());
                 
@@ -62,9 +62,9 @@ public class CheckoutCartServlet extends HttpServlet {
             }
             
         } catch (SQLException e) {
-            response.getWriter().append("Error: " + e.getMessage());
+            response.getWriter().append("SQL Error: " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            response.getWriter().append("Error: " + e.getMessage());
+            response.getWriter().append("CNF Error: " + e.getMessage());
         }
 	}
 

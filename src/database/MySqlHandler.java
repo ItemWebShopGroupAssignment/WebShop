@@ -348,16 +348,14 @@ public class MySqlHandler {
     public List<String> checkOutCart(int cartId) throws SQLException, ClassNotFoundException {
         List<String> order = new ArrayList<>();
 
-        String sql = "CALL 'remove_shopping_cart'";
-        String infoSql = "SELECT * FROM cart_items WHERE cart_id = " + cartId;
+        String sql = "CALL remove_shopping_cart(" + cartId + ");";
+        String infoSql = "SELECT * FROM cart_items WHERE cart_id = " + cartId + ";";
 
         try (
-                Connection cn = getConnection();
-                CallableStatement stmt = cn.prepareCall(sql);
-                PreparedStatement infoStmt = cn.prepareStatement(infoSql);
-                ResultSet rs = infoStmt.executeQuery();) {
-
-            stmt.setInt(1, cartId);
+            Connection cn = getConnection();
+            CallableStatement stmt = cn.prepareCall(sql);
+            PreparedStatement infoStmt = cn.prepareStatement(infoSql);
+            ResultSet rs = infoStmt.executeQuery();) {
 
             int result = stmt.executeUpdate();
 
