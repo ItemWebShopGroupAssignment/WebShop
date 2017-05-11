@@ -19,9 +19,18 @@
 				<td ng-click="viewDescription($index)"><a"#!/item/{{game.price}}">
 						{{game.price}}</a></td>
 				<td ng-click="viewDescription($index)">
-				<div ng-switch="game.stockBalance">
-				<div ng-switch-when="0">No</div>
-				<div ng-switch-default>Yes</div>
+<!-- 				<a"#!/item/{{game.stockBalance}}"> -->
+<!-- 						{{game.stockBalance}}</a></td> -->
+				
+				<div ng-show="game.stockBalance === 0">No</div>
+				<div ng-show="game.stockBalance > 3">Yes</div>
+				<div ng-show="!(game.stockBalance === 0 || game.stockBalance > 3)">{{game.stockBalance}}</div>				
+				
+<!-- 				<div ng-switch="game.stockBalance"> -->
+<!-- 				<div ng-switch-when="0">No</div> -->
+<!-- 				<div ng-switch-when="0">No</div> -->
+<!-- 				<div ng-switch-when="0">No</div>				 -->
+<!-- 				<div ng-switch-default>Yes</div> -->
 				</div>
 				</td>
 				</td>
@@ -29,7 +38,7 @@
 				<input type="number" data-ng-model="count" />
 				</td>
   				<td><input type="button"
-					ng-click="addToCart(game.artNr, count)" value="AddToCart" /></td>
+					ng-click="addToCart(game.artNr, count, game.stockBalance)" value="AddToCart" /></td>
 			</tr>
 		</table>
 	</div>

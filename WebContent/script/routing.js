@@ -85,15 +85,15 @@
 
 		}
 		
-		$scope.addToCart = function(artNr, count) {
-			var parameters = { 'artNr' : artNr,
-							'stockBalance' : count,
-							'cartId' : cartId };
-		
-			var jsonParameters = JSON.stringify(parameters);
-			
-			$http.post("AddToCart", jsonParameters).then(onAddToCartComplete, onError);
-
+		$scope.addToCart = function(artNr, count, stockBalance) {
+			if (stockBalance <= 0) {
+				alert("Not in stock!");
+			}
+			else {
+				var uri = "AddToCart2?artNr=" + artNr + "&count=" + count + "&cartId=" + 1;
+				alert(uri);
+				$http.get(uri).then(onAddToCartComplete, onError);
+			}
 		}
 
 	};
