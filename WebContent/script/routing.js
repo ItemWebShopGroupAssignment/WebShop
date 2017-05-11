@@ -67,11 +67,19 @@
 		}
 		
 		$scope.dumpCart = function() {
-			
+			 
+		}
+		
+		var onCheckoutComplete = function(response) {
+			alert(response.data);
 		}
 		
 		$scope.checkoutCart = function() {
+			var parameter = {
+					'cartId' : 1
+			}
 			
+			$http.post("CheckoutCart", JSON.stringify(parameter)).then(onCheckoutComplete, onCartError);
 		}
 	};
 
