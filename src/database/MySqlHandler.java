@@ -115,6 +115,8 @@ public class MySqlHandler {
         
         Connection con = null;
         
+        if (count == 0)
+            return false;
 
         try {
             con = getConnection();
