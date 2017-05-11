@@ -35,7 +35,7 @@
 				</td>
 				</td>
 				<td>
-				<input type="number" data-ng-model="count" />
+				<input type="number" data-ng-model="count" min="0" max="{{game.stockBalance}}" />
 				</td>
   				<td><input type="button"
 					ng-click="addToCart(game.artNr, count, game.stockBalance)" value="AddToCart" /></td>

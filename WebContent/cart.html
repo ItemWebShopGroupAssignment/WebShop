@@ -1,7 +1,6 @@
 <h2>Shopping Cart</h2>
 <p>These are your current items in the shopping cart.</p>
 <br>
-<br>
 
 
 <table>
@@ -11,80 +10,28 @@
 		<td><b>Amount</b></td>
 		<td><b>Price</b></td>
 	</tr>
-	<tr data-ng-repeat="item in items| filter:search" class="table_row">
+	<!--  data-ng-click="" -->
+	<tr data-ng-repeat="item in items| filter:search" class="table_row"/>
+	
 
-
-		<!-- <td data-ng-click="viewDescription($browse)"><a"#!/cart/{{game.artNr}}">{{item.artNr}}
-		</a></td>  -->
 		<td>{{item.artNr}}</td>
 		<td>{{item.itemName}}</td>
 		<td>{{item.stockBalance}}</td>
 		<td>{{item.price}} SEK</td>
 
-
-		<td><input type="button" data-ng-click="RemoveFromCart($index)"
-			value="Remove from Cart" /></td>
-	</tr>
-
-
-</table>
-
-<br>
-<br>
-<h3>Total cost:</h3>
-<br>
-<table>
-
-<tr>
-<td>
-
-{{cart.item.price}}</td></tr>
-
-</table>
-
-<table>
-	<tr>
-		<td><input type="button" data-ng-click="checkOutCart($index)"
-			value="Checkout" /></td>
-	</tr>
-</table>
-<br>
-<hr>
-<br>
-<table>
-	<tr>
-		<td><input type="button" data-ng-click="DumpCart($index)"
-			value="Dump Cart" /></td>
+		<td>
+			<button data-ng-click="removeFromCart(item.artNr, amount)">Remove from Cart</button>
+		</td>
+		<td>
+			<input type="number" name="amount" data-ng-model="amount" value="1" min="0" max="{{item.stockBalance}}"/>
+		</td>
 	</tr>
 </table>
 
-<!-- <div>
-	<p>{{selectedItem.artNr}}
-	<h1>{{selectedItem.itemName}}</h1>
-	<br> <img src="GetImage?artNr={{selectedItem.artNr}}" height=200px
-		width=160px /> <br> {{selectedItem.description}} <br> <br>
-	<h1>{{selectedItem.price + " SEK"}}</h1>
-	</p>
-	
-</div>-->
-
-
-<!--
-<table>
-	<tr>
-		<td>Art Number</td>
-		<td>Name</td>
-		<td>Price</td>
-	</tr>
-	<tr ng-repeat="game in items | filter:search" class="table_row">
-		<td ng-click="viewDescription($index)"><a"#!/item/{{game.artNr}}">
-				{{game.artNr}}</a></td>
-		<td ng-click="viewDescription($index)"><a"#!/item/{{game.itemName}}">
-				{{game.itemName}}</a></td>
-		<td ng-click="viewDescription($index)"><a"#!/item/{{game.price}}">
-				{{game.price}}</a></td>
-		<td><input type="button" ng-click="AddToCart($index)"
-			value="addCart" /></td>
-	</tr>
-</table>
-  -->
+<div class="flex_column">
+	<h3>Total cost:</h3>
+	{{totalCost + " "+ "SEK"}}
+	<br>
+	<button data-ng-click="dumpCart()">Dump Cart</button>
+	<button data-ng-click="checkoutCart()">Check Out</button>
+</div>

@@ -19,6 +19,9 @@
 		}).when("/admin", {
 			templateUrl : "admin.html",
 			controller : "adminController"
+		}).when ("/cartiteminfo", {
+			templateUrl : "cartiteminfo.html",
+			controller : "cartiteminfoController"
 		}).otherwise({
 			redirectTo : "/"
 		});
@@ -30,11 +33,18 @@
 
 	var cartController = function($scope, $http) {
 
+		$scope.amount = 1;
 		var onGetCartComplete = function(response) {
 
 			$scope.items = response.data;
+			
+			$scope.totalCost = 0;
+			for(var i = 0; i < $scope.items.length; i++) {
+				$scope.totalCost += ($scope.items[i].price * $scope.items[i].stockBalance);
+			}
 
 		}
+		
 		var onCartError = function(reason) {
 			$scope.Test = "error";
 			$scope.error = reason.status;
@@ -42,6 +52,38 @@
 
 		$http.get("GetCartItems?cartId=1").then(onGetCartComplete, onCartError);
 
+		var onRemoveComplete = function(response) {
+			alert(response.data);
+			$http.get("GetCartItems?cartId=1").then(onGetCartComplete, onCartError); 
+		}
+		
+		$scope.removeFromCart = function(artNr, count){
+			var parameters = {
+					'artNr' : artNr,
+					'stockBalance' : count,
+					'cartId' : 1
+			};
+			
+			var jsonParameters = JSON.stringify(parameters);
+			
+			$http.post("RemoveFromCart", jsonParameters).then(onRemoveComplete, onCartError);
+		}
+		
+		$scope.dumpCart = function() {
+			 
+		}
+		
+		var onCheckoutComplete = function(response) {
+			alert(response.data);
+		}
+		
+		$scope.checkoutCart = function() {
+			var parameter = {
+					'cartId' : 1
+			}
+			
+			$http.post("CheckoutCart", JSON.stringify(parameter)).then(onCheckoutComplete, onCartError);
+		}
 	};
 
 	var browseController = function($scope, $http) {
@@ -134,6 +176,10 @@
 		}
 
 	};
+	
+	var cartiteminfoController = function($scope, $http){
+		$scope.title = "CartItemInfo";
+	};
 
 	// Bind the config and controllers to the application.
 	app.config([ "$routeProvider", config ]);
@@ -141,5 +187,6 @@
 	app.controller("cartController", [ "$scope", "$http", cartController ]);
 	app.controller("browseController", [ "$scope", "$http", browseController ]);
 	app.controller("adminController", [ "$scope", "$http", adminController ]);
+	app.controller("cartiteminfoController", ["$scope", cartiteminfoController]);
 
 }())
