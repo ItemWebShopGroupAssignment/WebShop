@@ -27,6 +27,7 @@
 
 	var cartController = function($scope, $http) {
 
+		$scope.amount = 1;
 		var onGetCartComplete = function(response) {
 
 			$scope.items = response.data;
