@@ -18,7 +18,7 @@
 		<td>{{item.price}} SEK</td>
 
 		<td>
-			<button data-ng-click="removeFromCart(item.artNr)">Remove from Cart</button>
+			<button data-ng-click="removeFromCart(item.artNr, amount)">Remove from Cart</button>
 		</td>
 		<td>
 			<input type="number" name="amount" data-ng-model="amount" value="1" min="0" max="{{item.stockBalance}}"/>
@@ -26,7 +26,10 @@
 	</tr>
 </table>
 
-<!-- TODO Checkout cart, dump cart -->
-	
-<br>
-<h3>Total cost:</h3>
+<div class="flex_column">
+	<h3>Total cost:</h3>
+	{{totalCost}}
+	<br>
+	<button data-ng-click="dumpCart()">Dump Cart</button>
+	<button data-ng-click="checkoutCart()">Check Out</button>
+</div>

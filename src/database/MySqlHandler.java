@@ -204,7 +204,7 @@ public class MySqlHandler {
     //Returns one item from the cart_items table and returns it to the items table. 
     //Returns true if it was returned successfully
     public boolean returnFromCart(int cartId, String artNr, int count) throws SQLException, ClassNotFoundException {
-        String getItemSql = "CALL 'get_cart_item' (" + cartId + "," + artNr + ")";
+        String getItemSql = "CALL get_cart_item (" + cartId + ",'" + artNr + "')";
         String subtractSql = "UPDATE cart_items SET stock_balance = (stock_balance - ?) WHERE art_number = ?";
         String addSql = "UPDATE items SET stock_balance = (stock_balance + ?) WHERE art_number = ?";
         boolean result = false;
