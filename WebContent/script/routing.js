@@ -200,6 +200,6 @@
 	app.controller("cartController", [ "$scope", "$http", cartController ]);
 	app.controller("browseController", [ "$scope", "$http", browseController ]);
 	app.controller("adminController", [ "$scope", "$http", adminController ]);
-	app.controller("cartiteminfoController", ["$scope", cartiteminfoController]);
+	app.controller("cartiteminfoController", ["$scope", "$http", cartiteminfoController]);
 
 }())
