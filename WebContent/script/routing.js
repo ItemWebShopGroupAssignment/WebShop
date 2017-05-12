@@ -4,7 +4,7 @@
 
 (function() {
 	
-	var cartId = -1;
+	var cartId = 0;
 	
 	var app = angular.module("application", [ "ngRoute" ]);
 
@@ -29,7 +29,17 @@
 		});
 	};
 
-	var homeController = function($scope) {
+	var homeController = function($scope, $http) {
+			
+		$http.get("GetCart").then(onIdFetchComplete, onError);
+		
+		var onIdFetchComplete = function(response) {
+			cartId = response.data;
+		}
+		
+		var onError = function(reason) {
+			alert(reason.status);
+		}
 		
 	};
 
@@ -86,7 +96,6 @@
 			
 			$http.post("CheckoutCart", JSON.stringify(parameter)).then(onCheckoutComplete, onCartError);
 		}
-		
 	};
 
 	var browseController = function($scope, $http) {
@@ -127,10 +136,6 @@
 		}
 		
 		$scope.addToCart = function(artNr, count, stockBalance) {
-			if(cartId == -1) {
-				$http.get("GetCart").then(onIdFetchComplete, onError);
-			}
-			
 			if (stockBalance <= 0) {
 				alert("Not in stock!");
 			}
@@ -145,14 +150,6 @@
 				
 				$http.post("AddToCart", jsonPackage).then(onAddToCartComplete, onError);
 			}
-		}
-		
-		var onIdFetchComplete = function(response) {
-			cartId = response.data;
-		}
-		
-		var onError = function(reason) {
-			alert(reason.status);
 		}
 
 	};
