@@ -42,10 +42,10 @@ public class CheckoutCartServlet extends HttpServlet {
         
         try {
     		HttpSession session = request.getSession();
-    		long cartId = (Long)session.getAttribute("cartId");
+    		int cartId = (Integer)session.getAttribute("cartId");
         		
             if(cartId == 0) {
-            	cartId = store.getCart();
+            	cartId = (int)store.getCart();
 				session.setAttribute("cartId", cartId);
             }
             

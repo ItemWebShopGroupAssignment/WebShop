@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -38,12 +39,20 @@ public class RemoveFromCartServlet extends HttpServlet {
 		Store store = new Store();
 		
 		try {
+			HttpSession session = request.getSession();
+    		int cartId = (Integer)session.getAttribute("cartId");
+        		
+            if(cartId == 0) {
+            	cartId = (int)store.getCart();
+				session.setAttribute("cartId", cartId);
+            }
+            
 			// Get the added data.
 			String data = request.getReader().lines().collect(Collectors.joining());
 			Item item = new Gson().fromJson(data, Item.class); // Retrieve the item from the data.
 			
 			if(item != null && item.getCartId() >= 0) {
-				boolean result = store.returnFromCart(item.getArtNr(), item.getCartId(), item.getStockBalance());
+				boolean result = store.returnFromCart(item.getArtNr(), cartId, item.getStockBalance());
 				
 				response.setContentType("application/json;characterset=UTF-8");
 				PrintWriter out = response.getWriter();
@@ -55,7 +64,7 @@ public class RemoveFromCartServlet extends HttpServlet {
 			}
 			
 		} catch (SQLException e) {
-			response.getWriter().append("Error: " + e.getMessage());
+			response.getWriter().append("SQL Error: " + e.getMessage());
 		} catch (ClassNotFoundException e) {
 			response.getWriter().append("Error: " + e.getMessage());
 		}
