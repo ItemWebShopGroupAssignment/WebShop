@@ -70,7 +70,12 @@
 		}
 		
 		$scope.dumpCart = function() {
-			 
+			 $http.post("DumpCart").then(onDumpedComplete, onCartError);
+		}
+		
+		var onDumpedComplete = function(response) {
+			alert(response.data);
+			// Do any post-dumping stuff here.
 		}
 		
 		var onCheckoutComplete = function(response) {

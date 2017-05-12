@@ -387,7 +387,7 @@ public class MySqlHandler {
     public boolean dumpCart(long cartId) throws SQLException, ClassNotFoundException {
         String fromCartSql = "SELECT * FROM cart_items WHERE cart_id = " + cartId;
         String toItemsSql = "UPDATE items SET stock_balance = (stock_balance + ?) WHERE art_number = ?";
-        String deleteCartSql = "CALL 'remove_shopping_cart'(?)";
+        String deleteCartSql = "CALL remove_shopping_cart(?)";
         int result;
 
         try (
