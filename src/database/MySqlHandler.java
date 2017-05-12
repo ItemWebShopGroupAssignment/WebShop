@@ -112,38 +112,48 @@ public class MySqlHandler {
     public boolean addToCart(long cartId, String artNr, int count) throws SQLException, ClassNotFoundException {
         
         boolean result = false;
+        String sql = "SELECT * FROM shopping_carts WHERE cart_id = " + cartId;
         
         Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
         
         if (count == 0)
             return false;
 
         try {
             con = getConnection();
-            
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
             // Get item from inventory.
             Item item = getItem(artNr, con);
             
             if (item == null || item.getStockBalance() < count)
             	return false;
             
-            // Update the inventory item.
-            result = subtractFromInventory(artNr, count, con);
+            while (rs.next()) {
+                // Update the inventory item.
+                result = subtractFromInventory(artNr, count, con);
             
-            if (!result)
+                if (!result)
             	return false;
             	
-            result = updateCartItem(cartId, artNr, count, con);
-            if (!result) {
-            	result = insertIntoCart(cartId, artNr, count, con);
-            	if(!result)
-            		return false;
+                result = updateCartItem(cartId, artNr, count, con);
+                if (!result) {
+                    result = insertIntoCart(cartId, artNr, count, con);
+                    if(!result)
+                        return false;
+                }
             }
            
 
         } finally {
             if (con!=null)
                 con.close();
+            if (stmt!=null)
+                stmt.close();
+            if (rs!=null)
+                rs.close();
             
         }
         System.out.println("Im here5");
