@@ -148,12 +148,12 @@ public class MySqlHandler {
            
 
         } finally {
-            if (con!=null)
-                con.close();
-            if (stmt!=null)
-                stmt.close();
             if (rs!=null)
                 rs.close();
+            if (stmt!=null)
+                stmt.close();
+            if (con!=null)
+                con.close();
             
         }
         return result;
