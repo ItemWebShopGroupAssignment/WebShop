@@ -46,7 +46,6 @@
 		}
 		
 		var onCartError = function(reason) {
-			$scope.Test = "error";
 			$scope.error = reason.status;
 		}
 
