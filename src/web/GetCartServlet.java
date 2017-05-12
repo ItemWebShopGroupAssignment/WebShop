@@ -34,11 +34,14 @@ public class GetCartServlet extends HttpServlet {
 		Store store = new Store();
 		
 		HttpSession session = request.getSession();
-		Long cartId = (Long)session.getAttribute("cartId");
+		long cartId = (long)session.getAttribute("cartId");
 		
 		try {
-			if(cartId == null)
+			if(cartId == 0) {
 				cartId = store.getCart();
+				session.setAttribute("cartId", cartId);
+			}
+			
 			System.out.println(cartId);
 			response.getWriter().append(Long.toString(cartId));
 			

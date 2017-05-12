@@ -58,6 +58,7 @@ public class CheckoutCartServlet extends HttpServlet {
                 out.flush();
             }
             else {
+            	request.getSession().setAttribute("cartId", 0);
                 response.getWriter().append("Warning: No parameters available!");
             }
             

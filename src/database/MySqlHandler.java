@@ -516,6 +516,7 @@ public class MySqlHandler {
             while (rs.next()) {
                 if (addResult == true) {
                     result = rs.getInt("cart_id");
+                    System.out.println(result);
                 }
             }
         } 

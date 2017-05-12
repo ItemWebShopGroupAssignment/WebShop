@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -41,9 +42,11 @@ public class AddToCartServlet extends HttpServlet {
 			// Get the added data.
 			String data = request.getReader().lines().collect(Collectors.joining());
 			Item item = new Gson().fromJson(data, Item.class); // Retrieve the item from the data.
-			System.out.println(data);
-			if(item != null && item.getCartId() >= 0) {
-				boolean result = store.addToCart(item.getArtNr(), item.getCartId(), item.getStockBalance());
+			HttpSession session = request.getSession();
+			int cartId = (Integer)session.getAttribute("cartId");
+
+			if(item != null && cartId != 0) {
+				boolean result = store.addToCart(item.getArtNr(), cartId, item.getStockBalance());
 				
 				response.setContentType("application/json;characterset=UTF-8");
 				PrintWriter out = response.getWriter();
@@ -56,16 +59,18 @@ public class AddToCartServlet extends HttpServlet {
 				out.flush();
 			}
 			else {
-				if(item == null)
-					response.getWriter().append("Warning: No parameters available!");
-				else
-					response.getWriter().append("Warning: Cart ID: " + item.getCartId() + " does not exist!");
+				request.getSession().setAttribute("cartId", 0);
+				response.getWriter().append("Warning: No parameters available!");		
 			}
 			
 		} catch (SQLException e) {
+			request.getSession().setAttribute("cartId", 0);
 			response.getWriter().append("Error: " + e.getMessage());
 		} catch (ClassNotFoundException e) {
 			response.getWriter().append("Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			request.getSession().setAttribute("cartId", 0);
+			response.getWriter().append("Null-Pointer Error: " + e.getMessage());
 		}
 	}
 
