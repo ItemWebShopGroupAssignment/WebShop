@@ -3,7 +3,9 @@
  */
 
 (function() {
-
+	
+	var cartId = 0;
+	
 	var app = angular.module("application", [ "ngRoute" ]);
 
 	var config = function($routeProvider) {
@@ -27,8 +29,18 @@
 		});
 	};
 
-	var homeController = function($scope) {
-
+	var homeController = function($scope, $http) {
+			
+		$http.get("GetCart").then(onIdFetchComplete, onError);
+		
+		var onIdFetchComplete = function(response) {
+			cartId = response.data;
+		}
+		
+		var onError = function(reason) {
+			alert(reason.status);
+		}
+		
 	};
 
 	var cartController = function($scope, $http) {
