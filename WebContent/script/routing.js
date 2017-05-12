@@ -3,7 +3,9 @@
  */
 
 (function() {
-
+	
+	var cartId = -1;
+	
 	var app = angular.module("application", [ "ngRoute" ]);
 
 	var config = function($routeProvider) {
@@ -28,7 +30,7 @@
 	};
 
 	var homeController = function($scope) {
-
+		
 	};
 
 	var cartController = function($scope, $http) {
@@ -84,6 +86,7 @@
 			
 			$http.post("CheckoutCart", JSON.stringify(parameter)).then(onCheckoutComplete, onCartError);
 		}
+		
 	};
 
 	var browseController = function($scope, $http) {
@@ -124,6 +127,10 @@
 		}
 		
 		$scope.addToCart = function(artNr, count, stockBalance) {
+			if(cartId == -1) {
+				$http.get("GetCart").then(onIdFetchComplete, onError);
+			}
+			
 			if (stockBalance <= 0) {
 				alert("Not in stock!");
 			}
@@ -138,6 +145,14 @@
 				
 				$http.post("AddToCart", jsonPackage).then(onAddToCartComplete, onError);
 			}
+		}
+		
+		var onIdFetchComplete = function(response) {
+			cartId = response.data;
+		}
+		
+		var onError = function(reason) {
+			alert(reason.status);
 		}
 
 	};
