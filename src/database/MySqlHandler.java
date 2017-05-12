@@ -494,5 +494,37 @@ public class MySqlHandler {
         }
         return result >= 1;
     }
+    
+    //Returns the new cart id, if the sql statments fails it will return 0.
+    public int getCart() throws SQLException, ClassNotFoundException {
+        String addSql = "INSERT INTO shopping_carts VALUES("+null+")";
+        String getCartSql = "SELECT MAX(cart_id) FROM shopping_carts";
+        ResultSet rs = null;
+        
+        int result = 0;
+        
+        try (
+                Connection con = getConnection();
+                PreparedStatement addStmt = con.prepareStatement(addSql);
+                PreparedStatement getCartStmt = con.prepareStatement(getCartSql);
+                ) {
+            
+            int temp = addStmt.executeUpdate();
+            boolean addResult = (temp >= 1);
+            rs = getCartStmt.executeQuery();
+            
+            while (rs.next()) {
+                if (addResult == true) {
+                    result = rs.getInt("cart_id");
+                }
+            }
+        } 
+        finally {
+            if (rs!=null)
+                rs.close();
+        }
+        
+        return result;
+    }
 
 }
