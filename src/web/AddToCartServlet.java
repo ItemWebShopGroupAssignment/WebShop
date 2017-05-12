@@ -64,17 +64,14 @@ public class AddToCartServlet extends HttpServlet {
 				out.flush();
 			}
 			else {
-				request.getSession().setAttribute("cartId", 0);
 				response.getWriter().append("Warning: No parameters available!");		
 			}
 			
 		} catch (SQLException e) {
-			request.getSession().setAttribute("cartId", 0);
 			response.getWriter().append("SQL Error: " + e.getMessage());
 		} catch (ClassNotFoundException e) {
 			response.getWriter().append("Error: " + e.getMessage());
 		} catch (NullPointerException e) {
-			request.getSession().setAttribute("cartId", 0);
 			response.getWriter().append("Null-Pointer Error: " + e.getMessage());
 		}
 	}
