@@ -21,7 +21,7 @@ public class Store {
 		return storeHandler.getItem(artNr);
 	}
 
-	public boolean addToCart(String artNr, int cartId, int count) throws SQLException, ClassNotFoundException {
+	public boolean addToCart(String artNr, long cartId, int count) throws SQLException, ClassNotFoundException {
 		return storeHandler.addToCart(cartId, artNr, count);
 	}
 
@@ -46,19 +46,19 @@ public class Store {
 		return storeHandler.showCategories();
 	}
 
-	public boolean returnFromCart(String artNr, int cartId, int count) throws SQLException, ClassNotFoundException {
+	public boolean returnFromCart(String artNr, long cartId, int count) throws SQLException, ClassNotFoundException {
 		return storeHandler.returnFromCart(cartId, artNr, count);
 	}
 
-	public List<String> checkOutCart(int cartId) throws SQLException, ClassNotFoundException {
+	public List<String> checkOutCart(long cartId) throws SQLException, ClassNotFoundException {
 		return storeHandler.checkOutCart(cartId);
 	}
 
-	public boolean deleteFromInventory(String artNr, int cartId) throws SQLException, ClassNotFoundException {
+	public boolean deleteFromInventory(String artNr, long cartId) throws SQLException, ClassNotFoundException {
 		return storeHandler.deleteFromInventory(artNr);
 	}
 
-	public boolean dumpCart(int cartId) throws SQLException, ClassNotFoundException {
+	public boolean dumpCart(long cartId) throws SQLException, ClassNotFoundException {
 
 		return storeHandler.dumpCart(cartId);
 
@@ -69,13 +69,12 @@ public class Store {
 
 	}
 	
-	public List<Item> getCartItems(int cartId) throws SQLException, ClassNotFoundException {
+	public List<Item> getCartItems(long cartId) throws SQLException, ClassNotFoundException {
 		return storeHandler.getCartItems(cartId);
 	}
 	
-	public int getCart() {
-		//return storeHandler.getCart();
-		return -1;
+	public long getCart() throws ClassNotFoundException, SQLException {
+		return storeHandler.getCart();
 	}
 
 	public Store() {
