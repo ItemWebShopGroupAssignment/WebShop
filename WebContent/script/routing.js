@@ -135,7 +135,7 @@
 		}
 		
 		$scope.addToCart = function(artNr, count, stockBalance) {
-			alert(cartid);
+			alert(cartId);
 			
 			if (stockBalance <= 0) {
 				alert("Not in stock!");

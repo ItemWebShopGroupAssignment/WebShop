@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import store.Store;
 
@@ -32,9 +33,13 @@ public class GetCartServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Store store = new Store();
 		
+		HttpSession session = request.getSession();
+		Long cartId = (Long)session.getAttribute("cartId");
+		
 		try {
-			long cartId = store.getCart();
-			
+			if(cartId == null)
+				cartId = store.getCart();
+			System.out.println(cartId);
 			response.getWriter().append(Long.toString(cartId));
 			
 		} catch (ClassNotFoundException | SQLException e) {
