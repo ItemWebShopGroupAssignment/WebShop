@@ -72,6 +72,11 @@ public class Store {
 	public List<Item> getCartItems(int cartId) throws SQLException, ClassNotFoundException {
 		return storeHandler.getCartItems(cartId);
 	}
+	
+	public int getCart() {
+		//return storeHandler.getCart();
+		return -1;
+	}
 
 	public Store() {
 		storeHandler = new MySqlHandler();
