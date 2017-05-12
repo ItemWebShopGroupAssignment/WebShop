@@ -56,7 +56,10 @@ public class AddToCartServlet extends HttpServlet {
 				out.flush();
 			}
 			else {
-				response.getWriter().append("Warning: No parameters available!");
+				if(item == null)
+					response.getWriter().append("Warning: No parameters available!");
+				else
+					response.getWriter().append("Warning: Cart ID: " + item.getCartId() + " does not exist!");
 			}
 			
 		} catch (SQLException e) {
