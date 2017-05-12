@@ -56,7 +56,12 @@ public class RemoveFromCartServlet extends HttpServlet {
 				
 				response.setContentType("application/json;characterset=UTF-8");
 				PrintWriter out = response.getWriter();
-				out.print(result);
+				
+				if(result)
+					out.print("Successfully threw away the product.");
+				else
+					out.print("Something went wrong, you're stuck with this product!");
+					
 				out.flush();
 			}
 			else {

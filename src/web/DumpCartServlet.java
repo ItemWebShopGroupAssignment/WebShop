@@ -3,7 +3,6 @@ package web;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,9 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
-
-import store.Item;
 import store.Store;
 
 /**
@@ -52,7 +48,12 @@ public class DumpCartServlet extends HttpServlet {
             
             response.setContentType("application/json;characterset=UTF-8");
             PrintWriter out = response.getWriter();
-            out.print(result);
+            
+            if(result)
+            	out.print("Successfully dumped the trash.");
+            else
+            	out.print("What cart?!");
+            
             out.flush();
             
         } catch (SQLException e) {
