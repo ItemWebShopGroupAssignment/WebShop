@@ -64,15 +64,15 @@ public class AddToCartServlet extends HttpServlet {
 				out.flush();
 			}
 			else {
-				response.getWriter().append("Warning: No parameters available!");		
+				response.getWriter().append("AddToCart: Warning: No parameters available!");		
 			}
 			
 		} catch (SQLException e) {
-			response.getWriter().append("SQL Error: " + e.getMessage());
+			response.getWriter().append("AddToCart: SQL Error: " + e.getMessage());
 		} catch (ClassNotFoundException e) {
-			response.getWriter().append("Error: " + e.getMessage());
+			response.getWriter().append("AddToCart: Error: " + e.getMessage());
 		} catch (NullPointerException e) {
-			response.getWriter().append("Null-Pointer Error: " + e.getMessage());
+			response.getWriter().append("AddToCart: Null-Pointer Error: " + e.getMessage());
 		}
 	}
 
