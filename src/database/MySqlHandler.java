@@ -156,7 +156,6 @@ public class MySqlHandler {
                 rs.close();
             
         }
-        System.out.println("Im here5");
         return result;
     }
     
@@ -526,7 +525,6 @@ public class MySqlHandler {
             while (rs.next()) {
                 if (addResult == true) {
                     result = rs.getInt("new_cart_id");
-                    System.out.println(result);
                 }
             }
         } 
