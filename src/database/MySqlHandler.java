@@ -109,7 +109,7 @@ public class MySqlHandler {
     }
 
     //Adds a item to the shopping cart and returns true if it was added successfully
-    public boolean addToCart(int cartId, String artNr, int count) throws SQLException, ClassNotFoundException {
+    public boolean addToCart(long cartId, String artNr, int count) throws SQLException, ClassNotFoundException {
         
         boolean result = false;
         
@@ -151,7 +151,7 @@ public class MySqlHandler {
     }
     
     
-    private boolean insertIntoCart(int cartId, String artNr, int count, Connection con) throws ClassNotFoundException, SQLException {
+    private boolean insertIntoCart(long cartId, String artNr, int count, Connection con) throws ClassNotFoundException, SQLException {
         boolean result = false;
         Item item = getItem(artNr);
         String addSql = "CALL insert_into_cart ('"+artNr+"','"+item.getItemName()+"',"+item.getPrice()
@@ -169,7 +169,7 @@ public class MySqlHandler {
     }
     
     
-    private boolean updateCartItem(int cartId, String artNr, int count, Connection con) throws ClassNotFoundException, SQLException {
+    private boolean updateCartItem(long cartId, String artNr, int count, Connection con) throws ClassNotFoundException, SQLException {
         boolean result = false;
         String updateSql = "UPDATE cart_items SET stock_balance = (stock_balance + "+count+")"
                 + " WHERE art_number = '"+artNr+"' AND cart_id = " + cartId;
@@ -203,7 +203,7 @@ public class MySqlHandler {
 
     //Returns one item from the cart_items table and returns it to the items table. 
     //Returns true if it was returned successfully
-    public boolean returnFromCart(int cartId, String artNr, int count) throws SQLException, ClassNotFoundException {
+    public boolean returnFromCart(long cartId, String artNr, int count) throws SQLException, ClassNotFoundException {
         String getItemSql = "CALL get_cart_item (" + cartId + ",'" + artNr + "')";
         String subtractSql = "UPDATE cart_items SET stock_balance = (stock_balance - ?) WHERE art_number = ?";
         String addSql = "UPDATE items SET stock_balance = (stock_balance + ?) WHERE art_number = ?";
@@ -225,7 +225,7 @@ public class MySqlHandler {
             addStmt.setString(2, artNr);
             
             deleteStmt.setString(1, artNr);
-            deleteStmt.setInt(2, cartId);
+            deleteStmt.setLong(2, cartId);
 
             if (rs.next()) {
                 int subtractResult = subtractStmt.executeUpdate();
@@ -345,7 +345,7 @@ public class MySqlHandler {
     }
 
     //Deletes the cart and returns a list of the orders made
-    public List<String> checkOutCart(int cartId) throws SQLException, ClassNotFoundException {
+    public List<String> checkOutCart(long cartId) throws SQLException, ClassNotFoundException {
         List<String> order = new ArrayList<>();
 
         String sql = "CALL remove_shopping_cart(" + cartId + ");";
@@ -375,7 +375,7 @@ public class MySqlHandler {
     }
 
     //Returns all items from the cart to the items table
-    public boolean dumpCart(int cartId) throws SQLException, ClassNotFoundException {
+    public boolean dumpCart(long cartId) throws SQLException, ClassNotFoundException {
         String fromCartSql = "SELECT * FROM cart_items WHERE cart_id = " + cartId;
         String toItemsSql = "UPDATE items SET stock_balance = (stock_balance + ?) WHERE art_number = ?";
         String deleteCartSql = "CALL 'remove_shopping_cart'(?)";
@@ -388,7 +388,7 @@ public class MySqlHandler {
                 CallableStatement deleteCartStmt = cn.prepareCall(deleteCartSql);
                 ResultSet rs = fromCartStmt.executeQuery();) {
 
-            deleteCartStmt.setInt(1, cartId);
+            deleteCartStmt.setLong(1, cartId);
 
             while (rs.next()) {
                 String artNr = rs.getString("art_number");
@@ -426,7 +426,7 @@ public class MySqlHandler {
         return result >= 1;
     }
 
-    public Item getCartItem(int cartId, String artNr) throws ClassNotFoundException, SQLException {
+    public Item getCartItem(long cartId, String artNr) throws ClassNotFoundException, SQLException {
         Item item = null;
 
         String sql = "CALL get_cart_item (" + cartId + ",'" + artNr + "')";
@@ -452,7 +452,7 @@ public class MySqlHandler {
     }
 
     //Returns a list of items from the cart_items table
-    public List<Item> getCartItems(int cartId) throws SQLException, ClassNotFoundException {
+    public List<Item> getCartItems(long cartId) throws SQLException, ClassNotFoundException {
         List<Item> cartItems = new ArrayList<>();
 
         String sql = "CALL get_cart_items(" + cartId + ")";
@@ -496,7 +496,7 @@ public class MySqlHandler {
     }
     
     //Returns the new cart id, if the sql statments fails it will return 0.
-    public int getCart() throws SQLException, ClassNotFoundException {
+    public long getCart() throws SQLException, ClassNotFoundException {
         String addSql = "INSERT INTO shopping_carts VALUES("+null+")";
         String getCartSql = "SELECT MAX(cart_id) FROM shopping_carts";
         ResultSet rs = null;
