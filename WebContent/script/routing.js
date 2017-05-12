@@ -19,7 +19,7 @@
 		}).when("/admin", {
 			templateUrl : "admin.html",
 			controller : "adminController"
-		}).when ("/cartiteminfo", {
+		}).when ("/cartiteminfo/:artNr", {
 			templateUrl : "cartiteminfo.html",
 			controller : "cartiteminfoController"
 		}).otherwise({
@@ -176,7 +176,7 @@
 
 	};
 	
-	var cartiteminfoController = function($scope, $http){
+	var cartiteminfoController = function($scope, $http, $routeParams){
 		$scope.title = "CartItemInfo";
 	};
 
@@ -186,6 +186,6 @@
 	app.controller("cartController", [ "$scope", "$http", cartController ]);
 	app.controller("browseController", [ "$scope", "$http", browseController ]);
 	app.controller("adminController", [ "$scope", "$http", adminController ]);
-	app.controller("cartiteminfoController", ["$scope", "$http", cartiteminfoController]);
+	app.controller("cartiteminfoController", ["$scope", "$http","$routeParams", cartiteminfoController]);
 
 }())
