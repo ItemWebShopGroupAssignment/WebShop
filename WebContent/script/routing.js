@@ -63,7 +63,7 @@
 			var parameters = {
 					'artNr' : artNr,
 					'stockBalance' : count,
-					'cartId' : 1
+					'cartId' : cartId
 			};
 			
 			var jsonParameters = JSON.stringify(parameters);
@@ -81,7 +81,7 @@
 		
 		$scope.checkoutCart = function() {
 			var parameter = {
-					'cartId' : 1
+					'cartId' : cartId
 			}
 			
 			$http.post("CheckoutCart", JSON.stringify(parameter)).then(onCheckoutComplete, onCartError);
@@ -131,6 +131,8 @@
 				$http.get("GetCart").then(onIdFetchComplete, onError);
 			}
 			
+			alert(cartid);
+			
 			if (stockBalance <= 0) {
 				alert("Not in stock!");
 			}
@@ -138,7 +140,7 @@
 				var parameters = {
 						'artNr' : artNr,
 						'stockBalance' : count,
-						'cartId' : 1
+						'cartId' : cartId
 				};
 				
 				var jsonPackage = JSON.stringify(parameters);
@@ -148,7 +150,8 @@
 		}
 		
 		var onIdFetchComplete = function(response) {
-			cartId = response.data;
+			cartId = parseInt(response.data, 10);
+			alert(cartId + " " + response.data);
 		}
 		
 		var onError = function(reason) {
