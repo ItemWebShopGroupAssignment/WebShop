@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -38,7 +39,13 @@ public class GetCartItemsServlet extends HttpServlet {
 		Store store = new Store();
 		
 		try {
-			int cartId = Integer.parseInt(request.getParameter("cartId"));
+			HttpSession session = request.getSession();
+    		int cartId = (Integer)session.getAttribute("cartId");
+        		
+            if(cartId == 0) {
+            	cartId = (int)store.getCart();
+				session.setAttribute("cartId", cartId);
+            }
 			
 			List<Item> inventory = store.getCartItems(cartId);
 			

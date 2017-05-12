@@ -508,7 +508,7 @@ public class MySqlHandler {
     //Returns the new cart id, if the sql statments fails it will return 0.
     public long getCart() throws SQLException, ClassNotFoundException {
         String addSql = "INSERT INTO shopping_carts VALUES("+null+")";
-        String getCartSql = "SELECT MAX(cart_id) FROM shopping_carts";
+        String getCartSql = "SELECT MAX(cart_id) AS new_cart_id FROM shopping_carts";
         ResultSet rs = null;
         
         int result = 0;
@@ -525,7 +525,7 @@ public class MySqlHandler {
             
             while (rs.next()) {
                 if (addResult == true) {
-                    result = rs.getInt("cart_id");
+                    result = rs.getInt("new_cart_id");
                     System.out.println(result);
                 }
             }

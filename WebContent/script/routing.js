@@ -4,8 +4,6 @@
 
 (function() {
 	
-	var cartId = 0;
-	
 	var app = angular.module("application", [ "ngRoute" ]);
 
 	var config = function($routeProvider) {
@@ -29,17 +27,8 @@
 		});
 	};
 
-	var homeController = function($scope, $http) {
+	var homeController = function($scope) {
 		
-		$http.get("GetCart").then(onIdFetchComplete, onError);
-		
-		var onIdFetchComplete = function(response) {
-			cartId = response.data;
-		}
-		
-		var onError = function(reason) {
-			alert(reason.status);
-		}
 	};
 
 	var cartController = function($scope, $http) {
@@ -61,18 +50,17 @@
 			$scope.error = reason.status;
 		}
 
-		$http.get("GetCartItems?cartId=1").then(onGetCartComplete, onCartError);
+		$http.get("GetCartItems").then(onGetCartComplete, onCartError);
 
 		var onRemoveComplete = function(response) {
 			alert(response.data);
-			$http.get("GetCartItems?cartId=1").then(onGetCartComplete, onCartError); 
+			$http.get("GetCartItems?").then(onGetCartComplete, onCartError); 
 		}
 		
 		$scope.removeFromCart = function(artNr, count){
 			var parameters = {
 					'artNr' : artNr,
-					'stockBalance' : count,
-					'cartId' : cartId
+					'stockBalance' : count
 			};
 			
 			var jsonParameters = JSON.stringify(parameters);
@@ -89,11 +77,8 @@
 		}
 		
 		$scope.checkoutCart = function() {
-			var parameter = {
-					'cartId' : cartId
-			}
 			
-			$http.post("CheckoutCart", JSON.stringify(parameter)).then(onCheckoutComplete, onCartError);
+			$http.post("CheckoutCart").then(onCheckoutComplete, onCartError);
 		}
 	};
 
@@ -134,17 +119,14 @@
 
 		}
 		
-		$scope.addToCart = function(artNr, count, stockBalance) {
-			alert(cartid);
-			
+		$scope.addToCart = function(artNr, count, stockBalance) {			
 			if (stockBalance <= 0) {
 				alert("Not in stock!");
 			}
 			else {
 				var parameters = {
 						'artNr' : artNr,
-						'stockBalance' : count,
-						'cartId' : cartId
+						'stockBalance' : count
 				};
 				
 				var jsonPackage = JSON.stringify(parameters);

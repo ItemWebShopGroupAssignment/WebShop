@@ -43,9 +43,14 @@ public class AddToCartServlet extends HttpServlet {
 			String data = request.getReader().lines().collect(Collectors.joining());
 			Item item = new Gson().fromJson(data, Item.class); // Retrieve the item from the data.
 			HttpSession session = request.getSession();
-			int cartId = (Integer)session.getAttribute("cartId");
+    		int cartId = (Integer)session.getAttribute("cartId");
+    		
+            if(cartId == 0) {
+            	cartId = (int)store.getCart();
+				session.setAttribute("cartId", cartId);
+            }
 
-			if(item != null && cartId != 0) {
+			if(item != null) {
 				boolean result = store.addToCart(item.getArtNr(), cartId, item.getStockBalance());
 				
 				response.setContentType("application/json;characterset=UTF-8");
@@ -65,7 +70,7 @@ public class AddToCartServlet extends HttpServlet {
 			
 		} catch (SQLException e) {
 			request.getSession().setAttribute("cartId", 0);
-			response.getWriter().append("Error: " + e.getMessage());
+			response.getWriter().append("SQL Error: " + e.getMessage());
 		} catch (ClassNotFoundException e) {
 			response.getWriter().append("Error: " + e.getMessage());
 		} catch (NullPointerException e) {

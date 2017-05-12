@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -40,27 +41,28 @@ public class CheckoutCartServlet extends HttpServlet {
         Store store = new Store();
         
         try {
-            // Get the added data.
-            String data = request.getReader().lines().collect(Collectors.joining());
-            Item item = new Gson().fromJson(data, Item.class); // Retrieve the item from the data.
+    		HttpSession session = request.getSession();
+    		long cartId = (Long)session.getAttribute("cartId");
+        		
+            if(cartId == 0) {
+            	cartId = store.getCart();
+				session.setAttribute("cartId", cartId);
+            }
             
-            if(item != null && item.getCartId() >= 0) {
-                List<String> result = store.checkOutCart(item.getCartId());
-                
-                response.setContentType("application/json;characterset=UTF-8");
-                PrintWriter out = response.getWriter();
-                
-                if(result.size() > 0)
-                    out.print("Successfully checked out the cart.");
-                else
-                    out.print("Failed to check out the cart.");
-                
-                out.flush();
+            List<String> result = store.checkOutCart(cartId);
+            
+            response.setContentType("application/json;characterset=UTF-8");
+            PrintWriter out = response.getWriter();
+            
+            if(result.size() > 0) {
+            	session.setAttribute("cartId", 0);
+                out.print("Successfully checked out the cart.");
             }
-            else {
-            	request.getSession().setAttribute("cartId", 0);
-                response.getWriter().append("Warning: No parameters available!");
-            }
+            else
+                out.print("Failed to check out the cart.");
+            
+            out.flush();
+           
             
         } catch (SQLException e) {
             response.getWriter().append("SQL Error: " + e.getMessage());
