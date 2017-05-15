@@ -42,7 +42,7 @@ public class Store {
                 storageFormat);
 	}
 
-	public List<String> showCategories() throws SQLException, ClassNotFoundException {
+	public List<Category> showCategories() throws SQLException, ClassNotFoundException {
 		return storeHandler.showCategories();
 	}
 

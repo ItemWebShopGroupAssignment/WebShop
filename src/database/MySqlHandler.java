@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import store.Category;
 import store.Item;
 
 /**
@@ -331,10 +332,42 @@ public class MySqlHandler {
         }
         return result >= 1;
     }
+    
+    public boolean editItem(String category, String itemName, String artNr, float price,
+            String description, InputStream image, int stockBalance, String storageFormat) throws ClassNotFoundException, SQLException {
+        String sql = "UPDATE items ("
+                + "art_number,"
+                + " item_name,"
+                + " price,"
+                + " description,"
+                + " image,"
+                + " stock_balance,"
+                + " storage_formats,"
+                + " category)"
+                + "VALUES (?,?,?,?,?,?,?,?)";
+        int result;
+
+        try (
+                Connection cn = getConnection();
+                PreparedStatement stmt = cn.prepareStatement(sql);) {
+
+            stmt.setString(1, artNr);
+            stmt.setString(2, itemName);
+            stmt.setFloat(3, price);
+            stmt.setString(4, description);
+            stmt.setBlob(5, image);
+            stmt.setInt(6, stockBalance);
+            stmt.setString(7, storageFormat);
+            stmt.setString(8, category);
+
+            result = stmt.executeUpdate();
+        }
+        return result >= 1;
+    }
 
     //Returns a list of categories from the database
-    public List<String> showCategories() throws SQLException, ClassNotFoundException {
-        List<String> result = new ArrayList<>();
+    public List<Category> showCategories() throws SQLException, ClassNotFoundException {
+        List<Category> result = new ArrayList<>();
 
         String sql = "SELECT * FROM categories";
 
@@ -344,9 +377,9 @@ public class MySqlHandler {
                 ResultSet rs = stmt.executeQuery();) {
 
             while (rs.next()) {
-                String category = rs.getString("category_name");
-                category += " | " + rs.getString("contents");
-
+                Category category = new Category(
+                        rs.getString("category_name"),
+                        rs.getString("contents"));
                 result.add(category);
             }
         }

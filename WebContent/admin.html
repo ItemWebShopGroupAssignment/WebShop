@@ -3,7 +3,7 @@
 	<div>
 		<h3>Our games</h3>
 
-		<input type="search" placeholder="search items" ng-model="search" />
+		<input type="search" placeholder="search items" data-ng-model="search" />
 
 		<table>
 			<tr>
@@ -12,36 +12,49 @@
 				<td>Price</td>
 				<td>Balance</td>
 			</tr>
-			<tr ng-repeat="game in items | filter:search" class="table_row">
-				<td ng-click="viewDescription($index)"><a"#!/item/{{game.artNr}}">
-						{{game.artNr}}</a></td>
-				<td ng-click="viewDescription($index)"><a"#!/item/{{game.itemName}}">
-						{{game.itemName}}</a></td>
-				<td ng-click="viewDescription($index)"><a"#!/item/{{game.price}}">
-						{{game.price}}</a></td>
-				<td ng-click="viewDescription($index)"><a"#!/item/{{game.stockBalance}}">
-						{{game.stockBalance}}</a></td>
-				</td>
+			<tr data-ng-repeat="game in items | filter:search" class="table_row">
+				<td data-ng-click="viewDescription($index)">
+						{{game.artNr}}</td>
+				<td data-ng-click="viewDescription($index)">
+						{{game.itemName}}</td>
+				<td data-ng-click="viewDescription($index)">
+						{{game.price}}</td>
+				<td data-ng-click="viewDescription($index)">
+						{{game.stockBalance}}</td>
 				<td>
 				<input type="number" data-ng-model="count" />
 				</td>
   				<td><input type="button"
-					ng-click="addToInventory(game.artNr, count)" value="AddToInventory" /></td>
+					data-ng-click="addToInventory(game.artNr, count)" value="AddToInventory" /></td>
 				<td><input type="button"
-					ng-click="deleteFromInventory(game.artNr, count)" value="Delete" /></td>
+					data-ng-click="deleteFromInventory(game.artNr, count)" value="Delete" /></td>
 			</tr>
 		</table>
 	</div>
 	<div>
-		<input type="button" ng-click="editInventory(game.artNr, count)" value="Edit" />
-		<p>{{selectedItem.artNr}}
-		<h1 type="text">{{selectedItem.itemName}}</h1>
-		<br> <img src="GetImage?artNr={{selectedItem.artNr}}"
-			height=200px width=160px /> <br> {{selectedItem.description}} <br>
-		<br>
-		<h1>{{selectedItem.price + " SEK"}}</h1>
-		<br>
-		<br>
-		</p>
+		<form action="AddToInventory" method="POST" enctype="multipart/form-data">
+			<br>
+			<input type="text" name="artNr" value="{{selectedItem.artNr}}" />
+			<br>
+			<input type="text" name="itemName" value="{{selectedItem.itemName}}" />
+			<br> 
+			<input type="file" name="image" /> 
+			<br> 
+			<textarea name="description" cols="40" rows="5">{{selectedItem.description}}</textarea> 
+			<br>
+			<br>
+			<input type="number" name="price" value="{{selectedItem.price}}" /> SEK
+			<br>
+			<input type="text" name="storageFormat" value="{{selectedItem.storageFormat}}" />
+			<br>
+			<select name="category" >
+				<option selected>{{selectedItem.category}}</option>
+  				<option data-ng-repeat="c in categories" data-ng-show="selectedItem.category != c.categoryName">
+  				{{c.categoryName}}</option>
+			</select>
+			<br>
+			<input type="submit" value="Edit item" />
+		</form>
+		<input type="button" value="Delete item" />
 	</div>
 </div>
