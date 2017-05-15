@@ -60,8 +60,11 @@ public class AddToCartServlet extends HttpServlet {
 				
 				if(result)
 					out.print("Successfully added a new product.");
-				else
+				else {
+					session.setAttribute("cartId", 0);
+					
 					out.print("Failed to add a new product.");
+				}
 				
 				out.flush();
 			}
