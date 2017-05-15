@@ -52,6 +52,11 @@ CREATE TABLE IF NOT EXISTS `cart_items` (
 
 CREATE TABLE IF NOT EXISTS `orders` (
 	order_id INT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+    shipping_fee FLOAT UNSIGNED NOT NULL,
+    cost FLOAT UNSIGNED NOT NULL,
+    sent BOOLEAN NOT NULL,
+    adress TEXT NOT NULL,
+    reciever TEXT NOT NULL,
 	PRIMARY KEY (order_id)
 ) ENGINE=INNODB;
 
@@ -62,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `ordered_items` (
   stock_balance INT(10) UNSIGNED NOT NULL,
   storage_format VARCHAR(50) NOT NULL,
   order_id INT(5) UNSIGNED NOT NULL,
-  PRIMARY KEY(art_number),
+  PRIMARY KEY(art_number, order_id),
     CONSTRAINT fk_order
     FOREIGN KEY (order_id) REFERENCES orders(order_id)
 		ON DELETE CASCADE
