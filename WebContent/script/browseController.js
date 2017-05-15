@@ -35,9 +35,14 @@
 
 		$scope.hideDescription = true;
 		
-		$scope.viewDescription = function(index) {
-			$scope.selectedItem = $scope.items[index];
-			$scope.hideDescription = false;
+		$scope.viewDescription = function(id) {
+			for(var i = 0; i < $scope.items.length; i++) {
+				if(id === $scope.items[i].artNr) {
+					$scope.selectedItem = $scope.items[i];
+					$scope.hideDescription = false;
+					break;
+				}
+			}
 		}
 		
 		$scope.addToCart = function(artNr, count, stockBalance) {			
