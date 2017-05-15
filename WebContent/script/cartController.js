@@ -30,6 +30,7 @@
 			}
 			else {
 				$scope.showTableHeaders = false;
+				$scope.info = "Your shopping cart is empty.";
 			}
 		
 			for(var i = 0; i < $scope.items.length; i++) {

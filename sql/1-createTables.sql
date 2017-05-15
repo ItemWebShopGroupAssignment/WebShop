@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `ordered_items` (
   stock_balance INT(10) UNSIGNED NOT NULL,
   storage_format VARCHAR(50) NOT NULL,
   order_id INT(5) UNSIGNED NOT NULL,
-  PRIMARY KEY(art_number),
+  PRIMARY KEY(art_number, order_id),
     CONSTRAINT fk_order
     FOREIGN KEY (order_id) REFERENCES orders(order_id)
 		ON DELETE CASCADE
