@@ -8,16 +8,22 @@
 	var app = angular.module("application");
 	
 	var browseController = function($scope, $http, $timeout) {
+		
+		/* Called when the get items request receives a correct response. */
+		var onItemsComplete = function(response) {
+			$scope.items = response.data;
+		}
+		
+		/* Called when a HTTP error occurs. */
+		var onError = function(reason) {
+			alert("Could not fetch data " + reason.status);
+		}
+		
 		/* Get the item list. */
 		$http.get("GetItems").then(onItemsComplete, onError);
 		
 		$scope.title = "";
 		$scope.hideDescription = true;
-
-		/* Called when the get items request receives a correct response. */
-		var onItemsComplete = function(response) {
-			$scope.items = response.data;
-		}
 
 		/* Called the call to AddToCart returns a correct response. */
 		var onAddToCartComplete = function(response) {
@@ -29,11 +35,6 @@
 			 
 			$http.get("GetItems").then(onItemsComplete, onError);
 
-		}
-
-		/* Called when a HTTP error occurs. */
-		var onError = function(reason) {
-			alert("Could not fetch data " + reason.status);
 		}
 		
 		/* Called when an item in the list is clicked. */

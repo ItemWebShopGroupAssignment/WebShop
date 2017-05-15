@@ -123,6 +123,23 @@ header h1 {
 button, input[type="button"] {
 	padding: 3px;
 	border-radius: 7px;
+	background : hsl(196, 40%, 60%);
+	color: white;
+	border-top: 2px solid hsl(196, 40%, 95%);
+	border-left: 2px solid hsl(196, 40%, 95%);
+	border-bottom: 2px solid hsl(196, 40%, 35%);
+	border-right: 2px solid hsl(196, 40%, 35%);
+}
+
+button:active, input[type="button"]:active {
+	border-top: 2px solid hsl(196, 40%, 35%);
+	border-left: 2px solid hsl(196, 40%, 35%);
+	border-bottom: 2px solid hsl(196, 40%, 95%);
+	border-right: 2px solid hsl(196, 40%, 95%);
+}
+
+button:hover, input[type="button"]:hover {
+	color: yellow;
 }
 
 #itemListDiv {

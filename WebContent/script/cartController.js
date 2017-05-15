@@ -14,9 +14,6 @@
 		$scope.showTableHeaders = false;
 		$scope.totalCost = 0;
 		
-		// Call the back-end and ask for the item list for the cart.
-		$http.get("GetCartItems").then(onGetCartComplete, onCartError);
-		
 		/* Called when a list of items is returned. */
 		var onGetCartComplete = function(response) {
 
@@ -31,6 +28,9 @@
 				// Add the shipping fee.
 				$scope.totalCost += 29;
 			}
+			else {
+				$scope.showTableHeaders = false;
+			}
 		
 			for(var i = 0; i < $scope.items.length; i++) {
 				// Calculate combined costs for each item.
@@ -43,6 +43,9 @@
 		var onCartError = function(reason) {
 			alert(reason.status);
 		}
+		
+		// Call the back-end and ask for the item list for the cart.
+		$http.get("GetCartItems").then(onGetCartComplete, onCartError);
 
 		/* Called when a remove from cart call responds correctly. */
 		var onRemoveComplete = function(response) {
