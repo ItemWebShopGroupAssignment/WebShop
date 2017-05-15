@@ -17,19 +17,20 @@
 
 			$scope.items = response.data;
 			
+			$scope.totalCost = 0;
+			
 			if($scope.items.length > 0) {
 				$scope.info = "This is the contents of your shopping cart.";
 				$scope.showTableHeaders = true;
+				
+				// Add the shipping fee.
+				$scope.totalCost += 29;
 			}
-			
-			$scope.totalCost = 0;
+		
 			for(var i = 0; i < $scope.items.length; i++) {
 				// Calculate combined costs for each item.
 				$scope.totalCost += ($scope.items[i].price * $scope.items[i].stockBalance);
 			}
-			
-			// Add the shipping fee.
-			$scope.totalCost += 29;
 
 		}
 		

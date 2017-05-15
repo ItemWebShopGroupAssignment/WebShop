@@ -21,7 +21,7 @@
 						{{game.price}}</td>
 				<td data-ng-click="viewDescription(game.artNr)">
 				
-				<div data-ng-show="game.stockBalance === 0" id="out_of_stock">Sold Out</div>
+				<div data-ng-show="game.stockBalance <= 0" id="out_of_stock">Sold Out</div>
 				<div data-ng-show="game.stockBalance > 10" id="in_stock">10+</div>
 				<div data-ng-show="!(game.stockBalance === 0 || game.stockBalance > 10)">{{game.stockBalance}}</div>				
 				

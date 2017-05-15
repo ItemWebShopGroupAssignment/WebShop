@@ -94,25 +94,35 @@ h1, h2, h3 {
 	font-weight: bold;
 }
 
+.total {
+	border-top: 2px solid hsl(196, 100%, 25%);
+	border-bottom: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	
+}
+
 header h1 {
 	color: hsl(196, 100%, 100%);
 }
 
 .cost {
 	margin-bottom: 20px;
-}
-
-#cart_buttons {
-	flex: 1;
+	margin-top: 20px;
 }
 
 .cart_button {
-	width: 200px;
+	margin: 10px;
 }
 
 .lefty {
 	text-align: left;
 	justify-content: left;
+}
+
+button, input[type="button"] {
+	padding: 3px;
+	border-radius: 7px;
 }
 
 #itemListDiv {
@@ -125,4 +135,8 @@ li {
 
 .price {
 	color : red;
+}
+
+table {
+	border-collapse: collapse;
 }
