@@ -7,7 +7,7 @@
 	var app = angular.module("application");
 	
 	var browseController = function($scope, $http) {
-		$scope.title = "Items";
+		$scope.title = "";
 
 		var items = [];
 		$scope.items = items;
@@ -28,7 +28,7 @@
 		}
 
 		 var onAddToCartComplete = function(response) {
-			 alert(response.data);
+			 $scope.title = response.data;
 		
 		 }
 
