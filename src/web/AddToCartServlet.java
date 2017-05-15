@@ -45,6 +45,7 @@ public class AddToCartServlet extends HttpServlet {
 			String data = request.getReader().lines().collect(Collectors.joining());
 			Item item = new Gson().fromJson(data, Item.class); // Retrieve the item from the data.
 			session = request.getSession();
+			session.setMaxInactiveInterval(2*60*60);
     		cartId = (Integer)session.getAttribute("cartId");
     		
             if(cartId == 0) {
