@@ -69,6 +69,12 @@ ng-view {
 	flex : 1;
 }
 
+th {
+	color: hsl(196, 100%, 25%);
+	font-weight: bold;
+	text-align: left;
+}
+
 td {
 	text-align: left;
 	padding-right: 15px;
