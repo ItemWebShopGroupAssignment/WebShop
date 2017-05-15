@@ -13,13 +13,13 @@
 				<th>In Stock</th>
 			</tr>
 			<tr data-ng-repeat="game in items | filter:search" class="table_row">
-				<td data-ng-click="viewDescription($index)">
+				<td data-ng-click="viewDescription(game.artNr)">
 						{{game.artNr}}</td>
-				<td data-ng-click="viewDescription($index)">
+				<td data-ng-click="viewDescription(game.artNr)">
 						{{game.itemName}}</td>
-				<td data-ng-click="viewDescription($index)">
+				<td data-ng-click="viewDescription(game.artNr)">
 						{{game.price}}</td>
-				<td data-ng-click="viewDescription($index)">
+				<td data-ng-click="viewDescription(game.artNr)">
 				
 				<div data-ng-show="game.stockBalance === 0">No</div>
 				<div data-ng-show="game.stockBalance > 3">Yes</div>
