@@ -58,13 +58,13 @@ public class AddToCartServlet extends HttpServlet {
 				response.setContentType("text;characterset=UTF-8");
 				PrintWriter out = response.getWriter();
 				
-				if(result)
-					out.print("Successfully added a new product.");
-				else {
-					session.setAttribute("cartId", 0);
-					
-					out.print("Failed to add a new product.");
+				if(!result) {
+					cartId = (int)store.getCart();
+					session.setAttribute("cartId", cartId);
+					store.addToCart(item.getArtNr(), cartId, item.getStockBalance());
 				}
+				
+				out.print("Successfully added a new product.");
 				
 				out.flush();
 			}
