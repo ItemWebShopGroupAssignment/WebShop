@@ -15,4 +15,4 @@ INSERT INTO `items` VALUES ('art:212-4527BE','Dishonored 2',599.00,'Reprise your
 ALTER TABLE `item_web_shop`.`cart_items` 
 ADD COLUMN `id` VARCHAR(50) NOT NULL AFTER `cart_id`,
 DROP PRIMARY KEY,
-ADD PRIMARY KEY (`art_number`, `id`);
+ADD PRIMARY KEY (`id`);
