@@ -7,7 +7,7 @@
 	var app = angular.module("application");
 		
 	var cartController = function($scope, $http) {
-
+		$scope.hideDescription = true;
 		$scope.amount = 1;
 		$scope.info = "Your shopping cart is empty.";
 		$scope.showTableHeaders = false;
@@ -24,8 +24,12 @@
 			
 			$scope.totalCost = 0;
 			for(var i = 0; i < $scope.items.length; i++) {
+				// Calculate combined costs for each item.
 				$scope.totalCost += ($scope.items[i].price * $scope.items[i].stockBalance);
 			}
+			
+			// Add the shipping fee.
+			$scope.totalCost += 29;
 
 		}
 		
@@ -36,7 +40,10 @@
 		$http.get("GetCartItems").then(onGetCartComplete, onCartError);
 
 		var onRemoveComplete = function(response) {
-			$http.get("GetCartItems?").then(onGetCartComplete, onCartError); 
+			$http.get("GetCartItems?").then(onGetCartComplete, onCartError);
+			
+			$scope.hideDescription = true;
+			$scope.selectedItem = null;
 		}
 		
 		$scope.removeFromCart = function(artNr, count){
@@ -60,6 +67,9 @@
 			$scope.info = "Your shopping cart is empty.";
 			$scope.showTableHeaders = false;
 			$scope.totalCost = 0;
+			
+			$scope.hideDescription = true;
+			$scope.selectedItem = null;
 		}
 		
 		var onCheckoutComplete = function(response) {
@@ -68,11 +78,19 @@
 			$scope.info = "Your shopping cart is empty.";
 			$scope.showTableHeaders = false;
 			$scope.totalCost = 0;
+			
+			$scope.hideDescription = true;
+			$scope.selectedItem = null;
 		}
 		
 		$scope.checkoutCart = function() {
 			
 			$http.post("CheckoutCart").then(onCheckoutComplete, onCartError);
+		}
+		
+		$scope.showInfo = function(index) {
+			$scope.hideDescription = false;
+			$scope.selectedItem = $scope.items[index];
 		}
 	};
 	

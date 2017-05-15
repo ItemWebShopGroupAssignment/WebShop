@@ -2,39 +2,71 @@
 <p>{{info}}</p>
 <br>
 
-
-<table>
-	<tr data-ng-show="showTableHeaders">
-		<th><b>Article number</b></th>
-		<th><b>Title</b></th>
-		<th><b>Amount</b></th>
-		<th><b>Price</b></th>
-	</tr>
-	<!--  data-ng-click="" -->
-	<tr data-ng-repeat="item in items| filter:search" class="table_row">
+<div class="flex_row">
+	<div id="itemListDiv">
+		<table>
+			<tr data-ng-show="showTableHeaders">
+				<th>Art Number</th>
+				<th>Title</th>
+				<th>Amount</th>
+				<th>Price</th>
+			</tr>
 	
+			<tr data-ng-repeat="item in items| filter:search" class="table_row">
+		
+				<td data-ng-click="showInfo($index)">{{item.artNr}}</td>
+				<td data-ng-click="showInfo($index)">{{item.itemName}}</td>
+				<td>{{item.stockBalance}}</td>
+				<td>{{item.price}} SEK</td>
+				<td data-ng-click="gotoCartItemInfo(item.artNr, item,description)"></td>
+		
+				<td>
+					<button data-ng-click="removeFromCart(item.artNr, amount)">Remove from Cart</button>
+				</td>
+				<td>
+					<input type="number" name="amount" data-ng-model="amount" value="1" min="0" max="{{item.stockBalance}}"/>
+				</td>
+			</tr>
+			<tr data-ng-show="showTableHeaders">
+				<td></td>
+				<td>Shipping Fee</td>
+				<td></td>
+				<td>29 SEK</td>
+			</tr>
+		</table>
+	</div>
+	<div data-ng-hide="hideDescription">
+		<p>
+		
+		{{selectedItem.artNr}}
+	
+		<h1>
+			{{selectedItem.itemName}}
+		</h1>
+		<br>
+		<img src="GetImage?artNr={{selectedItem.artNr}}" height=200px
+				width=160px />
+		<br>
+		{{selectedItem.description}}
+		<br>
+		<br>
+		<h1>
+			{{selectedItem.price + " SEK"}}
+		</h1>
+	</div>
+</div>
 
-		<td>{{item.artNr}}</td>
-		<!--  <td><a href="#!/cartiteminfo">{{item.itemName}}</a></td>  -->
-		<td><a data-ng-href="#!/cart/{{item.artNr}}"> {{item.itemName}} </a></td>
-		<td>{{item.stockBalance}}</td>
-		<td>{{item.price}} SEK</td>
-		<td data-ng-click="gotoCartItemInfo(item.artNr, item,description)"></td>
-
-		<td>
-			<button data-ng-click="removeFromCart(item.artNr, amount)">Remove from Cart</button>
-		</td>
-		<td>
-			<input type="number" name="amount" data-ng-model="amount" value="1" min="0" max="{{item.stockBalance}}"/>
-		</td>
-	</tr>
-</table>
-
-<div class="flex_column">
-	<h3>Total cost:</h3>
-	{{totalCost + " "+ "SEK"}}
-	<br>
-	<button data-ng-click="dumpCart()">Dump Cart</button>
-	<button data-ng-click="checkoutCart()">Check Out</button>
-	<h1>{{error}}</h1>
+<div class="flex_row">
+	<div></div>
+	<div></div>
+	<div class="flex_column" id="cart_buttons">
+		<h3>Total cost:</h3>
+		<p class="cost">{{totalCost + " "+ "SEK"}}</p>
+		<br>
+		<button data-ng-click="dumpCart()" class="cart_buttom">Dump Cart</button>
+		<button data-ng-click="checkoutCart()" class="cart_buttom">Checkout</button>
+		<h1>{{error}}</h1>
+	</div>
+	<div></div>
+	<div></div>
 </div>

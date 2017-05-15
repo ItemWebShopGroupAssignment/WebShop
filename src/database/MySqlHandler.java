@@ -257,7 +257,7 @@ public class MySqlHandler {
     public boolean subtractFromInventory(String artNr, int count) throws SQLException, ClassNotFoundException {
         String sql = "UPDATE items SET stock_balance = (stock_balance - "+count+") WHERE art_number = '"+artNr+"'";
         int result;
-        System.out.println(sql+":"+artNr+":"+count);
+
         try (
                 Connection cn = getConnection();
                 PreparedStatement stmt = cn.prepareStatement(sql);) {
@@ -274,7 +274,7 @@ public class MySqlHandler {
     private boolean subtractFromInventory(String artNr, int count, Connection con) throws SQLException, ClassNotFoundException {
         String sql = "UPDATE items SET stock_balance = (stock_balance - "+count+") WHERE art_number = '"+artNr+"'";
         int result;
-        System.out.println(sql+":"+artNr+":"+count);
+
         try (PreparedStatement stmt = con.prepareStatement(sql);) {
 
             result = stmt.executeUpdate();
@@ -439,7 +439,7 @@ public class MySqlHandler {
         Item item = null;
 
         String sql = "CALL get_cart_item (" + cartId + ",'" + artNr + "')";
-        System.out.println(sql);
+
         try (
                 Connection cn = getConnection();
                 CallableStatement stmt = cn.prepareCall(sql);
