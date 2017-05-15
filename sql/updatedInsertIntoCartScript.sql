@@ -17,7 +17,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_into_cart`(
 BEGIN
 	INSERT INTO cart_items
     VALUES(art_number, item_name, price, description, image, amount,
-     storage_format, category, cart_id, art_number + cart_id);
+     storage_format, category, cart_id, CONCAT(art_number, cart_id));
 END$$
 
 DELIMITER ;
