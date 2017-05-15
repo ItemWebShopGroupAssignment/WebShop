@@ -27,7 +27,6 @@
 		$http.get("GetCartItems").then(onGetCartComplete, onCartError);
 
 		var onRemoveComplete = function(response) {
-			alert(response.data);
 			$http.get("GetCartItems?").then(onGetCartComplete, onCartError); 
 		}
 		
@@ -47,12 +46,11 @@
 		}
 		
 		var onDumpedComplete = function(response) {
-			alert(response.data);
-			// Do any post-dumping stuff here.
+			$scope.items = [];
 		}
 		
 		var onCheckoutComplete = function(response) {
-			alert(response.data);
+			$scope.items = [];
 		}
 		
 		$scope.checkoutCart = function() {
