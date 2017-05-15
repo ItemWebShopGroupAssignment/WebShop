@@ -11,17 +11,6 @@
 
 		var items = [];
 		$scope.items = items;
-		
-		$scope.inStock = "Hm";
-
-		$scope.removeFromInventory = function(index) {
-
-			// här tar vi bort spelet från listan:
-			$scope.items.splice(index, 1);
-
-			// Det som återstår är att ta bort spelet i databasen,
-			// och tillhörande funktionalitet för det.
-		};
 
 		var onItemsComplete = function(response) {
 			$scope.items = response.data;
@@ -29,20 +18,26 @@
 
 		 var onAddToCartComplete = function(response) {
 			 $scope.title = response.data;
+			 
 			 $timeout(function() {
 				 $scope.title = "";
 			 }, 3000);
+			 
+			 $http.get("GetItems").then(onItemsComplete, onError);
+
 		 }
 
 		var onError = function(reason) {
-			$scope.error = "Could not fetch data " + reason.status;
+			alert("Could not fetch data " + reason.status);
 		}
 
 		$http.get("GetItems").then(onItemsComplete, onError);
 
+		$scope.hideDescription = true;
+		
 		$scope.viewDescription = function(index) {
 			$scope.selectedItem = $scope.items[index];
-
+			$scope.hideDescription = false;
 		}
 		
 		$scope.addToCart = function(artNr, count, stockBalance) {			

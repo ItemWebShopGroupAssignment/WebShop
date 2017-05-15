@@ -1,9 +1,9 @@
 <div class="flex_row">
-	<div>
+	<div id="itemListDiv">
 		{{title}}
 		<h3>These are our games</h3>
 
-		<input type="search" placeholder="search items" ng-model="search" />
+		<input type="search" placeholder="search items" data-ng-model="search" />
 
 		<table>
 			<tr>
@@ -12,59 +12,47 @@
 				<td>Price</td>
 				<td>In Stock</td>
 			</tr>
-			<tr ng-repeat="game in items | filter:search" class="table_row">
-				<td ng-click="viewDescription($index)"><a"#!/item/{{game.artNr}}">
-						{{game.artNr}}</a></td>
-				<td ng-click="viewDescription($index)"><a"#!/item/{{game.itemName}}">
-						{{game.itemName}}</a></td>
-				<td ng-click="viewDescription($index)"><a"#!/item/{{game.price}}">
-						{{game.price}}</a></td>
-				<td ng-click="viewDescription($index)">
-<!-- 				<a"#!/item/{{game.stockBalance}}"> -->
-<!-- 						{{game.stockBalance}}</a></td> -->
+			<tr data-ng-repeat="game in items | filter:search" class="table_row">
+				<td data-ng-click="viewDescription($index)">
+						{{game.artNr}}</td>
+				<td data-ng-click="viewDescription($index)">
+						{{game.itemName}}</td>
+				<td data-ng-click="viewDescription($index)">
+						{{game.price}}</td>
+				<td data-ng-click="viewDescription($index)">
 				
-				<div ng-show="game.stockBalance === 0">No</div>
-				<div ng-show="game.stockBalance > 3">Yes</div>
-				<div ng-show="!(game.stockBalance === 0 || game.stockBalance > 3)">{{game.stockBalance}}</div>				
+				<div data-ng-show="game.stockBalance === 0">No</div>
+				<div data-ng-show="game.stockBalance > 3">Yes</div>
+				<div data-ng-show="!(game.stockBalance === 0 || game.stockBalance > 3)">{{game.stockBalance}}</div>				
 				
-<!-- 				<div ng-switch="game.stockBalance"> -->
-<!-- 				<div ng-switch-when="0">No</div> -->
-<!-- 				<div ng-switch-when="0">No</div> -->
-<!-- 				<div ng-switch-when="0">No</div> -->
-<!-- 				<div ng-switch-default>Yes</div> -->
-				</div>
-				</td>
 				</td>
 				<td>
 				<input type="number" data-ng-model="count" min="0" max="{{game.stockBalance}}" />
 				</td>
   				<td><input type="button"
-					ng-click="addToCart(game.artNr, count, game.stockBalance)" value="AddToCart" /></td>
+					data-ng-click="addToCart(game.artNr, count, game.stockBalance)" value="AddToCart" /></td>
 			</tr>
 		</table>
 	</div>
-	<div>
-	<p>
-	
-	{{selectedItem.artNr}}
-
+	<div data-ng-hide="hideDescription">
+		<p>
+		
+		{{selectedItem.artNr}}
 	
 		<h1>
-	{{selectedItem.itemName}}
-	</h1>
-	<br>
-	<img src="GetImage?artNr={{selectedItem.artNr}}" height=200px
-			width=160px />
-	<br>
-	{{selectedItem.description}}
-	<br>
-	<br>
-	<h1>
-	{{selectedItem.price + " SEK"}}
-	</h1>
-	</p>
+			{{selectedItem.itemName}}
+		</h1>
+		<br>
+		<img src="GetImage?artNr={{selectedItem.artNr}}" height=200px
+				width=160px />
+		<br>
+		{{selectedItem.description}}
+		<br>
+		<br>
+		<h1>
+			{{selectedItem.price + " SEK"}}
+		</h1>
 	</div>
-	<h1>{{error}}</h1>
 </div>
 
 

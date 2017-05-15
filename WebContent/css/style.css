@@ -35,7 +35,7 @@ article {
 	margin : 0px;
 	padding : 20px;
 	
-	height: 400px;
+	min-height: 400px;
 }
 
 #main_container {
@@ -52,6 +52,7 @@ article {
 	display : flex;
 	flex-flow : row wrap;
 	justify-content : center;
+	padding-bottom : 20px;
 }
 
 .flex_column {
@@ -70,6 +71,11 @@ ng-view {
 
 td {
 	text-align: left;
+	padding-right: 15px;
+}
+
+#itemListDiv {
+	flex : 3;
 }
 
 li {
