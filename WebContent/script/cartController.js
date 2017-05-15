@@ -11,6 +11,7 @@
 		$scope.amount = 1;
 		$scope.info = "Your shopping cart is empty.";
 		$scope.showTableHeaders = false;
+		$scope.totalCost = 0;
 		
 		var onGetCartComplete = function(response) {
 
@@ -54,15 +55,19 @@
 		}
 		
 		var onDumpedComplete = function(response) {
+			/* Update list and info. */
 			$scope.items = [];
 			$scope.info = "Your shopping cart is empty.";
 			$scope.showTableHeaders = false;
+			$scope.totalCost = 0;
 		}
 		
 		var onCheckoutComplete = function(response) {
+			/* Update list and info. */
 			$scope.items = [];
 			$scope.info = "Your shopping cart is empty.";
 			$scope.showTableHeaders = false;
+			$scope.totalCost = 0;
 		}
 		
 		$scope.checkoutCart = function() {

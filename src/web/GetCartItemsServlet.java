@@ -51,13 +51,14 @@ public class GetCartItemsServlet extends HttpServlet {
     			out.print(new Gson().toJson(inventory));
     			out.flush();
             }
-			
-            List<Item> inventory = new ArrayList<Item>();
-            
-            response.setContentType("application/json;characterset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.print(new Gson().toJson(inventory));
-			out.flush();
+            else {
+	            List<Item> inventory = new ArrayList<Item>();
+	            
+	            response.setContentType("application/json;characterset=UTF-8");
+				PrintWriter out = response.getWriter();
+				out.print(new Gson().toJson(inventory));
+				out.flush();
+            }
 			
 		} catch (SQLException | NumberFormatException e) {
 			response.getWriter().append("GetCartItems: SQL Error: " + e.getMessage());
