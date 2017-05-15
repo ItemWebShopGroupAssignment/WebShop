@@ -118,7 +118,7 @@ public class MySqlHandler {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
-        if (count == 0)
+        if (count <= 0)
             return false;
 
         try {
