@@ -6,7 +6,7 @@
 	
 	var app = angular.module("application");
 	
-	var browseController = function($scope, $http) {
+	var browseController = function($scope, $http, $timeout) {
 		$scope.title = "";
 
 		var items = [];
@@ -29,7 +29,9 @@
 
 		 var onAddToCartComplete = function(response) {
 			 $scope.title = response.data;
-		
+			 $timeout(function() {
+				 $scope.title = "";
+			 }, 3000);
 		 }
 
 		var onError = function(reason) {
@@ -61,6 +63,6 @@
 
 	};
 	
-	app.controller("browseController", [ "$scope", "$http", browseController ]);
+	app.controller("browseController", [ "$scope", "$http", "$timeout", browseController ]);
 	
 }())
