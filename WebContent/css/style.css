@@ -80,6 +80,11 @@ td {
 	padding-right: 15px;
 }
 
+.lefty {
+	text-align: left;
+	justify-content: left;
+}
+
 #itemListDiv {
 	flex : 3;
 }
