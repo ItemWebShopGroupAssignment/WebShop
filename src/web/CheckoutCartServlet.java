@@ -47,7 +47,7 @@ public class CheckoutCartServlet extends HttpServlet {
             
             List<String> result = store.checkOutCart(cartId);
             
-            response.setContentType("application/json;characterset=UTF-8");
+            response.setContentType("text;characterset=UTF-8");
             PrintWriter out = response.getWriter();
             
             if(result.size() > 0) {

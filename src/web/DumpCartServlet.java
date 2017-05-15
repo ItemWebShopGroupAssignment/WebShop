@@ -46,7 +46,7 @@ public class DumpCartServlet extends HttpServlet {
             
             boolean result = store.dumpCart(cartId);
             
-            response.setContentType("application/json;characterset=UTF-8");
+            response.setContentType("text;characterset=UTF-8");
             PrintWriter out = response.getWriter();
             
             if(result)

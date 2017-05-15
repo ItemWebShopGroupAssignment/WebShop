@@ -54,7 +54,7 @@ public class RemoveFromCartServlet extends HttpServlet {
 			if(item != null && item.getCartId() >= 0) {
 				boolean result = store.returnFromCart(item.getArtNr(), cartId, item.getStockBalance());
 				
-				response.setContentType("application/json;characterset=UTF-8");
+				response.setContentType("text;characterset=UTF-8");
 				PrintWriter out = response.getWriter();
 				
 				if(result)

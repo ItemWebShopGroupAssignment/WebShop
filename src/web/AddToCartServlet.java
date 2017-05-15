@@ -55,7 +55,7 @@ public class AddToCartServlet extends HttpServlet {
 			if(item != null) {
 				boolean result = store.addToCart(item.getArtNr(), cartId, item.getStockBalance());
 				
-				response.setContentType("application/json;characterset=UTF-8");
+				response.setContentType("text;characterset=UTF-8");
 				PrintWriter out = response.getWriter();
 				
 				if(result)
