@@ -333,34 +333,24 @@ public class MySqlHandler {
         return result >= 1;
     }
     
-    public boolean editItem(String category, String itemName, String artNr, float price,
-            String description, InputStream image, int stockBalance, String storageFormat) throws ClassNotFoundException, SQLException {
-        String sql = "UPDATE items ("
-                + "art_number,"
-                + " item_name,"
-                + " price,"
-                + " description,"
-                + " image,"
-                + " stock_balance,"
-                + " storage_formats,"
-                + " category)"
-                + "VALUES (?,?,?,?,?,?,?,?)";
+    public boolean editItem(String currentArtNr, String category, String itemName, String newArtNr, float price,
+            String description, InputStream image, int stockBalance, String storageFormat)
+                    throws ClassNotFoundException, SQLException {
+        String sql = "UPDATE items SET art_number = '"+newArtNr+"', item_name = '"+itemName+"', price = "+price+","
+                        + " description = '"+description+"', image = ?, stock_balance = "+stockBalance+
+                        ", storage_formats = '"+storageFormat+"',"+ " category = '"+category+
+                        "' WHERE art_number = '"+currentArtNr+"'";
         int result;
-
+        
         try (
                 Connection cn = getConnection();
-                PreparedStatement stmt = cn.prepareStatement(sql);) {
-
-            stmt.setString(1, artNr);
-            stmt.setString(2, itemName);
-            stmt.setFloat(3, price);
-            stmt.setString(4, description);
-            stmt.setBlob(5, image);
-            stmt.setInt(6, stockBalance);
-            stmt.setString(7, storageFormat);
-            stmt.setString(8, category);
-
+                PreparedStatement stmt = cn.prepareStatement(sql);
+                ) {
+            
+            stmt.setBlob(1, image);
+            
             result = stmt.executeUpdate();
+            
         }
         return result >= 1;
     }
