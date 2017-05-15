@@ -3,6 +3,7 @@ package web;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -40,24 +41,28 @@ public class GetCartItemsServlet extends HttpServlet {
 		
 		try {
 			HttpSession session = request.getSession();
-    		int cartId = (Integer)session.getAttribute("cartId");
+			Integer cartId = (Integer)session.getAttribute("cartId");
         		
-            if(cartId == 0) {
-            	cartId = (int)store.getCart();
-				session.setAttribute("cartId", cartId);
+            if(cartId != 0 && cartId != null) {
+            	List<Item> inventory = store.getCartItems(cartId);
+    			
+    			response.setContentType("application/json;characterset=UTF-8");
+    			PrintWriter out = response.getWriter();
+    			out.print(new Gson().toJson(inventory));
+    			out.flush();
             }
 			
-			List<Item> inventory = store.getCartItems(cartId);
-			
-			response.setContentType("application/json;characterset=UTF-8");
+            List<Item> inventory = new ArrayList<Item>();
+            
+            response.setContentType("application/json;characterset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.print(new Gson().toJson(inventory));
 			out.flush();
 			
 		} catch (SQLException | NumberFormatException e) {
-			response.getWriter().append("Error: " + e.getMessage());
+			response.getWriter().append("GetCartItems: SQL Error: " + e.getMessage());
 		} catch (ClassNotFoundException e) {
-			response.getWriter().append("Error: " + e.getMessage());
+			response.getWriter().append("GetCartItems: CNF Error: " + e.getMessage());
 		}
 	
 	}

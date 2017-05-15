@@ -26,7 +26,6 @@ public class CheckoutCartServlet extends HttpServlet {
      */
     public CheckoutCartServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -38,9 +37,9 @@ public class CheckoutCartServlet extends HttpServlet {
         
         try {
     		HttpSession session = request.getSession();
-    		int cartId = (Integer)session.getAttribute("cartId");
+    		Integer cartId = (Integer)session.getAttribute("cartId");
         		
-            if(cartId == 0) {
+            if(cartId == 0 || cartId == null) {
             	cartId = (int)store.getCart();
 				session.setAttribute("cartId", cartId);
             }

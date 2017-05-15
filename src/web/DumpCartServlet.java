@@ -37,9 +37,9 @@ public class DumpCartServlet extends HttpServlet {
         
         try {
         	HttpSession session = request.getSession();
-    		int cartId = (Integer)session.getAttribute("cartId");
+        	Integer cartId = (Integer)session.getAttribute("cartId");
         		
-            if(cartId == 0) {
+            if(cartId == 0 || cartId == null) {
             	cartId = (int)store.getCart();
 				session.setAttribute("cartId", cartId);
             }

@@ -9,9 +9,17 @@
 	var cartController = function($scope, $http) {
 
 		$scope.amount = 1;
+		$scope.info = "Your shopping cart is empty.";
+		$scope.showTableHeaders = false;
+		
 		var onGetCartComplete = function(response) {
 
 			$scope.items = response.data;
+			
+			if($scope.items.length > 0) {
+				$scope.info = "This is the contents of your shopping cart.";
+				$scope.showTableHeaders = true;
+			}
 			
 			$scope.totalCost = 0;
 			for(var i = 0; i < $scope.items.length; i++) {
@@ -21,7 +29,7 @@
 		}
 		
 		var onCartError = function(reason) {
-			$scope.error = reason.status;
+			alert(reason.status);
 		}
 
 		$http.get("GetCartItems").then(onGetCartComplete, onCartError);
@@ -47,10 +55,14 @@
 		
 		var onDumpedComplete = function(response) {
 			$scope.items = [];
+			$scope.info = "Your shopping cart is empty.";
+			$scope.showTableHeaders = false;
 		}
 		
 		var onCheckoutComplete = function(response) {
 			$scope.items = [];
+			$scope.info = "Your shopping cart is empty.";
+			$scope.showTableHeaders = false;
 		}
 		
 		$scope.checkoutCart = function() {
