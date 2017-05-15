@@ -136,7 +136,7 @@ public class MySqlHandler {
                 result = subtractFromInventory(artNr, count, con);
             
                 if (!result)
-            	return false;
+                	return false;
             	
                 result = updateCartItem(cartId, artNr, count, con);
                 if (!result) {

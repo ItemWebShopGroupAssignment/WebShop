@@ -37,13 +37,15 @@ public class AddToCartServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		Store store = new Store();
+		int cartId = 0;
+		HttpSession session = null;
 		
 		try {
 			// Get the added data.
 			String data = request.getReader().lines().collect(Collectors.joining());
 			Item item = new Gson().fromJson(data, Item.class); // Retrieve the item from the data.
-			HttpSession session = request.getSession();
-    		int cartId = (Integer)session.getAttribute("cartId");
+			session = request.getSession();
+    		cartId = (Integer)session.getAttribute("cartId");
     		
             if(cartId == 0) {
             	cartId = (int)store.getCart();
@@ -72,6 +74,9 @@ public class AddToCartServlet extends HttpServlet {
 		} catch (ClassNotFoundException e) {
 			response.getWriter().append("AddToCart: Error: " + e.getMessage());
 		} catch (NullPointerException e) {
+			cartId = 0;
+			if(session != null)
+				session.setAttribute("cartId", 0);
 			response.getWriter().append("AddToCart: Null-Pointer Error: " + e.getMessage());
 		}
 	}
