@@ -17,7 +17,9 @@
 		
 		$scope.inStock = "Hm";
 		
-		$scope.show = false;
+		$scope.showAddPage = false;
+		$scope.showEditPage = true;
+		$scope.showCategoryPage = false;
 		$scope.addOrEdit = "Add game";
 		
 		$scope.removeFromInventory = function(index) {
@@ -30,13 +32,25 @@
 		};
 		
 		$scope.showAddForm = function() {
-			if ($scope.show == false) {
-				$scope.show = true;
+			if ($scope.showAddPage == false) {
+				$scope.showAddPage = true;
+				$scope.showEditPage = false;
+				$scope.showCategoryPage = false;
 				$scope.addOrEdit = "Edit game";
 			}
-			else {
-				$scope.show = false;
+			else if ($scope.showEditPage == false){
+				$scope.showEditPage = true;
+				$scope.showAddPage = false;
+				$scope.showCategoryPage = false;
 				$scope.addOrEdit = "Add game";
+			}
+		}
+		
+		$scope.showCategoryForm = function() {
+			if ($scope.showCategoryPage == false) {
+				$scope.showCategoryPage = true;
+				$scope.showAddPage = false;
+				$scope.showEditPage = false;
 			}
 		}
 		
@@ -65,6 +79,17 @@
 			$scope.error = "Could not fetch data " + reason.status;
 		}
 		
+		$scope.addCategory = function(category, contents) {
+			var parameters = {
+					'categoryName' : category,
+					'contents' : contents
+			}
+			
+			var jsonPackage = JSON.stringify(parameters);
+			
+			$http.post("AddCategory", jsonPackage).then(onAddCategoryComplete, onError);
+		}
+		
 		$scope.addToInventory = function(artNr, count) {
 			var parameters = {
 					'artNr' : artNr,
@@ -76,7 +101,10 @@
 			$http.post("IncreaseStockBalance", jsonPackage).then(onIncreaseStockBalanceComplete, onError);
 		}
 		
-		$scope.removeFromInventory = function(artNr, count) {
+		$scope.removeFromInventory = function(artNr, count, stockBalance) {
+			if (count > stockBalance) {
+				count = stockBalance;
+			}
 			var parameters = {
 					'artNr' : artNr,
 					'stockBalance' : count

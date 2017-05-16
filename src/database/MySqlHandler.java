@@ -443,15 +443,11 @@ public class MySqlHandler {
 
     //Add a new category to the categories table
     public boolean addToCategory(String categoryName, String content) throws SQLException, ClassNotFoundException {
-        String sql = "CALL 'create_category'(?, ?)";
+        String sql = "CALL create_category('"+categoryName+"', '"+content+"')";
         int result;
-
         try (
                 Connection cn = getConnection();
                 CallableStatement stmt = cn.prepareCall(sql);) {
-
-            stmt.setString(1, categoryName);
-            stmt.setString(2, content);
 
             result = stmt.executeUpdate();
         }
