@@ -8,6 +8,8 @@
 	
 	var adminController = function($scope, $http) {
 		$scope.title = "Items";
+		$scope.editedContents = "editedContents";
+		$scope.editedCategoryName = "editedCategoryName";
 		
 		var categories = [];
 		$scope.categories = categories;
@@ -16,6 +18,7 @@
 		$scope.items = items;
 		
 		$scope.inStock = "Hm";
+		$scope.value = "Action";
 		
 		$scope.showAddPage = false;
 		$scope.showEditPage = true;
@@ -92,6 +95,17 @@
 			$scope.error = "Could not fetch data " + reason.status;
 		}
 		
+		$scope.editCategory = function(category, contents, currentCategory) {
+			var parameters = {
+					'categoryName' : category,
+					'contents' : contents
+			}
+			
+			var jsonPackage = JSON.stringify(parameters);
+			
+			//$http.post("AddCategory", jsonPackage).then(onAddCategoryComplete, onError);
+		}
+		
 		$scope.addCategory = function(category, contents) {
 			var parameters = {
 					'categoryName' : category,
@@ -151,6 +165,18 @@
 				}
 			}
 
+		}
+		
+		$scope.selectCategory = function() {
+			var x = document.getElementById("editCategorySelecter").selectedIndex+1;
+		    var id = document.getElementsByTagName("option")[x].value;
+			for(var i = 0; i < $scope.categories.length; i++) {
+				if(id === $scope.categories[i].categoryName) {
+					$scope.selectedCategory = $scope.categories[i];
+					$scope.hideDescription = false;
+					break;
+				}
+			}
 		}
 
 	};

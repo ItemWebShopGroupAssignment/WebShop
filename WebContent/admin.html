@@ -33,6 +33,7 @@
 			</tr>
 		</table>
 	</div>
+	
 	<div data-ng-show="showEditPage">
 	<h2>Edit game page</h2>
 		<form action="EditItem" method="POST" enctype="multipart/form-data">
@@ -63,6 +64,7 @@
 		<br>
 		<input type="button" value="Delete game" data-ng-click="deleteFromInventory(selectedItem.artNr)"/>
 	</div>
+	
 	<div data-ng-show="showAddPage">
 		<h2>Add game page</h2>
 		<form action="AddToInventory" method="POST" enctype="multipart/form-data">
@@ -73,7 +75,7 @@
 			<br> 
 			<label>Image: </label><input type="file" name="image" /> 
 			<br> 
-			<label>Description: </label><textarea name="description" cols="40" rows="5">{{selectedItem.description}}</textarea> 
+			<label>Description: </label><textarea name="description" cols="40" rows="5"></textarea> 
 			<br>
 			<br>
 			<label>Price: </label><input type="number" name="price" placeholder="Price"/> SEK
@@ -89,28 +91,30 @@
 			<input type="submit" value="Add game" />
 		</form>
 	</div>
+	
 	<div data-ng-show="showAddCategoryPage">
 		<h2>Add category page</h2>
 		<br>
-		<label>Category: </label><input type="text" data-ng-model="category" placeholder="Category name" />
+		<label>Category name: </label><input type="text" data-ng-model="category" placeholder="Category name" />
 		<br>
 		<br>
-		<label>Description: </label><textarea data-ng-model="contents" cols="40" rows="5">{{selectedItem.description}}</textarea>
+		<label>Description: </label><textarea data-ng-model="contents" cols="40" rows="5"></textarea>
 		<br>
 		<input type="button" value="Add category" data-ng-click="addCategory(category, contents)"/>
 	</div>
+	
 	<div data-ng-show="showEditCategoryPage">
 		<h2>Edit category page</h2>
 		<br>
-		<label>Category: </label><select name="category" >
-			<option data-ng-repeat="c in categories" >{{c.categoryName}}</option>
+		<label>Category: </label><select id="editCategorySelecter" data-ng-change="selectCategory()" data-ng-model="value">
+			<option data-ng-repeat="c in categories">{{c.categoryName}}</option>
 		</select>
 		<br><br>
-		<label>Category: </label><input type="text" data-ng-model="category" placeholder="Category name" />
+		<label>Category name: </label><input type="text" data-ng-model="selectedCategory.categoryName" placeholder="Category name" />
 		<br>
 		<br>
-		<label>Description: </label><textarea data-ng-model="contents" cols="40" rows="5">{{selectedItem.description}}</textarea>
+		<label>Description: </label><textarea data-ng-model="selectedCategory.contents" cols="40" rows="5"></textarea>
 		<br>
-		<input type="button" value="Add category" data-ng-click="addCategory(category, contents)"/>
+		<input type="button" value="Edit category" data-ng-click="editCategory(selectedCategory.categoryName, selectedCategory.contents)" />
 	</div>
 </div>
