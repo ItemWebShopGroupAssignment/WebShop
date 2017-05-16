@@ -4,6 +4,7 @@
 		<h3>Our games</h3>
 
 		<input type="search" placeholder="search items" data-ng-model="search" />
+		<input type="button" value="{{addOrEdit}}" data-ng-click="showAddForm()" />
 
 		<table>
 			<tr>
@@ -31,7 +32,7 @@
 			</tr>
 		</table>
 	</div>
-	<div>
+	<div data-ng-show="!show">
 		<form action="EditItem" method="POST" enctype="multipart/form-data">
 			<br>
 			<label>Article number: </label><input type="text" name="newArtNr" value="{{selectedItem.artNr}}" />
@@ -55,8 +56,33 @@
 			<br>
 			<input type="hidden" name="currentArtNr" value="{{selectedItem.artNr}}" />
 			<input type="hidden" name="stockBalance" value="{{selectedItem.stockBalance}}" />
-			<input type="submit" value="Edit item" />
+			<input type="submit" value="Edit game" />
 		</form>
-		<input type="button" value="Delete item" />
+		<input type="button" value="Delete game" data-ng-click="deleteFromInventory(selectedItem.artNr)"/>
+	</div>
+	<div data-ng-show="show">
+		<form action="AddToInventory" method="POST" enctype="multipart/form-data">
+			<br>
+			<label>Article number: </label><input type="text" name="artNr" placeholder="Article number"/>
+			<br>
+			<label>Game: </label><input type="text" name="itemName" placeholder="Name of the game" />
+			<br> 
+			<label>Image: </label><input type="file" name="image" /> 
+			<br> 
+			<label>Description: </label><textarea name="description" cols="40" rows="5">{{selectedItem.description}}</textarea> 
+			<br>
+			<br>
+			<label>Price: </label><input type="number" name="price" /> SEK
+			<br>
+			<label>Format: </label><input type="text" name="storageFormat" placeholder="Format of the game" />
+			<br>
+			<label>Category: </label><select name="category" >
+				<option data-ng-repeat="c in categories" >{{c.categoryName}}</option>
+			</select>
+			<br>
+			<label>Copies: </label><input type="number" name="stockBalance" placeholder="Number of copies" />
+			<br>
+			<input type="submit" value="Add game" />
+		</form>
 	</div>
 </div>

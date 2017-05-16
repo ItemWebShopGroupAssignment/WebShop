@@ -54,7 +54,7 @@ public class Store {
 		return storeHandler.checkOutCart(cartId);
 	}
 
-	public boolean deleteFromInventory(String artNr, long cartId) throws SQLException, ClassNotFoundException {
+	public boolean deleteFromInventory(String artNr) throws SQLException, ClassNotFoundException {
 		return storeHandler.deleteFromInventory(artNr);
 	}
 

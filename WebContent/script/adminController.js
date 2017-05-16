@@ -17,6 +17,9 @@
 		
 		$scope.inStock = "Hm";
 		
+		$scope.show = false;
+		$scope.addOrEdit = "Add game";
+		
 		$scope.removeFromInventory = function(index) {
 
 			// här tar vi bort spelet från listan:
@@ -26,11 +29,22 @@
 			// och tillhörande funktionalitet för det.
 		};
 		
-		var onIncreaseStockBalanceComplete = function() {
+		$scope.showAddForm = function() {
+			if ($scope.show == false) {
+				$scope.show = true;
+				$scope.addOrEdit = "Edit game";
+			}
+			else {
+				$scope.show = false;
+				$scope.addOrEdit = "Add game";
+			}
+		}
+		
+		var onIncreaseStockBalanceComplete = function(response) {
 			$http.get("GetItems").then(onItemsComplete, onError);
 		}
 		
-		var onDecreaseStockBalanceComplete = function() {
+		var onDecreaseStockBalanceComplete = function(response) {
 			$http.get("GetItems").then(onItemsComplete, onError);
 		}
 		
@@ -40,6 +54,10 @@
 
 		var onItemsComplete = function(response) {
 			$scope.items = response.data;
+		}
+		
+		var onDeleteComplete = function(response) {
+			$http.get("GetItems").then(onItemsComplete, onError);
 		}
 
 
@@ -67,6 +85,16 @@
 			var jsonPackage = JSON.stringify(parameters);
 			
 			$http.post("DecreaseStockBalance", jsonPackage).then(onDecreaseStockBalanceComplete, onError);
+		}
+		
+		$scope.deleteFromInventory = function(artNr) {
+			var parameters = {
+					'artNr' : artNr
+			};
+			
+			var jsonPackage = JSON.stringify(parameters);
+			
+			$http.post("RemoveFromInventory", jsonPackage).then(onDeleteComplete, onError);
 		}
 		
 		$http.get("GetCategories").then(onCategoriesComplete, onError);

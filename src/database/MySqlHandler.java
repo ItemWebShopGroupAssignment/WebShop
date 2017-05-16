@@ -285,14 +285,11 @@ public class MySqlHandler {
 
     //Deletes one item from the items table and returns true if it was deleted successfully
     public boolean deleteFromInventory(String artNr) throws SQLException, ClassNotFoundException {
-        String sql = "CALL 'remove_from_inventory'(?)";
+        String sql = "CALL remove_from_inventory('"+artNr+"')";
         int result;
-
         try (
                 Connection cn = getConnection();
-                CallableStatement stmt = cn.prepareCall(sql);) {
-
-            stmt.setString(1, artNr);
+                PreparedStatement stmt = cn.prepareStatement(sql);) {
 
             result = stmt.executeUpdate();
         }
@@ -312,21 +309,24 @@ public class MySqlHandler {
                 + " stock_balance,"
                 + " storage_formats,"
                 + " category)"
-                + "VALUES (?,?,?,?,?,?,?,?)";
+                + "VALUES ('"+artNr+"','"+itemName+"',"+price+",'"+description+"',?,"+stockBalance+
+                ",'"+storageFormat+"','"+category+"')";
         int result;
+        
+        System.out.println(sql);
 
         try (
                 Connection cn = getConnection();
                 PreparedStatement stmt = cn.prepareStatement(sql);) {
 
-            stmt.setString(1, artNr);
-            stmt.setString(2, itemName);
-            stmt.setFloat(3, price);
-            stmt.setString(4, description);
-            stmt.setBlob(5, image);
-            stmt.setInt(6, stockBalance);
-            stmt.setString(7, storageFormat);
-            stmt.setString(8, category);
+//            stmt.setString(1, artNr);
+//            stmt.setString(2, itemName);
+//            stmt.setFloat(3, price);
+//            stmt.setString(4, description);
+            stmt.setBlob(1, image);
+//            stmt.setInt(6, stockBalance);
+//            stmt.setString(7, storageFormat);
+//            stmt.setString(8, category);
 
             result = stmt.executeUpdate();
         }
