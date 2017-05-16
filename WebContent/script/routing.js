@@ -19,9 +19,6 @@
 		}).when("/admin", {
 			templateUrl : "admin.html",
 			controller : "adminController"
-		}).when ("/cartiteminfo/:artNr", {
-			templateUrl : "cartiteminfo.html",
-			controller : "cartiteminfoController"
 		}).otherwise({
 			redirectTo : "/"
 		});
