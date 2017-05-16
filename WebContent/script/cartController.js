@@ -54,6 +54,7 @@
 			
 			$scope.hideDescription = true;
 			$scope.selectedItem = null;
+			alert ("Game removed from the shoppingcart");
 		}
 		
 		/* Called every time one of the remove from cart buttons are pressed. */
@@ -70,7 +71,8 @@
 		
 		/* Called when dump cart button is pressed. */
 		$scope.dumpCart = function() {
-			 $http.post("DumpCart").then(onDumpedComplete, onCartError);
+			if(window.confirm ("Please confirm you wish remove all items from your shoppingcart"))
+				$http.post("DumpCart").then(onDumpedComplete, onCartError);
 		}
 		
 		/* Called when the call to DumpCart responds with the correct response. */
@@ -99,8 +101,9 @@
 		
 		/* Called when checkout cart button is pressed. */
 		$scope.checkoutCart = function() {
-			
-			$http.post("CheckoutCart").then(onCheckoutComplete, onCartError);
+			if(window.confirm ("Please confirm you wish to buy these items"))
+				
+				$http.post("CheckoutCart").then(onCheckoutComplete, onCartError);
 		}
 		
 		/* Called when an item in the list is clicked. */
