@@ -101,8 +101,14 @@
 
 		$http.get("GetItems").then(onItemsComplete, onError);
 
-		$scope.viewDescription = function(index) {
-			$scope.selectedItem = $scope.items[index];
+		$scope.viewDescription = function(id) {
+			for(var i = 0; i < $scope.items.length; i++) {
+				if(id === $scope.items[i].artNr) {
+					$scope.selectedItem = $scope.items[i];
+					$scope.hideDescription = false;
+					break;
+				}
+			}
 
 		}
 

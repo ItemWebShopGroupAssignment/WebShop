@@ -14,13 +14,13 @@
 				<td>Balance</td>
 			</tr>
 			<tr data-ng-repeat="game in items | filter:search" class="table_row">
-				<td data-ng-click="viewDescription($index)">
+				<td data-ng-click="viewDescription(game.artNr)">
 						{{game.artNr}}</td>
-				<td data-ng-click="viewDescription($index)">
+				<td data-ng-click="viewDescription(game.artNr)">
 						{{game.itemName}}</td>
-				<td data-ng-click="viewDescription($index)">
+				<td data-ng-click="viewDescription(game.artNr)">
 						{{game.price}}</td>
-				<td data-ng-click="viewDescription($index)">
+				<td data-ng-click="viewDescription(game.artNr)">
 						{{game.stockBalance}}</td>
 				<td>
 				<input type="number" data-ng-model="count" />
