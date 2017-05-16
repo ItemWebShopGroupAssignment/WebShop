@@ -19,8 +19,10 @@
 		
 		$scope.showAddPage = false;
 		$scope.showEditPage = true;
-		$scope.showCategoryPage = false;
-		$scope.addOrEdit = "Add game";
+		$scope.showAddCategoryPage = false;
+		$scope.showEditCategoryPage = false;
+		$scope.addOrEditGame = "Add game";
+		$scope.addOrEditCategory = "Add category";
 		
 		$scope.removeFromInventory = function(index) {
 
@@ -35,22 +37,33 @@
 			if ($scope.showAddPage == false) {
 				$scope.showAddPage = true;
 				$scope.showEditPage = false;
-				$scope.showCategoryPage = false;
-				$scope.addOrEdit = "Edit game";
+				$scope.showAddCategoryPage = false;
+				$scope.showEditCategoryPage = false;
+				$scope.addOrEditGame = "Edit game";
 			}
 			else if ($scope.showEditPage == false){
 				$scope.showEditPage = true;
 				$scope.showAddPage = false;
-				$scope.showCategoryPage = false;
-				$scope.addOrEdit = "Add game";
+				$scope.showAddCategoryPage = false;
+				$scope.showEditCategoryPage = false;
+				$scope.addOrEditGame = "Add game";
 			}
 		}
 		
 		$scope.showCategoryForm = function() {
-			if ($scope.showCategoryPage == false) {
-				$scope.showCategoryPage = true;
+			if ($scope.showAddCategoryPage == false) {
+				$scope.showAddCategoryPage = true;
 				$scope.showAddPage = false;
 				$scope.showEditPage = false;
+				$scope.showEditCategoryPage = false;
+				$scope.addOrEditCategory = "Edit category";
+			}
+			else if ($scope.showEditCategoryPage == false) {
+				$scope.showEditCategoryPage = true;
+				$scope.showAddCategoryPage = false;
+				$scope.showAddPage = false;
+				$scope.showEditPage = false;
+				$scope.addOrEditCategory = "Add category";
 			}
 		}
 		

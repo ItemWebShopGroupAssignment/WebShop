@@ -4,8 +4,8 @@
 		<h3>Our games</h3>
 
 		<input type="search" placeholder="search items" data-ng-model="search" />
-		<input type="button" value="{{addOrEdit}}" data-ng-click="showAddForm()" />
-		<input type="button" value="Add category" data-ng-click="showCategoryForm()" />
+		<input type="button" value="{{addOrEditGame}}" data-ng-click="showAddForm()" />
+		<input type="button" value="{{addOrEditCategory}}" data-ng-click="showCategoryForm()" />
 
 		<table>
 			<tr>
@@ -89,9 +89,23 @@
 			<input type="submit" value="Add game" />
 		</form>
 	</div>
-	<div data-ng-show="showCategoryPage">
+	<div data-ng-show="showAddCategoryPage">
 		<h2>Add category page</h2>
 		<br>
+		<label>Category: </label><input type="text" data-ng-model="category" placeholder="Category name" />
+		<br>
+		<br>
+		<label>Description: </label><textarea data-ng-model="contents" cols="40" rows="5">{{selectedItem.description}}</textarea>
+		<br>
+		<input type="button" value="Add category" data-ng-click="addCategory(category, contents)"/>
+	</div>
+	<div data-ng-show="showEditCategoryPage">
+		<h2>Edit category page</h2>
+		<br>
+		<label>Category: </label><select name="category" >
+			<option data-ng-repeat="c in categories" >{{c.categoryName}}</option>
+		</select>
+		<br><br>
 		<label>Category: </label><input type="text" data-ng-model="category" placeholder="Category name" />
 		<br>
 		<br>
