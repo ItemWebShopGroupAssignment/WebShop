@@ -19,6 +19,9 @@
 		}).when("/admin", {
 			templateUrl : "admin.html",
 			controller : "adminController"
+		}).when("/login", {
+			templateUrl : "login.html",
+			controller : "loginController"
 		}).otherwise({
 			redirectTo : "/"
 		});
