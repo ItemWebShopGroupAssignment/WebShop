@@ -1,8 +1,7 @@
 USE item_web_shop;
 
 CREATE TABLE users (
-	id INT(5) UNSIGNED AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL,
     pwd VARCHAR(50) NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY(username)
 ) ENGINE=INNODB;

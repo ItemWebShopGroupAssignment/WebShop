@@ -82,4 +82,10 @@ public class Store {
 
 	}
 
+	/** Get information about a user. 
+     * @throws SQLException 
+     * @throws ClassNotFoundException **/
+    public Authentication getUser(String username) throws ClassNotFoundException, SQLException {
+    	return storeHandler.getUser(username);
+    }
 }

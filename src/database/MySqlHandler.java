@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import store.Authentication;
 import store.Category;
 import store.Item;
 
@@ -553,6 +554,48 @@ public class MySqlHandler {
         }
         
         return result;
+    }
+    
+    /** Get information about a user. 
+     * @throws SQLException 
+     * @throws ClassNotFoundException **/
+    public Authentication getUser(String username) throws ClassNotFoundException, SQLException {
+    	Authentication user = null;
+    	
+    	String sql = "SELECT * FROM users "
+    			+ "WHERE username LIKE ? "
+    			+ "COLLATE utf8_swedish_ci;";
+    	
+    	Connection con = null;
+    	PreparedStatement statement = null;
+    	ResultSet results = null;
+    	
+    	try {
+    	con = getConnection();
+    	statement = con.prepareStatement(sql);
+    	statement.setString(1, username);
+    	
+    	results = statement.executeQuery();
+    	
+    	// Did we get a user?
+    	if(results.next()) {
+    		String name = results.getString("username");
+    		String pwd = results.getString("pwd");
+    		
+    		user = new Authentication(name, pwd);
+    	}
+    	
+    	} 
+    	finally {
+    		if(results != null)
+    			results.close();
+    		if(statement != null)
+    			statement.close();
+    		if(con != null)
+    			con.close();
+    	}
+    	
+    	return user;
     }
 
 }
