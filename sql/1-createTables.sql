@@ -34,12 +34,13 @@ CREATE TABLE IF NOT EXISTS `cart_items` (
     item_name VARCHAR(50) NOT NULL,
     price FLOAT(8,2) NOT NULL,
     description TEXT,
-    image BLOB,
+    image MEDIUMBLOB,
     stock_balance INT UNSIGNED NOT NULL,
     storage_format VARCHAR(50) NOT NULL,
     category VARCHAR(50) NOT NULL,
     cart_id INT(5) NOT NULL,
-    PRIMARY KEY(art_number),
+    id VARCHAR(50) NOT NULL,
+    PRIMARY KEY(id),
     CONSTRAINT fk_item_cart
     FOREIGN KEY (cart_id) REFERENCES shopping_carts(cart_id)
 		ON DELETE CASCADE
