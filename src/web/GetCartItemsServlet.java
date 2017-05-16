@@ -44,7 +44,7 @@ public class GetCartItemsServlet extends HttpServlet {
 			Integer cartId = (Integer)session.getAttribute("cartId");
 			session.setMaxInactiveInterval(2*60*60);
         		
-            if(cartId != 0 && cartId != null) {
+            if(cartId != null && cartId != 0) {
             	List<Item> inventory = store.getCartItems(cartId);
     			
     			response.setContentType("application/json;characterset=UTF-8");

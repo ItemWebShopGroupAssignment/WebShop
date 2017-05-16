@@ -10,9 +10,3 @@ INSERT INTO `items` VALUES ('art:212-4527BE','Dishonored 2',599.00,'Reprise your
 ('art:533-4527FI','Grand Theft Auto V',699.00,'A young street hustler, a retired bank robber and a terrifying psychopath must pull off a series of dangerous heists to survive in a ruthless city in which they can trust nobody, least of all each other.',NULL,13,'PC','Action'),
 ('art:544-4527EA','FOR HONOR',599.00,'Carve a path of destruction through an intense, believable battlefield in For Honor.',NULL,11,'PC Download','Action'),
 ('art:572-4527BE','World of Warcraft',599.00,'A game about a fantasy world.',NULL,10,'PC Download','MMORPG');
-
-
-ALTER TABLE `item_web_shop`.`cart_items` 
-ADD COLUMN `id` VARCHAR(50) NOT NULL AFTER `cart_id`,
-DROP PRIMARY KEY,
-ADD PRIMARY KEY (`id`);
