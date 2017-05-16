@@ -62,6 +62,7 @@ public class AddToInventoryServlet extends HttpServlet {
                     image,
                     stockBalance,
                     storageFormat);
+            response.sendRedirect("index.html#!/admin");
         } catch (ClassNotFoundException e) {
             
         } catch (SQLException e) {
