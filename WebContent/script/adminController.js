@@ -163,7 +163,7 @@
 		
 		$http.get("GetCategories").then(onCategoriesComplete, onError);
 
-		$http.get("GetItemsAdmin").then(onItemsComplete, onError);
+		$http.get("GetItems").then(onItemsComplete, onError);
 
 		$scope.viewDescription = function(id) {
 			for(var i = 0; i < $scope.items.length; i++) {

@@ -3,7 +3,6 @@ package web;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,18 +37,18 @@ public class CheckoutCartServlet extends HttpServlet {
         try {
     		HttpSession session = request.getSession();
     		Integer cartId = (Integer)session.getAttribute("cartId");
-        		
+        	
             if(cartId == 0 || cartId == null) {
             	cartId = (int)store.getCart();
 				session.setAttribute("cartId", cartId);
             }
             
-            List<String> result = store.checkOutCart(cartId);
+            boolean result = store.checkOutCart(cartId, 599, "adress 54", "anna");
             
             response.setContentType("text;characterset=UTF-8");
             PrintWriter out = response.getWriter();
             
-            if(result.size() > 0) {
+            if(result == true) {
             	session.setAttribute("cartId", 0);
                 out.print("Successfully checked out the cart.");
             }

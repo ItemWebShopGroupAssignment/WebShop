@@ -50,8 +50,8 @@ public class Store {
 		return storeHandler.returnFromCart(cartId, artNr, count);
 	}
 
-	public List<String> checkOutCart(long cartId) throws SQLException, ClassNotFoundException {
-		return storeHandler.checkOutCart(cartId);
+	public boolean checkOutCart(long cartId, float cost, String adress, String receiver) throws SQLException, ClassNotFoundException {
+		return storeHandler.checkOutCart(cartId, cost, adress, receiver);
 	}
 
 	public boolean deleteFromInventory(String artNr) throws SQLException, ClassNotFoundException {
