@@ -89,13 +89,21 @@
 		var onDeleteComplete = function(response) {
 			$http.get("GetItems").then(onItemsComplete, onError);
 		}
-
+		
+		var onAddCategoryComplete = function(response) {
+			$http.get("GetItems").then(onItemsComplete, onError);
+		}
+		
+		var onEditCategoryComplete = function(response) {
+			$http.get("GetItems").then(onItemsComplete, onError);
+		}
 
 		var onError = function(reason) {
 			$scope.error = "Could not fetch data " + reason.status;
 		}
 		
-		$scope.editCategory = function(category, contents, currentCategory) {
+		$scope.editCategory = function(category, contents) {
+			alert(category + " " + contents);
 			var parameters = {
 					'categoryName' : category,
 					'contents' : contents
@@ -103,7 +111,7 @@
 			
 			var jsonPackage = JSON.stringify(parameters);
 			
-			//$http.post("AddCategory", jsonPackage).then(onAddCategoryComplete, onError);
+			//$http.post("EditCategory", jsonPackage).then(onEditCategoryComplete, onError);
 		}
 		
 		$scope.addCategory = function(category, contents) {
@@ -154,7 +162,7 @@
 		
 		$http.get("GetCategories").then(onCategoriesComplete, onError);
 
-		$http.get("GetItems").then(onItemsComplete, onError);
+		$http.get("GetItemsAdmin").then(onItemsComplete, onError);
 
 		$scope.viewDescription = function(id) {
 			for(var i = 0; i < $scope.items.length; i++) {
