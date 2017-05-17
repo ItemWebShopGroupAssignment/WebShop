@@ -85,8 +85,8 @@ public class MySqlHandler {
         }
         return item;
     }
-    
-  //Returns a Item object
+
+    //Returns a Item object
     private Item getItem(String artNr, Connection con) throws SQLException, ClassNotFoundException {
         Item item = null;
 
@@ -112,14 +112,14 @@ public class MySqlHandler {
 
     //Adds a item to the shopping cart and returns true if it was added successfully
     public boolean addToCart(long cartId, String artNr, int count) throws SQLException, ClassNotFoundException {
-        
+
         boolean result = false;
         String sql = "SELECT * FROM shopping_carts WHERE cart_id = " + cartId;
-        
+
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
+
         if (count <= 0)
             return false;
 
@@ -129,69 +129,68 @@ public class MySqlHandler {
             rs = stmt.executeQuery();
             // Get item from inventory.
             Item item = getItem(artNr, con);
-            
+
             if (item == null || item.getStockBalance() < count)
-            	return false;
-            
+                return false;
+
             while (rs.next()) {
                 // Update the inventory item.
                 result = subtractFromInventory(artNr, count, con);
-            
+
                 if (!result)
-                	return false;
-            	
+                    return false;
+
                 result = updateCartItem(cartId, artNr, count, con);
                 if (!result) {
                     result = insertIntoCart(cartId, artNr, count, con);
-                    if(!result)
+                    if (!result)
                         return false;
                 }
             }
-           
 
         } finally {
-            if (rs!=null)
+            if (rs != null)
                 rs.close();
-            if (stmt!=null)
+            if (stmt != null)
                 stmt.close();
-            if (con!=null)
+            if (con != null)
                 con.close();
-            
+
         }
         return result;
     }
     
-    
-    private boolean insertIntoCart(long cartId, String artNr, int count, Connection con) throws ClassNotFoundException, SQLException {
+    //Adds a item to the cart and returns true if it succeeded
+    private boolean insertIntoCart(long cartId, String artNr, int count, Connection con)
+            throws ClassNotFoundException, SQLException {
         boolean result = false;
         Item item = getItem(artNr);
-        String addSql = "CALL insert_into_cart ('"+artNr+"','"+item.getItemName()+"',"+item.getPrice()
-        + ",'"+item.getDescription()+"'," + null + ","+count+",'"+item.getStorageFormat()
-        + "','"+item.getCategory()+"',"+cartId+")";
-        
+        String addSql = "CALL insert_into_cart ('" + artNr + "','" + item.getItemName() + "'," + item.getPrice()
+                + ",'" + item.getDescription() + "'," + null + "," + count + ",'" + item.getStorageFormat()
+                + "','" + item.getCategory() + "'," + cartId + ")";
+
         try (
-                PreparedStatement stmt = con.prepareStatement(addSql);
-                ) {
+                PreparedStatement stmt = con.prepareStatement(addSql);) {
             int addResult = stmt.executeUpdate();
             result = (addResult >= 1);
         }
-        
+
         return result;
     }
     
-    
-    private boolean updateCartItem(long cartId, String artNr, int count, Connection con) throws ClassNotFoundException, SQLException {
+    //Updates the stockBalance value of the given item
+    private boolean updateCartItem(long cartId, String artNr, int count, Connection con)
+            throws ClassNotFoundException, SQLException {
         boolean result = false;
-        String updateSql = "UPDATE cart_items SET stock_balance = (stock_balance + "+count+")"
-                + " WHERE art_number = '"+artNr+"' AND cart_id = " + cartId;
-        
-        try (   
-                PreparedStatement stmt = con.prepareStatement(updateSql);
-                ) {
+        String updateSql = "UPDATE cart_items SET stock_balance = (stock_balance + " + count + ")"
+                + " WHERE art_number = '" + artNr + "' AND cart_id = " + cartId;
+
+        try (
+                PreparedStatement stmt = con.prepareStatement(updateSql);) {
             int updateResult = stmt.executeUpdate();
             result = (updateResult >= 1);
         }
-        
+
         return result;
     }
 
@@ -234,47 +233,50 @@ public class MySqlHandler {
 
             addStmt.setInt(1, count);
             addStmt.setString(2, artNr);
-            
+
             deleteStmt.setString(1, artNr);
             deleteStmt.setLong(2, cartId);
 
             if (rs.next()) {
                 int subtractResult = subtractStmt.executeUpdate();
                 int addResult = addStmt.executeUpdate();
-                
+
                 if (rs.getInt("stock_balance") == 0 || rs.getInt("stock_balance") <= count) {
                     int deleteResult = deleteStmt.executeUpdate();
-                    
+
                     return result = (deleteResult >= 1);
                 }
-                
+
                 result = (subtractResult >= 1 && addResult >= 1);
             }
-            
+
         }
         return result;
     }
 
     //Decrease the stock_balance value of one item and returns if it was decreased successfully
     public boolean subtractFromInventory(String artNr, int count) throws SQLException, ClassNotFoundException {
-        String sql = "UPDATE items SET stock_balance = (stock_balance - "+count+") WHERE art_number = '"+artNr+"'";
+        String sql = "UPDATE items SET stock_balance = (stock_balance - " + count + ") WHERE art_number = '" + artNr
+                + "'";
         int result;
 
         try (
                 Connection cn = getConnection();
                 PreparedStatement stmt = cn.prepareStatement(sql);) {
 
-//            stmt.setInt(1, count);
-//            stmt.setString(2, artNr);
+            //            stmt.setInt(1, count);
+            //            stmt.setString(2, artNr);
 
             result = stmt.executeUpdate();
         }
         return result >= 1;
     }
-    
-  //Decrease the stock_balance value of one item and returns if it was decreased successfully
-    private boolean subtractFromInventory(String artNr, int count, Connection con) throws SQLException, ClassNotFoundException {
-        String sql = "UPDATE items SET stock_balance = (stock_balance - "+count+") WHERE art_number = '"+artNr+"'";
+
+    //Decrease the stock_balance value of one item and returns if it was decreased successfully
+    private boolean subtractFromInventory(String artNr, int count, Connection con)
+            throws SQLException, ClassNotFoundException {
+        String sql = "UPDATE items SET stock_balance = (stock_balance - " + count + ") WHERE art_number = '" + artNr
+                + "'";
         int result;
 
         try (PreparedStatement stmt = con.prepareStatement(sql);) {
@@ -286,7 +288,7 @@ public class MySqlHandler {
 
     //Deletes one item from the items table and returns true if it was deleted successfully
     public boolean deleteFromInventory(String artNr) throws SQLException, ClassNotFoundException {
-        String sql = "CALL remove_from_inventory('"+artNr+"')";
+        String sql = "CALL remove_from_inventory('" + artNr + "')";
         int result;
         try (
                 Connection cn = getConnection();
@@ -310,48 +312,49 @@ public class MySqlHandler {
                 + " stock_balance,"
                 + " storage_formats,"
                 + " category)"
-                + "VALUES ('"+artNr+"','"+itemName+"',"+price+",'"+description+"',?,"+stockBalance+
-                ",'"+storageFormat+"','"+category+"')";
+                + "VALUES ('" + artNr + "','" + itemName + "'," + price + ",'" + description + "',?," + stockBalance +
+                ",'" + storageFormat + "','" + category + "')";
         int result;
-        
+
         System.out.println(sql);
 
         try (
                 Connection cn = getConnection();
                 PreparedStatement stmt = cn.prepareStatement(sql);) {
 
-//            stmt.setString(1, artNr);
-//            stmt.setString(2, itemName);
-//            stmt.setFloat(3, price);
-//            stmt.setString(4, description);
+            //            stmt.setString(1, artNr);
+            //            stmt.setString(2, itemName);
+            //            stmt.setFloat(3, price);
+            //            stmt.setString(4, description);
             stmt.setBlob(1, image);
-//            stmt.setInt(6, stockBalance);
-//            stmt.setString(7, storageFormat);
-//            stmt.setString(8, category);
+            //            stmt.setInt(6, stockBalance);
+            //            stmt.setString(7, storageFormat);
+            //            stmt.setString(8, category);
 
             result = stmt.executeUpdate();
         }
         return result >= 1;
     }
     
+    //Edits the given item and returns true if it succeeded
     public boolean editItem(String currentArtNr, String category, String itemName, String newArtNr, float price,
             String description, InputStream image, int stockBalance, String storageFormat)
-                    throws ClassNotFoundException, SQLException {
-        String sql = "UPDATE items SET art_number = '"+newArtNr+"', item_name = '"+itemName+"', price = "+price+","
-                        + " description = '"+description+"', image = ?, stock_balance = "+stockBalance+
-                        ", storage_formats = '"+storageFormat+"',"+ " category = '"+category+
-                        "' WHERE art_number = '"+currentArtNr+"'";
+            throws ClassNotFoundException, SQLException {
+        String sql = "UPDATE items SET art_number = '" + newArtNr + "', item_name = '" + itemName + "', price = "
+                + price + ","
+                + " description = '" + description + "', image = ?, stock_balance = " + stockBalance +
+                ", storage_formats = '" + storageFormat + "'," + " category = '" + category +
+                "' WHERE art_number = '" + currentArtNr + "'";
         int result;
-        
+
         try (
                 Connection cn = getConnection();
-                PreparedStatement stmt = cn.prepareStatement(sql);
-                ) {
-            
+                PreparedStatement stmt = cn.prepareStatement(sql);) {
+
             stmt.setBlob(1, image);
-            
+
             result = stmt.executeUpdate();
-            
+
         }
         return result >= 1;
     }
@@ -377,34 +380,49 @@ public class MySqlHandler {
         return result;
     }
 
-    //Deletes the cart and returns a list of the orders made
-    public List<String> checkOutCart(long cartId) throws SQLException, ClassNotFoundException {
+    //Deletes the cart and adds the content of the cart to the orders table
+    public boolean checkOutCart(long cartId, float price, float cost, String adress, String receiver)
+            throws SQLException, ClassNotFoundException {
         List<String> order = new ArrayList<>();
+        int result = 0;
 
         String sql = "CALL remove_shopping_cart(" + cartId + ");";
         String infoSql = "SELECT * FROM cart_items WHERE cart_id = " + cartId + ";";
+        String addOrderSql = "INSERT INTO orders VALUES(" + null + ", " + 29 + ", " + cost + ", " + 0 + ", '" + adress
+                + "', '" + receiver + "')";
+        String getOrderId = "SELECT MAX(order_id) as order_id FROM orders";
 
         try (
-            Connection cn = getConnection();
-            CallableStatement stmt = cn.prepareCall(sql);
-            PreparedStatement infoStmt = cn.prepareStatement(infoSql);
-            ResultSet rs = infoStmt.executeQuery();) {
+                Connection cn = getConnection();
+                CallableStatement stmt = cn.prepareCall(sql);
+                PreparedStatement infoStmt = cn.prepareStatement(infoSql);
+                ResultSet rs = infoStmt.executeQuery();
+                PreparedStatement addOrderStmt = cn.prepareStatement(addOrderSql);
+                PreparedStatement getOrderStmt = cn.prepareStatement(getOrderId);) {
 
-            int result = stmt.executeUpdate();
+            int removeResult = stmt.executeUpdate();
+            int addResult = addOrderStmt.executeUpdate();
 
-            if (result >= 1) {
-                while (rs.next()) {
-                    String orderedItem = "";
-                    orderedItem += "Article number: " + rs.getString("art_number") + "\n";
-                    orderedItem += "Name: " + rs.getString("item_name") + "\n";
-                    orderedItem += "Price: " + rs.getFloat("price") + "\n";
-                    orderedItem += "Format: " + rs.getString("storage_format") + "\n";
-                    orderedItem += "------------- \n";
-                    order.add(orderedItem);
+            if (removeResult >= 1 && addResult >= 1) {
+                ResultSet getOrderRs = getOrderStmt.executeQuery();
+                while (getOrderRs.next()) {
+                    while (rs.next()) {
+                        String addOrderedItemsSql = "INSERT INTO ordered_items VALUES(" +
+                                rs.getString("art_number") + ", " +
+                                rs.getString("item_name") + ", " +
+                                rs.getFloat("price") + ", " +
+                                rs.getInt("stock_balance") + ", " +
+                                rs.getString("storage_format") + ", " +
+                                getOrderRs.getInt("order_id")+")";
+                        try (
+                                PreparedStatement addOrderedItemsStmt = cn.prepareStatement(addOrderedItemsSql);) {
+                            result = addOrderedItemsStmt.executeUpdate();
+                        }
+                    }
                 }
             }
         }
-        return order;
+        return result >= 1;
     }
 
     //Returns all items from the cart to the items table
@@ -444,7 +462,7 @@ public class MySqlHandler {
 
     //Add a new category to the categories table
     public boolean addToCategory(String categoryName, String content) throws SQLException, ClassNotFoundException {
-        String sql = "CALL create_category('"+categoryName+"', '"+content+"')";
+        String sql = "CALL create_category('" + categoryName + "', '" + content + "')";
         int result;
         try (
                 Connection cn = getConnection();
@@ -454,7 +472,8 @@ public class MySqlHandler {
         }
         return result >= 1;
     }
-
+    
+    //Returns a Item from the cart table
     public Item getCartItem(long cartId, String artNr) throws ClassNotFoundException, SQLException {
         Item item = null;
 
@@ -508,15 +527,16 @@ public class MySqlHandler {
         return cartItems;
     }
     
-    public boolean editCategory(String category, String contents, String oldCategory) throws ClassNotFoundException, SQLException {
-        String sql = "UPDATE categories SET category_name = '"+category+"', contents = '"+contents+
-                "' WHERE category_name = '" + oldCategory+"'";
+    //Edits the given category and returns true if it succeeded
+    public boolean editCategory(String category, String contents, String oldCategory)
+            throws ClassNotFoundException, SQLException {
+        String sql = "UPDATE categories SET category_name = '" + category + "', contents = '" + contents +
+                "' WHERE category_name = '" + oldCategory + "'";
         int result;
-        
+
         try (
                 Connection con = getConnection();
-                PreparedStatement stmt = con.prepareStatement(sql);
-                ) {
+                PreparedStatement stmt = con.prepareStatement(sql);) {
             result = stmt.executeUpdate();
         }
         return result >= 1;
@@ -537,79 +557,79 @@ public class MySqlHandler {
         }
         return result >= 1;
     }
-    
+
     //Returns the new cart id, if the sql statments fails it will return 0.
     public long getCart() throws SQLException, ClassNotFoundException {
-        String addSql = "INSERT INTO shopping_carts VALUES("+null+")";
+        String addSql = "INSERT INTO shopping_carts VALUES(" + null + ")";
         String getCartSql = "SELECT MAX(cart_id) AS new_cart_id FROM shopping_carts";
         ResultSet rs = null;
-        
+
         int result = 0;
-        
+
         try (
                 Connection con = getConnection();
                 PreparedStatement addStmt = con.prepareStatement(addSql);
-                PreparedStatement getCartStmt = con.prepareStatement(getCartSql);
-                ) {
-            
+                PreparedStatement getCartStmt = con.prepareStatement(getCartSql);) {
+
             int temp = addStmt.executeUpdate();
             boolean addResult = (temp >= 1);
             rs = getCartStmt.executeQuery();
-            
+
             while (rs.next()) {
                 if (addResult == true) {
                     result = rs.getInt("new_cart_id");
                 }
             }
-        } 
-        finally {
-            if (rs!=null)
+        } finally {
+            if (rs != null)
                 rs.close();
         }
-        
+
         return result;
     }
-    
-    /** Get information about a user. 
-     * @throws SQLException 
-     * @throws ClassNotFoundException **/
+
+    /**
+     * Get information about a user.
+     * 
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     **/
     public Authentication getUser(String username) throws ClassNotFoundException, SQLException {
-    	Authentication user = null;
-    	
-    	String sql = "SELECT * FROM users "
-    			+ "WHERE username LIKE ? "
-    			+ "COLLATE utf8_swedish_ci;";
-    	
-    	Connection con = null;
-    	PreparedStatement statement = null;
-    	ResultSet results = null;
-    	
-    	try {
-    	con = getConnection();
-    	statement = con.prepareStatement(sql);
-    	statement.setString(1, username);
-    	
-    	results = statement.executeQuery();
-    	
-    	// Did we get a user?
-    	if(results.next()) {
-    		String name = results.getString("username");
-    		String pwd = results.getString("pwd");
-    		
-    		user = new Authentication(name, pwd);
-    	}
-    	
-    	} 
-    	finally {
-    		if(results != null)
-    			results.close();
-    		if(statement != null)
-    			statement.close();
-    		if(con != null)
-    			con.close();
-    	}
-    	
-    	return user;
+        Authentication user = null;
+
+        String sql = "SELECT * FROM users "
+                + "WHERE username LIKE ? "
+                + "COLLATE utf8_swedish_ci;";
+
+        Connection con = null;
+        PreparedStatement statement = null;
+        ResultSet results = null;
+
+        try {
+            con = getConnection();
+            statement = con.prepareStatement(sql);
+            statement.setString(1, username);
+
+            results = statement.executeQuery();
+
+            // Did we get a user?
+            if (results.next()) {
+                String name = results.getString("username");
+                String pwd = results.getString("pwd");
+
+                user = new Authentication(name, pwd);
+            }
+
+        } finally {
+            if (results != null)
+                results.close();
+            if (statement != null)
+                statement.close();
+            if (con != null)
+                con.close();
+        }
+
+        return user;
     }
 
 }
