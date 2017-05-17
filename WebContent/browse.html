@@ -4,15 +4,28 @@
 		<h3 class="lefty">These are our games</h3>
 
 		<input type="search" placeholder="search items" data-ng-model="search" class="lefty"/>
-
-		<table>
-			<tr>
-				<th>Art Number</th>
-				<th>Name</th>
-				<th>Price</th>
-				<th>In Stock</th>
+<!-- 		<span class="label">Ordered By: {{sortOrder}}, Reverse Sort: {{reverseSort}}</span><br><br> -->
+		<br>
+		<br>
+		<table class="table table-bordered">
+			<tr> 
+				<th data-ng-click="sortOrder='artNr'; reverseSort = !reverseSort">Art Number
+				<span data-ng-show="sortOrder == 'artNr'"><span data-ng-show="!reverseSort">{{downArrow}}</span>
+				<span data-ng-show="reverseSort">{{upArrow}}</span></span></th>
+				
+				<th data-ng-click="sortOrder='itemName'; reverseSort = !reverseSort">Item Name
+				<span data-ng-show="sortOrder == 'itemName'"><span data-ng-show="!reverseSort">{{downArrow}}</span>
+				<span data-ng-show="reverseSort">{{upArrow}}</span></span></th>
+				
+				<th data-ng-click="sortOrder='price'; reverseSort = !reverseSort">Price
+				<span data-ng-show="sortOrder == 'price'"><span data-ng-show="!reverseSort">{{downArrow}}</span>
+				<span data-ng-show="reverseSort">{{upArrow}}</span></span></th>
+				
+				<th data-ng-click="sortOrder='stockBalance'; reverseSort = !reverseSort">In Stock
+				<span data-ng-show="sortOrder == 'stockBalance'"><span data-ng-show="!reverseSort">{{downArrow}}</span>
+				<span data-ng-show="reverseSort">{{upArrow}}</span></span></th>
 			</tr>
-			<tr data-ng-repeat="game in items | filter:search" class="table_row">
+			<tr data-ng-repeat="game in items | orderBy:sortOrder:reverseSort | filter:search">
 				<td data-ng-click="viewDescription(game.artNr)">
 						{{game.artNr}}</td>
 				<td data-ng-click="viewDescription(game.artNr)">
