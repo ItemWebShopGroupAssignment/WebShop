@@ -1,9 +1,8 @@
-<h1>This is an admin page. Customers please return to the store!</h1>
-<div class="flex_row">
+<h1>This is the admin page.</h1>
+<input type="button" value="switch view" data-ng-click="showOrders()" />
+<div class="flex_row" data-ng-show="showGames">
 	<div>
-		<h3>Our games</h3>
-
-		<input type="search" placeholder="search items" data-ng-model="search" />
+		<input type="search" placeholder="search" data-ng-model="search" />
 		<input type="button" value="{{addOrEditGame}}" data-ng-click="showAddForm()" />
 		<input type="button" value="{{addOrEditCategory}}" data-ng-click="showCategoryForm()" />
 
@@ -14,7 +13,7 @@
 				<td>Price</td>
 				<td>Balance</td>
 			</tr>
-			<tr data-ng-repeat="game in items | filter:search" class="table_row">
+			<tr data-ng-repeat="game in items | filter:search">
 				<td data-ng-click="viewDescription(game.artNr)">
 						{{game.artNr}}</td>
 				<td data-ng-click="viewDescription(game.artNr)">
@@ -32,6 +31,7 @@
 					data-ng-click="removeFromInventory(game.artNr, count, game.stockBalance)" value="Remove from inventory" /></td>
 			</tr>
 		</table>
+		<br>
 	</div>
 	
 	<div data-ng-show="showEditPage">
@@ -49,7 +49,7 @@
 			<label>Description: </label><textarea name="description" cols="40" rows="5">{{selectedItem.description}}</textarea> 
 			<br>
 			<br>
-			<label>Price: </label><input type="number" name="price" value="{{selectedItem.price}}" placeholder="Price"/> SEK
+			<label>Price: </label><input type="number" min="0" name="price" value="{{selectedItem.price}}" placeholder="Price"/> SEK
 			<br>
 			<label>Format: </label><input type="text" name="storageFormat" value="{{selectedItem.storageFormat}}" placeholder="Format of the game"/>
 			<br>
@@ -80,7 +80,7 @@
 			<label>Description: </label><textarea name="description" cols="40" rows="5"></textarea> 
 			<br>
 			<br>
-			<label>Price: </label><input type="number" name="price" placeholder="Price"/> SEK
+			<label>Price: </label><input type="number" min="0" name="price" placeholder="Price"/> SEK
 			<br>
 			<label>Format: </label><input type="text" name="storageFormat" placeholder="Format of the game" />
 			<br>
@@ -88,7 +88,7 @@
 				<option data-ng-repeat="c in categories" >{{c.categoryName}}</option>
 			</select>
 			<br>
-			<label>Copies: </label><input type="number" name="stockBalance" placeholder="Number of copies" />
+			<label>Copies: </label><input type="number" min="0" name="stockBalance" placeholder="Number of copies" />
 			<br>
 			<input type="submit" value="Add game" />
 		</form>
@@ -121,3 +121,34 @@
 			data-ng-click="editCategory(selectedCategory.categoryName, selectedCategory.contents, oldCategoryName)" />
 	</div>
 </div>
+<!-- 
+<div class="flex_row" data-ng-show="showOrders">
+	<table>
+		<tr>
+			<td>Order id</td>
+			<td>Cost</td>
+			<td>Sent</td>
+			<td>Address</td>
+			<td>Receiver</td>
+		</tr>
+		<tr data-ng-repeat="order in orders | filter:search">
+			<td data-ng-click="">
+					{{order.orderId}}</td>
+			<td data-ng-click="">
+					{{order.cost}}</td>
+			<td data-ng-click="">
+					{{order.sent}}</td>
+			<td data-ng-click="">
+					{{order.adress}}</td>
+			<td data-ng-click="">
+					{{order.receiver}}</td>
+  			<td><input type="button" data-ng-click="" value="Mark as sent" /></td>
+		</tr>
+	</table>
+	<div>
+		<h2>Ordered items</h2>
+		<br>
+		<div data-ng-repeat="orderedItems">
+		</div>
+	</div>
+</div> -->

@@ -403,13 +403,9 @@ public class MySqlHandler {
             int addResult = addOrderStmt.executeUpdate();
 
             if (removeResult >= 1 && addResult >= 1) {
-                System.out.println("was here 1");
                 ResultSet getOrderRs = getOrderStmt.executeQuery();
-                System.out.println("was here 2");
                 while (getOrderRs.next()) {
-                    System.out.println("was here 3");
                     while (rs.next()) {
-                        System.out.println("was here 4");
                         String addOrderedItemsSql = "INSERT INTO ordered_items VALUES('" +
                                 rs.getString("art_number") + "', '" +
                                 rs.getString("item_name") + "', " +
@@ -420,9 +416,7 @@ public class MySqlHandler {
                         System.out.println(addOrderedItemsSql);
                         try (
                                 PreparedStatement addOrderedItemsStmt = cn.prepareStatement(addOrderedItemsSql);) {
-                            System.out.println("was here 5");
                             result = addOrderedItemsStmt.executeUpdate();
-                            System.out.println("was here 6");
                         }
                     }
                 }

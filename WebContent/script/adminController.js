@@ -20,21 +20,27 @@
 		$scope.inStock = "Hm";
 		$scope.value = "Action";
 		
+		$scope.showGames = true;
+		$scope.showOrders = false;
 		$scope.showAddPage = false;
 		$scope.showEditPage = true;
 		$scope.showAddCategoryPage = false;
 		$scope.showEditCategoryPage = false;
+		$scope.showOrderedItems = false;
 		$scope.addOrEditGame = "Add game";
 		$scope.addOrEditCategory = "Add category";
+		$scope.gamesOrOrders = "Show orders";
 		
-		$scope.removeFromInventory = function(index) {
-
-			// här tar vi bort spelet från listan:
-			$scope.items.splice(index, 1);
-
-			// Det som återstår är att ta bort spelet i databasen,
-			// och tillhörande funktionalitet för det.
-		};
+		$scope.showOrders = function() {
+			if ($scope.showOrders == false) {
+				$scope.showOrders = true;
+				$scope.showGames = false;
+			}
+			else if ($scope.showGames == false) {
+				$scope.showGames = true;
+				$scope.showOrders = false;
+			}
+		}
 		
 		$scope.showAddForm = function() {
 			if ($scope.showAddPage == false) {
@@ -42,6 +48,7 @@
 				$scope.showEditPage = false;
 				$scope.showAddCategoryPage = false;
 				$scope.showEditCategoryPage = false;
+				$scope.showOrderedItems = false;
 				$scope.addOrEditGame = "Edit game";
 			}
 			else if ($scope.showEditPage == false){
@@ -49,6 +56,7 @@
 				$scope.showAddPage = false;
 				$scope.showAddCategoryPage = false;
 				$scope.showEditCategoryPage = false;
+				$scope.showOrderedItems = false;
 				$scope.addOrEditGame = "Add game";
 			}
 		}
@@ -59,6 +67,7 @@
 				$scope.showAddPage = false;
 				$scope.showEditPage = false;
 				$scope.showEditCategoryPage = false;
+				$scope.showOrderedItems = false;
 				$scope.addOrEditCategory = "Edit category";
 			}
 			else if ($scope.showEditCategoryPage == false) {
@@ -66,6 +75,7 @@
 				$scope.showAddCategoryPage = false;
 				$scope.showAddPage = false;
 				$scope.showEditPage = false;
+				$scope.showOrderedItems = false;
 				$scope.addOrEditCategory = "Add category";
 			}
 		}
