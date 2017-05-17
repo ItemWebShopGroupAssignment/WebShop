@@ -13,6 +13,10 @@
 				<span data-ng-show="sortOrder == 'artNr'"><span data-ng-show="!reverseSort">{{downArrow}}</span>
 				<span data-ng-show="reverseSort">{{upArrow}}</span></span></th>
 				
+				<th data-ng-click="sortOrder='category'; reverseSort = !reverseSort">Category
+				<span data-ng-show="sortOrder == 'category'"><span data-ng-show="!reverseSort">{{downArrow}}</span>
+				<span data-ng-show="reverseSort">{{upArrow}}</span></span></th>
+				
 				<th data-ng-click="sortOrder='itemName'; reverseSort = !reverseSort">Item Name
 				<span data-ng-show="sortOrder == 'itemName'"><span data-ng-show="!reverseSort">{{downArrow}}</span>
 				<span data-ng-show="reverseSort">{{upArrow}}</span></span></th>
@@ -28,6 +32,8 @@
 			<tr data-ng-repeat="game in items | orderBy:sortOrder:reverseSort | filter:search">
 				<td data-ng-click="viewDescription(game.artNr)">
 						{{game.artNr}}</td>
+				<td data-ng-click="viewDescription(game.artNr)">
+						{{game.category}}</td>
 				<td data-ng-click="viewDescription(game.artNr)">
 						{{game.itemName}}</td>
 				<td data-ng-click="viewDescription(game.artNr)">
