@@ -9,6 +9,16 @@
 	
 	var browseController = function($scope, $http, $timeout) {
 		
+		/*Sort		 */
+		$scope.sortOrder = 'artNr';
+		$scope.sortOrder = 'itemName';
+		$scope.sortOrder = 'price';
+		$scope.sortOrder = 'stockBalance';
+		$scope.downArrow = "\u25bc";
+		$scope.upArrow = "\u25b2";
+		$scope.reverseSort = false;
+
+		
 		/* Called when the get items request receives a correct response. */
 		var onItemsComplete = function(response) {
 			$scope.items = response.data;
