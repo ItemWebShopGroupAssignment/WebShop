@@ -10,10 +10,11 @@
 	var browseController = function($scope, $http, $timeout) {
 		
 		/*Sort		 */
+		$scope.sortOrder = 'category';
+		$scope.sortOrder = 'stockBalance';
+		$scope.sortOrder = 'price';
 		$scope.sortOrder = 'artNr';
 		$scope.sortOrder = 'itemName';
-		$scope.sortOrder = 'price';
-		$scope.sortOrder = 'stockBalance';
 		$scope.downArrow = "\u25bc";
 		$scope.upArrow = "\u25b2";
 		$scope.reverseSort = false;
