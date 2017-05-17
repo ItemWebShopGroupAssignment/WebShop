@@ -102,18 +102,19 @@
 			$scope.error = "Could not fetch data " + reason.status;
 		}
 		
-		$scope.editCategory = function(category, contents) {
-			alert(category + " " + contents);
+		$scope.editCategory = function(category, contents, oldCategoryName) {
 			var parameters = {
 					'categoryName' : category,
-					'contents' : contents
+					'contents' : contents,
+					'oldCategoryName' : oldCategoryName
 			}
 			
 			var jsonPackage = JSON.stringify(parameters);
 			
-			//$http.post("EditCategory", jsonPackage).then(onEditCategoryComplete, onError);
+			$http.post("EditCategory", jsonPackage).then(onEditCategoryComplete, onError);
 		}
 		
+	
 		$scope.addCategory = function(category, contents) {
 			var parameters = {
 					'categoryName' : category,
@@ -175,12 +176,11 @@
 
 		}
 		
-		$scope.selectCategory = function() {
-			var x = document.getElementById("editCategorySelecter").selectedIndex+1;
-		    var id = document.getElementsByTagName("option")[x].value;
+		$scope.selectCategory = function(id) {
 			for(var i = 0; i < $scope.categories.length; i++) {
-				if(id === $scope.categories[i].categoryName) {
+				if(id.categoryName === $scope.categories[i].categoryName) {
 					$scope.selectedCategory = $scope.categories[i];
+					$scope.oldCategoryName = id.categoryName;
 					$scope.hideDescription = false;
 					break;
 				}

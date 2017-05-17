@@ -8,6 +8,7 @@ package store;
 public class Category {
     private String categoryName;
     private String contents;
+    private String oldCategoryName;
     
     public Category(String categoryName, String contents) {
         this.categoryName = categoryName;
@@ -28,5 +29,13 @@ public class Category {
     
     public void setContents(String contents) {
         this.contents = contents;
+    }
+
+    public String getOldCategoryName() {
+        return oldCategoryName;
+    }
+
+    public void setOldCategoryName(String oldCategoryName) {
+        this.oldCategoryName = oldCategoryName;
     }
 }

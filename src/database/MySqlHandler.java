@@ -507,6 +507,20 @@ public class MySqlHandler {
         }
         return cartItems;
     }
+    
+    public boolean editCategory(String category, String contents, String oldCategory) throws ClassNotFoundException, SQLException {
+        String sql = "UPDATE categories SET category_name = '"+category+"', contents = '"+contents+
+                "' WHERE category_name = '" + oldCategory+"'";
+        int result;
+        
+        try (
+                Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(sql);
+                ) {
+            result = stmt.executeUpdate();
+        }
+        return result >= 1;
+    }
 
     //Removes a category from the categories table
     public boolean removeCategory(String category) throws SQLException, ClassNotFoundException {

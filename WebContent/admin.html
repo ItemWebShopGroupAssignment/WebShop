@@ -108,8 +108,8 @@
 	<div data-ng-show="showEditCategoryPage">
 		<h2>Edit category page</h2>
 		<br>
-		<label>Category: </label><select id="editCategorySelecter" data-ng-change="selectCategory()" data-ng-model="value">
-			<option data-ng-repeat="c in categories">{{c.categoryName}}</option>
+		<label>Category: </label><select data-ng-change="selectCategory(c.categoryName)"
+			data-ng-options="c.categoryName for c in categories" data-ng-model="c.categoryName">
 		</select>
 		<br><br>
 		<label>Category name: </label><input type="text" data-ng-model="selectedCategory.categoryName" placeholder="Category name" />
@@ -117,6 +117,7 @@
 		<br>
 		<label>Description: </label><textarea data-ng-model="selectedCategory.contents" cols="40" rows="5"></textarea>
 		<br>
-		<input type="button" value="Edit category" data-ng-click="editCategory(selectedCategory.categoryName, selectedCategory.contents)" />
+		<input type="button" value="Edit category"
+			data-ng-click="editCategory(selectedCategory.categoryName, selectedCategory.contents, oldCategoryName)" />
 	</div>
 </div>
