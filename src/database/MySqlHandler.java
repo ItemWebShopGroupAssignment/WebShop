@@ -381,9 +381,8 @@ public class MySqlHandler {
     }
 
     //Deletes the cart and adds the content of the cart to the orders table
-    public boolean checkOutCart(long cartId, float price, float cost, String adress, String receiver)
+    public boolean checkOutCart(long cartId, float cost, String adress, String receiver)
             throws SQLException, ClassNotFoundException {
-        List<String> order = new ArrayList<>();
         int result = 0;
 
         String sql = "CALL remove_shopping_cart(" + cartId + ");";
@@ -404,19 +403,26 @@ public class MySqlHandler {
             int addResult = addOrderStmt.executeUpdate();
 
             if (removeResult >= 1 && addResult >= 1) {
+                System.out.println("was here 1");
                 ResultSet getOrderRs = getOrderStmt.executeQuery();
+                System.out.println("was here 2");
                 while (getOrderRs.next()) {
+                    System.out.println("was here 3");
                     while (rs.next()) {
-                        String addOrderedItemsSql = "INSERT INTO ordered_items VALUES(" +
-                                rs.getString("art_number") + ", " +
-                                rs.getString("item_name") + ", " +
+                        System.out.println("was here 4");
+                        String addOrderedItemsSql = "INSERT INTO ordered_items VALUES('" +
+                                rs.getString("art_number") + "', '" +
+                                rs.getString("item_name") + "', " +
                                 rs.getFloat("price") + ", " +
-                                rs.getInt("stock_balance") + ", " +
-                                rs.getString("storage_format") + ", " +
+                                rs.getInt("stock_balance") + ", '" +
+                                rs.getString("storage_format") + "', " +
                                 getOrderRs.getInt("order_id")+")";
+                        System.out.println(addOrderedItemsSql);
                         try (
                                 PreparedStatement addOrderedItemsStmt = cn.prepareStatement(addOrderedItemsSql);) {
+                            System.out.println("was here 5");
                             result = addOrderedItemsStmt.executeUpdate();
+                            System.out.println("was here 6");
                         }
                     }
                 }
