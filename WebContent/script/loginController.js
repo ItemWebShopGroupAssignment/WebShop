@@ -11,7 +11,11 @@
 		$scope.password = "abc123";
 		
 		var onComplete = function(response) {
-			alert("A message has arrived: " + response.data + "!");
+			alert(response.data);
+			
+			if(response.data === "Confirmed!") {
+				$http.post("admin");
+			}
 		}
 		
 		var onError = function(reason) {

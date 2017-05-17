@@ -6,6 +6,39 @@
 	
 	var app = angular.module("application", [ "ngRoute" ]);
 
+	var checkUser = function($q, $rootScope, $location, $http) {
+		
+		var validUser = false;
+		
+		var onSuccess = function(response) {
+			var user = response.data;
+			
+			var deferred = $q.defer();
+			
+			if(user !== "") {
+				alert("successfully logged in as '" + user + "'!");
+				$rootScope.userProfile = response.data;
+				deferred.resolve = true
+				$location.path("/admin");
+			}
+			else {
+				alert("fail!");
+				$location.path("/login");
+			}
+			
+			validUser = deferred.resolve;
+		}
+		
+		var onError = function(reason) {
+			deferred.reject();
+			$location.path("/");
+		}
+		
+		$http.post("LoadUserProfile").then(onSuccess, onError);
+		
+		return validUser;
+	}
+	
 	var config = function($routeProvider) {
 		$routeProvider.when("/", {
 			templateUrl : "home.html",
@@ -18,7 +51,11 @@
 			controller : "browseController"
 		}).when("/admin", {
 			templateUrl : "admin.html",
-			controller : "adminController"
+			controller : "adminController",
+			
+			resolve: {
+				factory: checkUser
+			}
 		}).when("/login", {
 			templateUrl : "login.html",
 			controller : "loginController"

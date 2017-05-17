@@ -62,7 +62,7 @@ public class LoginServlet extends HttpServlet {
 				
 				response.setContentType("text;characterset=UTF-8");
 				PrintWriter out = response.getWriter();
-				out.print("Password was correct!");
+				out.print("Confirmed!");
 				out.flush();
 				
 				confirmed = true;
@@ -73,7 +73,7 @@ public class LoginServlet extends HttpServlet {
 		if(!confirmed) {
 			response.setContentType("text;characterset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.print("Password or username was incorrect!");
+			out.print("Access Denied!");
 			out.flush();
 		}
 	}
