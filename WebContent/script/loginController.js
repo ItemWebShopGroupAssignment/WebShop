@@ -6,15 +6,15 @@
 	
 	var app = angular.module("application");
 	
-	var loginController = function($scope, $http) {
+	var loginController = function($scope, $http, $location) {
 		$scope.username = "username";
 		$scope.password = "abc123";
 		
 		var onComplete = function(response) {
 			alert(response.data);
 			
-			if(response.data === "Confirmed!") {
-				$http.post("admin");
+			if(response.data === "Access Granted!") {
+				 $location.path("/admin");
 			}
 		}
 		
@@ -31,6 +31,6 @@
 	};
 	
 	
-	app.controller("loginController", ["$scope", "$http", loginController]);
+	app.controller("loginController", ["$scope", "$http", "$location", loginController]);
 	
 }())

@@ -16,13 +16,11 @@
 			var deferred = $q.defer();
 			
 			if(user !== "") {
-				alert("successfully logged in as '" + user + "'!");
 				$rootScope.userProfile = response.data;
 				deferred.resolve = true
 				$location.path("/admin");
 			}
 			else {
-				alert("fail!");
 				$location.path("/login");
 			}
 			

@@ -62,7 +62,7 @@ public class LoginServlet extends HttpServlet {
 				
 				response.setContentType("text;characterset=UTF-8");
 				PrintWriter out = response.getWriter();
-				out.print("Confirmed!");
+				out.print("Access Granted!");
 				out.flush();
 				
 				confirmed = true;
@@ -71,6 +71,10 @@ public class LoginServlet extends HttpServlet {
 		}
 		
 		if(!confirmed) {
+			HttpSession session = request.getSession();
+			session.setAttribute("username", null);
+			session.setAttribute("password", null);
+			
 			response.setContentType("text;characterset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.print("Access Denied!");
